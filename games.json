@@ -1,0 +1,344 @@
+{
+  "_help": "ゲーム一覧。status は done=開発完了 / dev=開発中。genres は複数指定OK。thumb を省略すると emoji のカードになります。url を省略すると https://32miya.github.io/<id>/ になります。hidden:true で非表示。",
+  "games": [
+    {
+      "id": "rokuro",
+      "title": "ろくろ",
+      "genres": [
+        "シミュレーション"
+      ],
+      "status": "dev",
+      "desc": "回る粘土を指で形づくる陶芸ゲーム。窯焚きで割れや歪みに一喜一憂しながら、注文をこなして工房を経営し、称号を目指す。",
+      "thumb": "thumbs/rokuro.webp",
+      "emoji": "🏺",
+      "updated": "2026-10-23"
+    },
+    {
+      "id": "32miya-osaka-castle",
+      "title": "大阪城さんぽ",
+      "genres": [
+        "散策・3D"
+      ],
+      "status": "dev",
+      "desc": "大阪城と二の丸を3Dで歩いて巡る散策アプリ。太閤・豊臣秀吉の時代の大坂城モードも。",
+      "emoji": "🏯",
+      "updated": "2026-10-23"
+    },
+    {
+      "id": "matsumoto-castle",
+      "title": "松本城さんぽ",
+      "genres": [
+        "散策・3D"
+      ],
+      "status": "dev",
+      "desc": "国宝・松本城と城下町（縄手通り・中町通り）をスマホで歩ける3D散策アプリ。天守の中や江戸時代モードも。",
+      "emoji": "🏯",
+      "updated": "2026-10-21"
+    },
+    {
+      "id": "gravity-dentetsu2-",
+      "title": "ぐらびてぃ電鉄2 買い占め列島",
+      "genres": [
+        "ボード・パーティ",
+        "クイズ"
+      ],
+      "status": "dev",
+      "desc": "日本縦断すごろく＋全員参加のご当地クイズ。止まった駅の物件を買い占めろ！オンライン対戦対応。",
+      "thumb": "thumbs/gravity-dentetsu2-.webp",
+      "emoji": "🚃",
+      "updated": "2026-10-20"
+    },
+    {
+      "id": "gear-synchro",
+      "title": "ギア・シンクロ",
+      "genres": [
+        "パズル"
+      ],
+      "status": "dev",
+      "desc": "置き時計の歯車パズル。歯車を回して噛み合った矢印を向き合わせると消える。奥の層へと連鎖させよう。",
+      "thumb": "thumbs/gear-synchro.webp",
+      "emoji": "⚙️",
+      "updated": "2026-10-19"
+    },
+    {
+      "id": "sokou-koroku",
+      "title": "祖先遡行録",
+      "genres": [
+        "診断・占い"
+      ],
+      "status": "dev",
+      "desc": "9つの問いに答えて、現代から縄文・氷河期へと一族のルーツをさかのぼるオカルト血統診断。",
+      "thumb": "thumbs/sokou-koroku.webp",
+      "emoji": "📜",
+      "updated": "2026-10-16"
+    },
+    {
+      "id": "myouji-game",
+      "title": "名字と名前の鑑定帳",
+      "genres": [
+        "診断・占い"
+      ],
+      "status": "dev",
+      "desc": "名字と名前から姓名判断。名字の由来・地域・生業・推計人数、漢字の意味まで鑑定します。",
+      "thumb": "thumbs/myouji-game.webp",
+      "emoji": "🖋️",
+      "updated": "2026-10-10"
+    },
+    {
+      "id": "train-control",
+      "title": "指令室 - 運行管理ゲーム",
+      "genres": [
+        "シミュレーション"
+      ],
+      "status": "dev",
+      "desc": "鉄道の指令員になって、次々起こるトラブルに指令を出す。予備車両と要員をやりくりして乗客の信頼を守れ。",
+      "thumb": "thumbs/train-control.webp",
+      "emoji": "🚦",
+      "updated": "2026-08-31"
+    },
+    {
+      "id": "juuou-xz",
+      "title": "L獣王XZ 攻略",
+      "genres": [
+        "ツール"
+      ],
+      "status": "dev",
+      "desc": "スマスロ獣王の設定推測・収支記録ツール。",
+      "thumb": "thumbs/juuou-xz.webp",
+      "emoji": "🦁",
+      "updated": "2026-10-10"
+    },
+    {
+      "id": "gravity-quest-v2",
+      "title": "GRAVITY QUEST v2.0 -旅の絆-",
+      "genres": [
+        "RPG"
+      ],
+      "status": "dev",
+      "desc": "ドット絵の王道コマンドRPG、第2弾の開発版。",
+      "thumb": "thumbs/gravity-quest-v2.webp",
+      "emoji": "⚔️",
+      "updated": "2026-09-13"
+    },
+    {
+      "id": "gravity-quest",
+      "title": "GRAVITY QUEST",
+      "genres": [
+        "RPG"
+      ],
+      "status": "done",
+      "desc": "ブラウザで遊べる王道コマンドRPG。船で海を渡り、魔法ルーラで世界を巡る冒険。",
+      "thumb": "thumbs/gravity-quest.webp",
+      "emoji": "⚔️",
+      "updated": "2026-06-27"
+    },
+    {
+      "id": "umi-drop",
+      "title": "海ドロップ",
+      "genres": [
+        "パズル"
+      ],
+      "status": "done",
+      "desc": "同じ生き物どうしをくっつけると大きく進化！サメを目指す落ち物パズル。",
+      "thumb": "thumbs/umi-drop.webp",
+      "emoji": "🐟",
+      "updated": "2026-10-13"
+    },
+    {
+      "id": "furin-game",
+      "title": "夏の夜のクリスタル風鈴",
+      "genres": [
+        "パズル"
+      ],
+      "status": "done",
+      "desc": "同じ音の風鈴を重ねると次の音階へ進化。メジャーやマイナーの和音がそろうとコンボ発生。",
+      "thumb": "thumbs/furin-game.webp",
+      "emoji": "🎐",
+      "updated": "2026-07-11"
+    },
+    {
+      "id": "monkey-swing-3",
+      "title": "Monkey Swing 3",
+      "genres": [
+        "アクション"
+      ],
+      "status": "done",
+      "desc": "タップでロープからロープへ！仲間を増やしながらジャングルから都市へ駆け抜けるスイングアクション。",
+      "thumb": "thumbs/monkey-swing-3.webp",
+      "emoji": "🐒",
+      "updated": "2026-08-21"
+    },
+    {
+      "id": "rain-drain",
+      "title": "雨漏りパニック！",
+      "genres": [
+        "アクション"
+      ],
+      "status": "done",
+      "desc": "次々と漏れてくる雨水を受け止めろ！テンポよく遊べるカジュアルアクション。",
+      "thumb": "thumbs/rain-drain.webp",
+      "emoji": "☔",
+      "updated": "2026-06-01"
+    },
+    {
+      "id": "senko-game",
+      "title": "線香花火品評会",
+      "genres": [
+        "アクション",
+        "ボード・パーティ"
+      ],
+      "status": "done",
+      "desc": "タップで火種を支えて線香花火を長く美しく。最後は首席審査員が講評。オンライン対戦もできる。",
+      "thumb": "thumbs/senko-game.webp",
+      "emoji": "🎇",
+      "updated": "2026-05-27"
+    },
+    {
+      "id": "hanabi-contest",
+      "title": "尺玉コンクール",
+      "genres": [
+        "アクション"
+      ],
+      "status": "done",
+      "desc": "全国打ち上げ花火競技大会。タイミングよく尺玉を打ち上げて夜空を彩ろう。",
+      "thumb": "thumbs/hanabi-contest.webp",
+      "emoji": "🎆",
+      "updated": "2026-05-23"
+    },
+    {
+      "id": "shinrei-shashin",
+      "title": "心霊写真ハンター",
+      "genres": [
+        "ホラー",
+        "診断・占い"
+      ],
+      "status": "done",
+      "desc": "写真に潜む幽霊を指でなぞって探し出し、あなたの霊感を測定する。迷いのなさと速さが勝負。",
+      "thumb": "thumbs/shinrei-shashin.webp",
+      "emoji": "👻",
+      "updated": "2026-07-31"
+    },
+    {
+      "id": "fighting-game-v2",
+      "title": "3D POLYGON FIGHTER v2",
+      "genres": [
+        "対戦・格闘"
+      ],
+      "status": "dev",
+      "desc": "ポリゴン3D格闘ゲームの第2版。CPU対戦とオンライン対戦（P2P）。",
+      "thumb": "thumbs/fighting-game-v2.webp",
+      "emoji": "🥊",
+      "updated": "2026-07-16"
+    },
+    {
+      "id": "fighting-game",
+      "title": "3D POLYGON FIGHTER",
+      "genres": [
+        "対戦・格闘"
+      ],
+      "status": "done",
+      "desc": "ブラウザで遊べるポリゴン3D格闘ゲーム。CPU対戦とオンライン対戦（P2P）。",
+      "thumb": "thumbs/fighting-game.webp",
+      "emoji": "🥊",
+      "updated": "2026-07-15"
+    },
+    {
+      "id": "hanafuda-koikoi",
+      "title": "花札 こいこい",
+      "genres": [
+        "テーブル・カード"
+      ],
+      "status": "done",
+      "desc": "4段階の強さのCPUと対戦できる花札こいこい。合言葉でつながるオンライン対戦も。",
+      "thumb": "thumbs/hanafuda-koikoi.webp",
+      "emoji": "🎴",
+      "updated": "2026-08-28"
+    },
+    {
+      "id": "r1",
+      "title": "ラップバトル！",
+      "genres": [
+        "音楽・リズム"
+      ],
+      "status": "dev",
+      "desc": "動物キャラを選んで挑むステージ制リズムゲーム。全6ステージ・11曲。",
+      "thumb": "thumbs/r1.webp",
+      "emoji": "🎤",
+      "updated": "2026-06-30"
+    },
+    {
+      "id": "rhythm-game",
+      "title": "リズムビート",
+      "genres": [
+        "音楽・リズム"
+      ],
+      "status": "done",
+      "desc": "収録曲を選んで遊ぶリズムゲーム。練習モードとアタックモード、3段階の難易度。",
+      "thumb": "thumbs/rhythm-game.webp",
+      "emoji": "🥁",
+      "updated": "2026-07-11"
+    },
+    {
+      "id": "otamatone",
+      "title": "ぷよトーン",
+      "genres": [
+        "音楽・リズム"
+      ],
+      "status": "done",
+      "desc": "しっぽをなぞって音程、ほっぺを押して「にゃわわ〜」。ゆかいな電子楽器であそぼう。",
+      "thumb": "thumbs/otamatone.webp",
+      "emoji": "🐱",
+      "updated": "2026-06-25"
+    },
+    {
+      "id": "mote-jidai-check",
+      "title": "モテ時代診断",
+      "genres": [
+        "診断・占い"
+      ],
+      "status": "done",
+      "desc": "15問に答えて、あなたの恋愛スタイルが昭和・平成・令和のどの時代に一番モテるかを診断。",
+      "thumb": "thumbs/mote-jidai-check.webp",
+      "emoji": "💘",
+      "updated": "2026-09-24"
+    },
+    {
+      "id": "guitar-trainer",
+      "title": "ギター上達トレーナー",
+      "genres": [
+        "ツール",
+        "音楽・リズム"
+      ],
+      "status": "done",
+      "desc": "52歳からロックとパンクを弾く人のための練習ツール。コード辞典やチューナー、切替トレーナー付き。",
+      "thumb": "thumbs/guitar-trainer.webp",
+      "emoji": "🎸",
+      "updated": "2026-08-26"
+    },
+    {
+      "id": "drum-chord",
+      "title": "Metro & DrumKit",
+      "genres": [
+        "ツール",
+        "音楽・リズム"
+      ],
+      "status": "done",
+      "desc": "メトロノームとドラムパターン、コード検出、チューナーをひとつにまとめた練習ツール。",
+      "thumb": "thumbs/drum-chord.webp",
+      "emoji": "🎵",
+      "updated": "2026-06-28"
+    },
+    {
+      "id": "hokuto-tensei2-tool",
+      "title": "北斗の拳 転生の章2 攻略ツール",
+      "genres": [
+        "ツール"
+      ],
+      "status": "done",
+      "desc": "あべし数や天国・通常の判別、収支を記録できる実戦向け攻略ツール。",
+      "thumb": "thumbs/hokuto-tensei2-tool.webp",
+      "emoji": "👊",
+      "updated": "2026-08-18"
+    }
+  ]
+}

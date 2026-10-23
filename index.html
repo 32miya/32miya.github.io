@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>32宮ゲーム館</title>
+<meta name="description" content="ブラウザですぐ遊べる自作ゲーム集。画像をタップするとそのままゲームが始まります。">
+<meta property="og:title" content="32宮ゲーム館">
+<meta property="og:description" content="ブラウザですぐ遊べる自作ゲーム集">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0f1222">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1222; --bg2:#161a30; --card:#1b2039; --card2:#232946; --line:#2e3558;
+  --ink:#eef0fa; --sub:#a3a9c9; --mute:#6f769a;
+  --accent:#ffb547; --accent-ink:#2a1a00; --accent2:#ff6b8b;
+  --done:#3ddc97; --dev:#ffb547; --new:#5cc8ff;
+  --r:16px; --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"M PLUS Rounded 1c",system-ui,sans-serif;line-height:1.6;
+  background-image:radial-gradient(1200px 500px at 50% -200px,#2a2f5c 0%,transparent 70%),radial-gradient(2px 2px at 20% 30%,#ffffff22 50%,transparent 51%),radial-gradient(2px 2px at 70% 12%,#ffffff1a 50%,transparent 51%),radial-gradient(1.5px 1.5px at 85% 40%,#ffffff22 50%,transparent 51%);
+  background-attachment:fixed;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* header */
+header.top{padding:calc(28px + env(safe-area-inset-top)) 0 8px;text-align:center}
+.logo{font-family:"DotGothic16",monospace;font-size:clamp(30px,7vw,48px);letter-spacing:.06em;margin:0;line-height:1.2;
+  background:linear-gradient(180deg,#fff 0%,#ffd38a 60%,#ff9a3c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 0 #0006)}
+.tagline{color:var(--sub);margin:6px 0 0;font-size:14px}
+.stats{display:flex;justify-content:center;gap:10px;margin:16px 0 0;flex-wrap:wrap}
+.stat{background:#ffffff0d;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--sub)}
+.stat b{font-family:"DotGothic16",monospace;color:var(--ink);font-size:17px;font-weight:400;margin:0 2px}
+.demo{margin:14px auto 0;max-width:560px;font-size:12px;color:#ffd38a;background:#ffb5471a;border:1px dashed #ffb54766;border-radius:10px;padding:8px 12px;display:none}
+
+/* controls */
+.controls{position:sticky;top:0;z-index:20;background:linear-gradient(var(--bg) 70%,transparent);padding:14px 0 10px;margin-top:10px}
+.row1{display:flex;gap:8px;flex-wrap:wrap}
+.search{flex:1 1 220px;position:relative}
+.search input{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:11px 14px 11px 38px;outline:none;font-size:16px}
+.search input:focus{border-color:var(--accent)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.6}
+.seg{display:flex;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{border:0;background:none;padding:7px 12px;border-radius:9px;cursor:pointer;font-size:14px;color:var(--sub);white-space:nowrap}
+.seg button[aria-pressed=true]{background:var(--card2);color:var(--ink);box-shadow:0 1px 0 #ffffff14 inset}
+select.sort{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:14px;cursor:pointer}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:transparent;color:var(--sub);border-radius:999px;padding:6px 13px;font-size:13px;cursor:pointer;white-space:nowrap}
+.chip small{opacity:.6;margin-left:4px}
+.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+
+/* grid */
+.result{color:var(--mute);font-size:12px;margin:6px 2px 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:16px;padding-bottom:60px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#454e80}
+.thumb{display:block;position:relative;aspect-ratio:4/5;overflow:hidden;background:#0a0c18;text-decoration:none}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .35s}
+.card:hover .thumb img{transform:scale(1.04)}
+.ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;text-align:center}
+.ph .em{font-size:64px;filter:drop-shadow(0 6px 12px #0008)}
+.ph .t{font-weight:800;font-size:16px;line-height:1.35}
+.play-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(transparent 40%,#000a);opacity:0;transition:opacity .2s}
+.card:hover .play-ov,.thumb:focus-visible .play-ov{opacity:1}
+.play-btn{width:58px;height:58px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px #0008}
+.badges{position:absolute;top:8px;left:8px;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
+.badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);line-height:1.4}
+.b-done{background:#0e2a1fdd;color:var(--done);border:1px solid #3ddc9766}
+.b-dev{background:#2c2008dd;color:var(--dev);border:1px solid #ffb54766}
+.b-new{background:#0b2433dd;color:var(--new);border:1px solid #5cc8ff66}
+.rank{position:absolute;top:8px;right:8px;background:#000a;border-radius:999px;font-size:12px;padding:2px 8px;font-weight:800;color:#ffd38a;pointer-events:none}
+.body{padding:12px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.title{font-weight:800;font-size:15px;line-height:1.35;margin:0}
+.genres{display:flex;gap:4px;flex-wrap:wrap}
+.g{font-size:11px;color:var(--sub);background:#ffffff0d;border-radius:6px;padding:1px 7px}
+.desc{font-size:12.5px;color:var(--sub);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.meta{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:6px;font-size:12px;color:var(--sub)}
+.meta span{display:inline-flex;align-items:center;gap:4px}
+.meta b{font-family:"DotGothic16",monospace;font-weight:400;color:var(--ink);font-size:14px}
+.more{margin-left:auto;border:1px solid var(--line);background:transparent;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;color:var(--ink)}
+.more:hover{border-color:var(--accent);color:var(--accent)}
+.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:60px 0}
+
+/* modal */
+dialog{border:0;padding:0;background:transparent;color:var(--ink);max-width:min(860px,100vw);width:100%;max-height:100dvh;margin:auto}
+dialog::backdrop{background:#05060ecc;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.sheet{background:var(--bg2);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:grid;grid-template-columns:300px 1fr;max-height:min(88dvh,760px);margin:16px}
+@media(max-width:700px){.sheet{grid-template-columns:1fr;margin:0;border-radius:20px 20px 0 0;max-height:94dvh;overflow:auto}dialog{margin:auto 0 0}}
+.s-img{position:relative;background:#0a0c18;min-height:260px}
+.s-img img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+@media(max-width:700px){.s-img{aspect-ratio:16/11}}
+.s-main{padding:20px 20px 22px;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.x{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:0;background:#000a;color:#fff;font-size:20px;cursor:pointer;z-index:2}
+.s-title{font-size:21px;font-weight:800;margin:0;line-height:1.35}
+.s-desc{color:var(--sub);margin:0;font-size:14px}
+.s-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--sub)}
+.s-meta span{background:#ffffff0d;border-radius:8px;padding:4px 10px}
+.s-meta b{color:var(--ink);font-family:"DotGothic16",monospace;font-weight:400;font-size:14px}
+.playbig{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:17px;text-decoration:none;padding:14px;border-radius:14px;box-shadow:0 4px 0 #b4701d}
+.playbig:active{transform:translateY(2px);box-shadow:0 2px 0 #b4701d}
+.links{display:flex;gap:14px;font-size:12px}
+.links a{color:var(--sub)}
+.links button{background:none;border:0;padding:0;color:var(--sub);text-decoration:underline;cursor:pointer;font-size:12px}
+h3.ch{font-size:15px;margin:8px 0 0;display:flex;align-items:center;gap:8px}
+h3.ch small{color:var(--mute);font-weight:400}
+form.cf{display:grid;gap:8px}
+form.cf input,form.cf textarea{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;font-size:16px;width:100%}
+form.cf textarea{min-height:76px;resize:vertical}
+form.cf input:focus,form.cf textarea:focus{border-color:var(--accent)}
+.cf-row{display:flex;gap:8px;align-items:center}
+.cf-row input{flex:1}
+.cf-row button{flex:none;border:0;background:var(--accent2);color:#fff;font-weight:800;border-radius:10px;padding:10px 18px;cursor:pointer}
+.cf-row button:disabled{opacity:.5;cursor:default}
+.cnt{font-size:11px;color:var(--mute);text-align:right}
+.clist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.clist li{background:var(--card);border-radius:12px;padding:10px 12px}
+.clist .who{font-size:12px;color:var(--sub);display:flex;gap:8px}
+.clist .who b{color:var(--ink)}
+.clist p{margin:4px 0 0;font-size:14px;white-space:pre-wrap;word-break:break-word}
+.muted{color:var(--mute);font-size:13px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(120px);background:#000d;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;transition:transform .25s;z-index:100}
+.toast.show{transform:translateX(-50%) translateY(0)}
+footer{text-align:center;color:var(--mute);font-size:12px;padding:0 0 calc(30px + env(safe-area-inset-bottom))}
+footer a{color:var(--sub)}
+.skel{background:linear-gradient(90deg,var(--card) 0%,var(--card2) 50%,var(--card) 100%);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:var(--r);aspect-ratio:4/6.2}
+@keyframes sk{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <h1 class="logo" id="siteName">32宮ゲーム館</h1>
+  <p class="tagline" id="tagline">ブラウザですぐ遊べる自作ゲーム集</p>
+  <div class="stats">
+    <span class="stat">収録 <b id="stGames">-</b> 本</span>
+    <span class="stat">総プレイ <b id="stPlays">-</b> 回</span>
+    <span class="stat">コメント <b id="stComments">-</b> 件</span>
+  </div>
+  <div class="demo" id="demoNote">デモモード：起動回数とコメントはこのブラウザの中だけに保存されています。みんなで共有するには README の手順で Firebase を設定してください。</div>
+</header>
+
+<section class="controls">
+  <div class="wrap">
+    <div class="row1">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="ゲームを探す" aria-label="ゲームを検索">
+      </label>
+      <div class="seg" role="group" aria-label="開発状況">
+        <button data-st="all" aria-pressed="true">すべて</button>
+        <button data-st="done" aria-pressed="false">開発完了</button>
+        <button data-st="dev" aria-pressed="false">開発中</button>
+      </div>
+      <select class="sort" id="sort" aria-label="並び替え">
+        <option value="updated">更新が新しい順</option>
+        <option value="plays">起動回数が多い順</option>
+        <option value="comments">コメントが多い順</option>
+        <option value="title">名前順</option>
+        <option value="genre">ジャンル順</option>
+      </select>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="ジャンル"></div>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="result" id="result"></div>
+  <div class="grid" id="grid">
+    <div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>
+  </div>
+</main>
+
+<footer class="wrap">
+  画像をタップするとゲームが始まります ・ <a id="ghLink" href="https://github.com/32miya" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dTitle">
+  <div class="sheet">
+    <div class="s-img" id="dImg"></div>
+    <div class="s-main">
+      <button class="x" id="dClose" aria-label="閉じる">×</button>
+      <div class="badges" style="position:static" id="dBadges"></div>
+      <h2 class="s-title" id="dTitle"></h2>
+      <p class="s-desc" id="dDesc"></p>
+      <div class="s-meta" id="dMeta"></div>
+      <a class="playbig" id="dPlay" href="#">▶ ゲームを始める</a>
+      <div class="links"><a id="dRepo" href="#" target="_blank" rel="noopener">ソースコード（GitHub）</a><button id="dShare" type="button">このゲームのURLをコピー</button></div>
+      <h3 class="ch">コメント <small id="dCcount"></small></h3>
+      <form class="cf" id="cf">
+        <textarea id="cText" maxlength="300" placeholder="感想や要望をどうぞ（300文字まで）" required></textarea>
+        <div class="cnt"><span id="cLen">0</span>/300</div>
+        <div class="cf-row">
+          <input id="cName" maxlength="20" placeholder="名前（省略可）" autocomplete="nickname">
+          <button id="cSend" type="submit">投稿</button>
+        </div>
+      </form>
+      <ul class="clist" id="clist"></ul>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script type="module">
+const C = Object.assign({siteName:"ゲーム館",tagline:"",githubUser:"",autoDiscover:false,exclude:[],openInNewTab:true,firebase:{}}, window.SITE_CONFIG||{});
+const $ = s => document.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => (n||0).toLocaleString("ja-JP");
+const STATUS = {done:{label:"開発完了",cls:"b-done"},dev:{label:"開発中",cls:"b-dev"}};
+const NEW_DAYS = 14, PLAY_THROTTLE_MIN = 10;
+
+document.title = C.siteName;
+$("#siteName").textContent = C.siteName;
+$("#tagline").textContent = C.tagline;
+if (C.githubUser) $("#ghLink").href = `https://github.com/${C.githubUser}`;
+
+/* ---------- 保存先（Firebase or このブラウザだけ） ---------- */
+function localStore(){
+  const K="portal_demo_v1";
+  const load=()=>{try{return JSON.parse(localStorage.getItem(K))||{stats:{},comments:[]}}catch{return{stats:{},comments:[]}}};
+  const save=d=>{try{localStorage.setItem(K,JSON.stringify(d))}catch{}};
+  return {
+    demo:true,
+    async getAllStats(){return load().stats},
+    async addPlay(id){const d=load();(d.stats[id]??={plays:0,comments:0}).plays++;save(d)},
+    async getComments(id){return load().comments.filter(c=>c.game===id).sort((a,b)=>b.createdAt-a.createdAt)},
+    async addComment(id,name,text){const d=load();d.comments.push({game:id,name,text,createdAt:Date.now()});(d.stats[id]??={plays:0,comments:0}).comments++;save(d)}
+  };
+}
+async function firebaseStore(cfg){
+  const V="10.12.2";
+  const {initializeApp}=await import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`);
+  const fs=await import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`);
+  const db=fs.getFirestore(initializeApp(cfg));
+  return {
+    demo:false,
+    async getAllStats(){const out={};(await fs.getDocs(fs.collection(db,"stats"))).forEach(d=>out[d.id]=d.data());return out},
+    async addPlay(id){await fs.setDoc(fs.doc(db,"stats",id),{plays:fs.increment(1)},{merge:true})},
+    async getComments(id){
+      const snap=await fs.getDocs(fs.query(fs.collection(db,"comments"),fs.where("game","==",id),fs.limit(200)));
+      return snap.docs.map(d=>{const x=d.data();return{...x,createdAt:x.createdAt?.toMillis?.()??Date.now()}}).sort((a,b)=>b.createdAt-a.createdAt);
+    },
+    async addComment(id,name,text){
+      const b=fs.writeBatch(db);
+      b.set(fs.doc(fs.collection(db,"comments")),{game:id,name,text,createdAt:fs.serverTimestamp()});
+      b.set(fs.doc(db,"stats",id),{comments:fs.increment(1)},{merge:true});
+      await b.commit();
+    }
+  };
+}
+let store;
+try{ store = C.firebase?.projectId && C.firebase?.apiKey ? await firebaseStore(C.firebase) : localStore(); }
+catch(e){ console.warn("Firebase初期化失敗→デモモード",e); store=localStore(); }
+if(store.demo) $("#demoNote").style.display="block";
+
+/* ---------- データ読み込み ---------- */
+let games=[], stats={};
+const state={q:"",st:"all",genre:"すべて",sort:"updated"};
+
+async function loadGames(){
+  const j=await (await fetch("games.json",{cache:"no-cache"})).json();
+  const list=(j.games||[]).filter(g=>!g.hidden).map(g=>({...g}));
+  const byId=Object.fromEntries(list.map(g=>[g.id,g]));
+  if(C.githubUser){
+    let repos=null;
+    try{
+      const ck="portal_repos_cache", c=JSON.parse(sessionStorage.getItem(ck)||"null");
+      if(c && Date.now()-c.t<3600e3) repos=c.r;
+      else{
+        const r=await fetch(`https://api.github.com/users/${C.githubUser}/repos?per_page=100&sort=pushed`);
+        if(r.ok){repos=(await r.json()).map(x=>({name:x.name,desc:x.description,pages:x.has_pages,fork:x.fork,pushed:x.pushed_at}));sessionStorage.setItem(ck,JSON.stringify({t:Date.now(),r:repos}))}
+      }
+    }catch(e){console.warn("GitHub API",e)}
+    for(const r of repos||[]){
+      if(byId[r.name]){if(r.pushed) byId[r.name].updated=r.pushed; continue}
+      if(C.autoDiscover && r.pages && !r.fork && !C.exclude.includes(r.name)){
+        list.push({id:r.name,title:r.name,genres:["未分類"],status:"dev",desc:r.desc||"",emoji:"🎮",updated:r.pushed,auto:true});
+      }
+    }
+  }
+  for(const g of list){
+    g.url ||= `https://${C.githubUser}.github.io/${g.id}/`;
+    g.repo ||= `https://github.com/${C.githubUser}/${g.id}`;
+    g.genres = g.genres?.length ? g.genres : ["未分類"];
+    g.status = STATUS[g.status] ? g.status : "dev";
+  }
+  return list;
+}
+
+/* ---------- 描画 ---------- */
+const plays=g=>stats[g.id]?.plays||0, ccount=g=>stats[g.id]?.comments||0;
+const isNew=g=>g.updated && (Date.now()-new Date(g.updated))/864e5 < NEW_DAYS;
+const dstr=d=>{if(!d)return"";const x=new Date(d);return `${x.getFullYear()}/${x.getMonth()+1}/${x.getDate()}`};
+
+function thumbHTML(g,big){
+  return g.thumb
+    ? `<img src="${esc(g.thumb)}" alt="${esc(g.title)}のゲーム画面" loading="${big?"eager":"lazy"}" decoding="async">`
+    : `<div class="ph" style="background:${grad(g.id)}"><div class="em">${esc(g.emoji||"🎮")}</div><div class="t">${esc(g.title)}</div></div>`;
+}
+function grad(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))%360;return `linear-gradient(160deg,hsl(${h} 45% 28%),hsl(${(h+50)%360} 50% 14%))`}
+function badges(g){
+  return `<span class="badge ${STATUS[g.status].cls}">${STATUS[g.status].label}</span>`+(isNew(g)?`<span class="badge b-new">NEW</span>`:"");
+}
+
+function renderChips(){
+  const pool=games.filter(g=>state.st==="all"||g.status===state.st);
+  const count={};pool.forEach(g=>g.genres.forEach(x=>count[x]=(count[x]||0)+1));
+  const names=["すべて",...Object.keys(count).sort((a,b)=>count[b]-count[a]||a.localeCompare(b,"ja"))];
+  if(!names.includes(state.genre)) state.genre="すべて";
+  $("#chips").innerHTML=names.map(n=>`<button class="chip" data-g="${esc(n)}" aria-pressed="${n===state.genre}">${esc(n)}<small>${n==="すべて"?pool.length:count[n]}</small></button>`).join("");
+}
+
+function render(){
+  renderChips();
+  const q=state.q.trim().toLowerCase();
+  let list=games.filter(g=>(state.st==="all"||g.status===state.st)&&(state.genre==="すべて"||g.genres.includes(state.genre))
+    &&(!q||[g.title,g.desc,g.id,...g.genres].join(" ").toLowerCase().includes(q)));
+  const by={
+    updated:(a,b)=>new Date(b.updated||0)-new Date(a.updated||0),
+    plays:(a,b)=>plays(b)-plays(a),
+    comments:(a,b)=>ccount(b)-ccount(a),
+    title:(a,b)=>a.title.localeCompare(b.title,"ja"),
+    genre:(a,b)=>a.genres[0].localeCompare(b.genres[0],"ja")||a.title.localeCompare(b.title,"ja")
+  };
+  list.sort((a,b)=>by[state.sort](a,b)||by.title(a,b));
+  const top=[...games].filter(g=>plays(g)>0).sort((a,b)=>plays(b)-plays(a)).slice(0,3).map(g=>g.id);
+  const tgt=C.openInNewTab?` target="_blank" rel="noopener"`:"";
+  $("#result").textContent=`${list.length} 本のゲーム`;
+  $("#grid").innerHTML=list.length?list.map(g=>{
+    const rk=top.indexOf(g.id);
+    return `<article class="card">
+      <a class="thumb" href="${esc(g.url)}"${tgt} data-play="${esc(g.id)}" aria-label="${esc(g.title)}を遊ぶ">
+        ${thumbHTML(g)}
+        <div class="badges">${badges(g)}</div>
+        ${rk>=0?`<span class="rank">${["👑 1位","🥈 2位","🥉 3位"][rk]}</span>`:""}
+        <div class="play-ov"><div class="play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#2a1a00"><path d="M7 4v16l13-8z"/></svg></div></div>
+      </a>
+      <div class="body">
+        <h2 class="title">${esc(g.title)}</h2>
+        <div class="genres">${g.genres.map(x=>`<span class="g">${esc(x)}</span>`).join("")}</div>
+        <p class="desc">${esc(g.desc)}</p>
+        <div class="meta">
+          <span title="起動回数">▶ <b>${fmt(plays(g))}</b></span>
+          <span title="コメント数">💬 <b>${fmt(ccount(g))}</b></span>
+          <button class="more" data-open="${esc(g.id)}">詳細</button>
+        </div>
+      </div>
+    </article>`}).join(""):`<div class="empty">条件に合うゲームが見つかりませんでした</div>`;
+  $("#stGames").textContent=games.length;
+  $("#stPlays").textContent=fmt(games.reduce((s,g)=>s+plays(g),0));
+  $("#stComments").textContent=fmt(games.reduce((s,g)=>s+ccount(g),0));
+}
+
+/* ---------- 起動回数 ---------- */
+function recordPlay(id){
+  const k="portal_last_play_"+id;let last=0;
+  try{last=+localStorage.getItem(k)||0}catch{}
+  if(Date.now()-last<PLAY_THROTTLE_MIN*60e3) return; // 連打による水増し防止
+  try{localStorage.setItem(k,Date.now())}catch{}
+  (stats[id]??={plays:0,comments:0}).plays=(stats[id].plays||0)+1;
+  store.addPlay(id).catch(e=>console.warn(e));
+  setTimeout(render,300);
+}
+document.addEventListener("click",e=>{
+  const p=e.target.closest("[data-play]"); if(p) recordPlay(p.dataset.play);
+  const o=e.target.closest("[data-open]"); if(o) openDetail(o.dataset.open);
+  const c=e.target.closest(".chip"); if(c){state.genre=c.dataset.g;render()}
+});
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{
+  state.st=b.dataset.st;document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));render();
+});
+$("#sort").onchange=e=>{state.sort=e.target.value;render()};
+$("#q").oninput=e=>{state.q=e.target.value;render()};
+
+/* ---------- 詳細＋コメント ---------- */
+const dlg=$("#dlg");let cur=null;
+async function openDetail(id){
+  const g=games.find(x=>x.id===id); if(!g) return; cur=g;
+  $("#dImg").innerHTML=`<a href="${esc(g.url)}"${C.openInNewTab?' target="_blank" rel="noopener"':""} data-play="${esc(g.id)}" style="display:block;height:100%">${thumbHTML(g,true)}</a>`;
+  $("#dBadges").innerHTML=badges(g);
+  $("#dTitle").textContent=g.title;
+  $("#dDesc").textContent=g.desc||"";
+  $("#dMeta").innerHTML=`<span>▶ 起動 <b>${fmt(plays(g))}</b> 回</span><span>ジャンル：${g.genres.map(esc).join("・")}</span>${g.updated?`<span>更新：${dstr(g.updated)}</span>`:""}`;
+  const pl=$("#dPlay");pl.href=g.url;pl.dataset.play=g.id;
+  if(C.openInNewTab){pl.target="_blank";pl.rel="noopener"}
+  $("#dRepo").href=g.repo;
+  history.replaceState(null,"",`#g=${encodeURIComponent(g.id)}`);
+  if(!dlg.open) dlg.showModal();
+  loadComments();
+}
+async function loadComments(){
+  const g=cur,ul=$("#clist");ul.innerHTML=`<li class="muted">読み込み中…</li>`;
+  try{
+    const cs=await store.getComments(g.id); if(cur!==g) return;
+    $("#dCcount").textContent=`${cs.length}件`;
+    ul.innerHTML=cs.length?cs.map(c=>`<li><div class="who"><b>${esc(c.name||"名無しさん")}</b><span>${dstr(c.createdAt)}</span></div><p>${esc(c.text)}</p></li>`).join(""):`<li class="muted">まだコメントはありません。最初の感想をどうぞ！</li>`;
+  }catch(e){ul.innerHTML=`<li class="muted">コメントを読み込めませんでした</li>`;console.warn(e)}
+}
+$("#dClose").onclick=()=>dlg.close();
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+dlg.addEventListener("close",()=>{history.replaceState(null,"",location.pathname+location.search);cur=null});
+$("#dShare").onclick=async()=>{try{await navigator.clipboard.writeText(location.href);toast("URLをコピーしました")}catch{toast(location.href)}};
+
+try{$("#cName").value=localStorage.getItem("portal_name")||""}catch{}
+$("#cText").oninput=e=>$("#cLen").textContent=e.target.value.length;
+$("#cf").onsubmit=async e=>{
+  e.preventDefault();
+  const text=$("#cText").value.trim(), name=$("#cName").value.trim().slice(0,20);
+  if(!text||!cur) return;
+  let last=0;try{last=+localStorage.getItem("portal_last_comment")||0}catch{}
+  if(Date.now()-last<30e3){toast("連続投稿は30秒あけてください");return}
+  const btn=$("#cSend");btn.disabled=true;
+  try{
+    await store.addComment(cur.id,name,text.slice(0,300));
+    try{localStorage.setItem("portal_last_comment",Date.now());localStorage.setItem("portal_name",name)}catch{}
+    (stats[cur.id]??={plays:0,comments:0}).comments=(stats[cur.id].comments||0)+1;
+    $("#cText").value="";$("#cLen").textContent="0";toast("コメントを投稿しました");
+    loadComments();render();
+  }catch(err){console.warn(err);toast("投稿できませんでした")}
+  finally{btn.disabled=false}
+};
+
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2200)}
+
+/* ---------- 起動 ---------- */
+try{
+  [games,stats]=await Promise.all([loadGames(),store.getAllStats().catch(e=>{console.warn(e);return{}})]);
+}catch(e){console.error(e);$("#grid").innerHTML=`<div class="empty">games.json を読み込めませんでした</div>`}
+render();
+const m=location.hash.match(/^#g=(.+)$/); if(m) openDetail(decodeURIComponent(m[1]));
+</script>
+</body>
+</html>
