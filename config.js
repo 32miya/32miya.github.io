@@ -1,7 +1,7 @@
 // ===== サイト設定 =====
 // ここを書き換えるだけでサイト名などを変えられます。
 window.SITE_CONFIG = {
-  siteName: "32宮ゲーム館",
+  siteName: "HTMMゲーム館",
   tagline: "ブラウザですぐ遊べる自作ゲーム集",
   githubUser: "32miya",
 
