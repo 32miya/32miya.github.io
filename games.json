@@ -1,5 +1,5 @@
 {
-  "_help": "ゲーム一覧。status は done=開発完了 / dev=開発中。genres は複数指定OK。thumb を省略すると emoji のカードになります。url を省略すると https://32miya.github.io/<id>/ になります。hidden:true で非表示。",
+  "_help": "ゲーム一覧の初期値。管理画面で変更した内容（公開/準備中/非表示・開発状況・説明など）はサーバー側が優先されます。vis は public=公開 / soon=準備中 / hidden=非表示。status は done=開発完了 / dev=開発中。",
   "games": [
     {
       "id": "rokuro",
@@ -11,7 +11,8 @@
       "desc": "回る粘土を指で形づくる陶芸ゲーム。窯焚きで割れや歪みに一喜一憂しながら、注文をこなして工房を経営し、称号を目指す。",
       "thumb": "thumbs/rokuro.webp",
       "emoji": "🏺",
-      "updated": "2026-10-23"
+      "updated": "2026-10-23",
+      "vis": "public"
     },
     {
       "id": "32miya-osaka-castle",
@@ -22,7 +23,8 @@
       "status": "dev",
       "desc": "大阪城と二の丸を3Dで歩いて巡る散策アプリ。太閤・豊臣秀吉の時代の大坂城モードも。",
       "emoji": "🏯",
-      "updated": "2026-10-23"
+      "updated": "2026-10-23",
+      "vis": "public"
     },
     {
       "id": "matsumoto-castle",
@@ -33,7 +35,8 @@
       "status": "dev",
       "desc": "国宝・松本城と城下町（縄手通り・中町通り）をスマホで歩ける3D散策アプリ。天守の中や江戸時代モードも。",
       "emoji": "🏯",
-      "updated": "2026-10-21"
+      "updated": "2026-10-21",
+      "vis": "public"
     },
     {
       "id": "gravity-dentetsu2-",
@@ -46,7 +49,8 @@
       "desc": "日本縦断すごろく＋全員参加のご当地クイズ。止まった駅の物件を買い占めろ！オンライン対戦対応。",
       "thumb": "thumbs/gravity-dentetsu2-.webp",
       "emoji": "🚃",
-      "updated": "2026-10-20"
+      "updated": "2026-10-20",
+      "vis": "public"
     },
     {
       "id": "gear-synchro",
@@ -58,7 +62,8 @@
       "desc": "置き時計の歯車パズル。歯車を回して噛み合った矢印を向き合わせると消える。奥の層へと連鎖させよう。",
       "thumb": "thumbs/gear-synchro.webp",
       "emoji": "⚙️",
-      "updated": "2026-10-19"
+      "updated": "2026-10-19",
+      "vis": "public"
     },
     {
       "id": "sokou-koroku",
@@ -70,7 +75,8 @@
       "desc": "9つの問いに答えて、現代から縄文・氷河期へと一族のルーツをさかのぼるオカルト血統診断。",
       "thumb": "thumbs/sokou-koroku.webp",
       "emoji": "📜",
-      "updated": "2026-10-16"
+      "updated": "2026-10-16",
+      "vis": "public"
     },
     {
       "id": "myouji-game",
@@ -82,7 +88,8 @@
       "desc": "名字と名前から姓名判断。名字の由来・地域・生業・推計人数、漢字の意味まで鑑定します。",
       "thumb": "thumbs/myouji-game.webp",
       "emoji": "🖋️",
-      "updated": "2026-10-10"
+      "updated": "2026-10-10",
+      "vis": "public"
     },
     {
       "id": "train-control",
@@ -94,7 +101,8 @@
       "desc": "鉄道の指令員になって、次々起こるトラブルに指令を出す。予備車両と要員をやりくりして乗客の信頼を守れ。",
       "thumb": "thumbs/train-control.webp",
       "emoji": "🚦",
-      "updated": "2026-08-31"
+      "updated": "2026-08-31",
+      "vis": "soon"
     },
     {
       "id": "juuou-xz",
@@ -106,7 +114,8 @@
       "desc": "スマスロ獣王の設定推測・収支記録ツール。",
       "thumb": "thumbs/juuou-xz.webp",
       "emoji": "🦁",
-      "updated": "2026-10-10"
+      "updated": "2026-10-10",
+      "vis": "soon"
     },
     {
       "id": "gravity-quest-v2",
@@ -118,7 +127,8 @@
       "desc": "ドット絵の王道コマンドRPG、第2弾の開発版。",
       "thumb": "thumbs/gravity-quest-v2.webp",
       "emoji": "⚔️",
-      "updated": "2026-09-13"
+      "updated": "2026-09-13",
+      "vis": "public"
     },
     {
       "id": "gravity-quest",
@@ -130,7 +140,8 @@
       "desc": "ブラウザで遊べる王道コマンドRPG。船で海を渡り、魔法ルーラで世界を巡る冒険。",
       "thumb": "thumbs/gravity-quest.webp",
       "emoji": "⚔️",
-      "updated": "2026-06-27"
+      "updated": "2026-06-27",
+      "vis": "public"
     },
     {
       "id": "umi-drop",
@@ -142,7 +153,8 @@
       "desc": "同じ生き物どうしをくっつけると大きく進化！サメを目指す落ち物パズル。",
       "thumb": "thumbs/umi-drop.webp",
       "emoji": "🐟",
-      "updated": "2026-10-13"
+      "updated": "2026-10-13",
+      "vis": "public"
     },
     {
       "id": "furin-game",
@@ -154,7 +166,8 @@
       "desc": "同じ音の風鈴を重ねると次の音階へ進化。メジャーやマイナーの和音がそろうとコンボ発生。",
       "thumb": "thumbs/furin-game.webp",
       "emoji": "🎐",
-      "updated": "2026-07-11"
+      "updated": "2026-07-11",
+      "vis": "public"
     },
     {
       "id": "monkey-swing-3",
@@ -166,7 +179,8 @@
       "desc": "タップでロープからロープへ！仲間を増やしながらジャングルから都市へ駆け抜けるスイングアクション。",
       "thumb": "thumbs/monkey-swing-3.webp",
       "emoji": "🐒",
-      "updated": "2026-08-21"
+      "updated": "2026-08-21",
+      "vis": "public"
     },
     {
       "id": "rain-drain",
@@ -178,7 +192,8 @@
       "desc": "次々と漏れてくる雨水を受け止めろ！テンポよく遊べるカジュアルアクション。",
       "thumb": "thumbs/rain-drain.webp",
       "emoji": "☔",
-      "updated": "2026-06-01"
+      "updated": "2026-06-01",
+      "vis": "public"
     },
     {
       "id": "senko-game",
@@ -191,7 +206,8 @@
       "desc": "タップで火種を支えて線香花火を長く美しく。最後は首席審査員が講評。オンライン対戦もできる。",
       "thumb": "thumbs/senko-game.webp",
       "emoji": "🎇",
-      "updated": "2026-05-27"
+      "updated": "2026-05-27",
+      "vis": "public"
     },
     {
       "id": "hanabi-contest",
@@ -203,7 +219,8 @@
       "desc": "全国打ち上げ花火競技大会。タイミングよく尺玉を打ち上げて夜空を彩ろう。",
       "thumb": "thumbs/hanabi-contest.webp",
       "emoji": "🎆",
-      "updated": "2026-05-23"
+      "updated": "2026-05-23",
+      "vis": "public"
     },
     {
       "id": "shinrei-shashin",
@@ -216,7 +233,8 @@
       "desc": "写真に潜む幽霊を指でなぞって探し出し、あなたの霊感を測定する。迷いのなさと速さが勝負。",
       "thumb": "thumbs/shinrei-shashin.webp",
       "emoji": "👻",
-      "updated": "2026-07-31"
+      "updated": "2026-07-31",
+      "vis": "public"
     },
     {
       "id": "fighting-game-v2",
@@ -228,7 +246,8 @@
       "desc": "ポリゴン3D格闘ゲームの第2版。CPU対戦とオンライン対戦（P2P）。",
       "thumb": "thumbs/fighting-game-v2.webp",
       "emoji": "🥊",
-      "updated": "2026-07-16"
+      "updated": "2026-07-16",
+      "vis": "public"
     },
     {
       "id": "fighting-game",
@@ -240,7 +259,8 @@
       "desc": "ブラウザで遊べるポリゴン3D格闘ゲーム。CPU対戦とオンライン対戦（P2P）。",
       "thumb": "thumbs/fighting-game.webp",
       "emoji": "🥊",
-      "updated": "2026-07-15"
+      "updated": "2026-07-15",
+      "vis": "public"
     },
     {
       "id": "hanafuda-koikoi",
@@ -252,7 +272,8 @@
       "desc": "4段階の強さのCPUと対戦できる花札こいこい。合言葉でつながるオンライン対戦も。",
       "thumb": "thumbs/hanafuda-koikoi.webp",
       "emoji": "🎴",
-      "updated": "2026-08-28"
+      "updated": "2026-08-28",
+      "vis": "public"
     },
     {
       "id": "r1",
@@ -264,7 +285,8 @@
       "desc": "動物キャラを選んで挑むステージ制リズムゲーム。全6ステージ・11曲。",
       "thumb": "thumbs/r1.webp",
       "emoji": "🎤",
-      "updated": "2026-06-30"
+      "updated": "2026-06-30",
+      "vis": "public"
     },
     {
       "id": "rhythm-game",
@@ -276,7 +298,8 @@
       "desc": "収録曲を選んで遊ぶリズムゲーム。練習モードとアタックモード、3段階の難易度。",
       "thumb": "thumbs/rhythm-game.webp",
       "emoji": "🥁",
-      "updated": "2026-07-11"
+      "updated": "2026-07-11",
+      "vis": "public"
     },
     {
       "id": "otamatone",
@@ -288,7 +311,8 @@
       "desc": "しっぽをなぞって音程、ほっぺを押して「にゃわわ〜」。ゆかいな電子楽器であそぼう。",
       "thumb": "thumbs/otamatone.webp",
       "emoji": "🐱",
-      "updated": "2026-06-25"
+      "updated": "2026-06-25",
+      "vis": "public"
     },
     {
       "id": "mote-jidai-check",
@@ -300,7 +324,8 @@
       "desc": "15問に答えて、あなたの恋愛スタイルが昭和・平成・令和のどの時代に一番モテるかを診断。",
       "thumb": "thumbs/mote-jidai-check.webp",
       "emoji": "💘",
-      "updated": "2026-09-24"
+      "updated": "2026-09-24",
+      "vis": "public"
     },
     {
       "id": "guitar-trainer",
@@ -313,7 +338,8 @@
       "desc": "52歳からロックとパンクを弾く人のための練習ツール。コード辞典やチューナー、切替トレーナー付き。",
       "thumb": "thumbs/guitar-trainer.webp",
       "emoji": "🎸",
-      "updated": "2026-08-26"
+      "updated": "2026-08-26",
+      "vis": "public"
     },
     {
       "id": "drum-chord",
@@ -326,7 +352,8 @@
       "desc": "メトロノームとドラムパターン、コード検出、チューナーをひとつにまとめた練習ツール。",
       "thumb": "thumbs/drum-chord.webp",
       "emoji": "🎵",
-      "updated": "2026-06-28"
+      "updated": "2026-06-28",
+      "vis": "public"
     },
     {
       "id": "hokuto-tensei2-tool",
@@ -338,7 +365,8 @@
       "desc": "あべし数や天国・通常の判別、収支を記録できる実戦向け攻略ツール。",
       "thumb": "thumbs/hokuto-tensei2-tool.webp",
       "emoji": "👊",
-      "updated": "2026-08-18"
+      "updated": "2026-08-18",
+      "vis": "soon"
     }
   ]
 }
