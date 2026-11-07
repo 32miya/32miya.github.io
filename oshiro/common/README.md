@@ -17,7 +17,8 @@
 | `atlas0.webp`〜`atlas3.webp` | 武将・足軽・町人・旗指物・幟・馬・小物などの切り抜き 439点 | 大阪・姫路・彦根・犬山・安土 |
 | `deco_himeji.webp` | 城の装飾（姫路で描き起こし）: 鯱・鬼瓦・懸魚・華頭窓・社・松・桜・楠・長持・俵・弾薬箱・姥が石・鉄砲 | 姫路（atlas の5ページ目として読む） |
 | `deco_inuyama.webp` | 小物（犬山で描き起こし）: 山車・からくり人形・鵜匠・鵜・幟（赤・青）・城の模型・歴代城主の肖像・看板・人力車・狛犬・手水舎・絵馬・盆栽・具足櫃・槍掛け・鉄砲掛け・縁台・自販機 | 犬山（atlas の5ページ目として読む） |
-| `atlas.json` | 切り出し位置。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` がそれぞれの装飾ページ（ページ番号4） | 新しい城はこれを使う |
+| `deco_azuchi.webp` | 装飾（安土で描き起こし）: 金の鯱 `az_shachi`・唐破風 `az_karahafu`・千鳥破風 `az_chidori`・のれんと提灯（天下布武 `az_noren_tenka`/`az_lan_tenka`、桐紋3種 `az_noren_kiri`・`az_noren_kiri53`・`az_noren_kiri57`/`az_lan_kiri`・`az_lan_kiri53`・`az_lan_kiri57`）。桐紋は豊臣家の大阪城などにも使える | 安土（atlas の5ページ目として読む） |
+| `atlas.json` | 切り出し位置。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` / `deco.azuchi` がそれぞれの装飾ページ（ページ番号4） | 新しい城はこれを使う |
 
 ### 室内の模様（tiles）
 | ファイル | 中身 | 使っている城 |
@@ -41,6 +42,8 @@
 | `fusuma_teien.webp` | 襖絵（庭園・玄宮園） | 彦根 | 彦根・安土 |
 | `fusuma_kosui.webp` | 襖絵（湖・琵琶湖） | 彦根 | 彦根・安土 |
 | `tenjo_tachibana.webp` | 橘紋の格天井（井伊家） | 彦根 | 彦根 |
+| `fusuma_shohaku.webp` | 金碧障壁画「松柏」（4面の屏風。左右半分ずつ襖2枚に貼る） | 安土 | 安土 |
+| `fusuma_mokin.webp` | 金碧障壁画「猛禽（鷹）」（4面の屏風。左右半分ずつ襖2枚に貼る） | 安土 | 安土 |
 | `sheet_inuyama.webp` | 8枚組（横4×縦2、1枚 313.5×627px）: 白漆喰・下見板・本瓦・野面積み（苔）／縦の床板・天井板・連子窓（障子）・町家の正面 | 犬山 | 犬山 |
 
 ### 江戸の人々（people/、透過）
