@@ -18,7 +18,8 @@
 | `deco_himeji.webp` | 城の装飾（姫路で描き起こし）: 鯱・鬼瓦・懸魚・華頭窓・社・松・桜・楠・長持・俵・弾薬箱・姥が石・鉄砲 | 姫路（atlas の5ページ目として読む） |
 | `deco_inuyama.webp` | 小物（犬山で描き起こし）: 山車・からくり人形・鵜匠・鵜・幟（赤・青）・城の模型・歴代城主の肖像・看板・人力車・狛犬・手水舎・絵馬・盆栽・具足櫃・槍掛け・鉄砲掛け・縁台・自販機 | 犬山（atlas の5ページ目として読む） |
 | `deco_azuchi.webp` | 装飾（安土で描き起こし）: 金の鯱 `az_shachi`・唐破風 `az_karahafu`・千鳥破風 `az_chidori`・のれんと提灯（天下布武 `az_noren_tenka`/`az_lan_tenka`、桐紋3種 `az_noren_kiri`・`az_noren_kiri53`・`az_noren_kiri57`/`az_lan_kiri`・`az_lan_kiri53`・`az_lan_kiri57`）。桐紋は豊臣家の大阪城などにも使える | 安土（atlas の5ページ目として読む） |
-| `atlas.json` | 切り出し位置。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` / `deco.azuchi` がそれぞれの装飾ページ（ページ番号4） | 新しい城はこれを使う |
+| `deco_azuchi2.webp` | 安土の人物と小物: 織田信長 `az_nobunaga`・小姓 `az_kosho`・奥の女房 `az_nyobo`・狩野派の絵師 `az_eshi`・茶人 `az_chajin`・普請の石工 `az_ishiku`・近江の商人 `az_omi`・楽市の店主 `az_tenshu`・湖の船頭 `az_sendo`・町の子ども `az_kodomo`・南蛮の商人 `az_nanban`・摠見寺の僧 `az_sokenso`／楽市の露店 `az_roten`・焼き物の露店 `az_yakimono`・魚売りの盤台 `az_bandai`・米俵の山 `az_komedawara`・荷車 `az_niguruma`・湊の杭 `az_kui`・小舟 `az_kobune`・茶屋の床几 `az_shogi`・金の擬宝珠 `az_giboshi`・柱の昇り龍/降り龍 `az_ryu_up`/`az_ryu_dn`。町人・商人・僧・小物は戦国〜江戸初めの城下ならどこでも使える | 安土（atlas の6ページ目として読む） |
+| `atlas.json` | 切り出し位置。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` / `deco.azuchi` がそれぞれの装飾ページ（ページ番号4）、`deco.azuchi2` は安土の6ページ目（ページ番号5） | 新しい城はこれを使う |
 
 ### 室内の模様（tiles）
 | ファイル | 中身 | 使っている城 |
@@ -44,6 +45,13 @@
 | `tenjo_tachibana.webp` | 橘紋の格天井（井伊家） | 彦根 | 彦根 |
 | `fusuma_shohaku.webp` | 金碧障壁画「松柏」（4面の屏風。左右半分ずつ襖2枚に貼る） | 安土 | 安土 |
 | `fusuma_mokin.webp` | 金碧障壁画「猛禽（鷹）」（4面の屏風。左右半分ずつ襖2枚に貼る） | 安土 | 安土 |
+| `az_ume.webp` `az_enji.webp` | 水墨の障壁画「墨絵の梅」「遠寺晩鐘」（4面。左右半分ずつ襖2枚に） | 安土 | 安土（天主1階） |
+| `az_kacho.webp` `az_seiobo.webp` `az_koma.webp` | 金碧障壁画「花鳥」「西王母」「駒の牧」（4面） | 安土 | 安土（天主2階） |
+| `az_ryuko.webp` `az_take.webp` `az_kirihoo.webp` | 金碧障壁画「龍虎」「竹の間」「桐に鳳凰」（4面。龍虎は左半分が龍・右半分が虎） | 安土 | 安土（天主3階） |
+| `az_shaka.webp` `az_deshi.webp` | 金地の仏画「釈迦説法図」「十大弟子」 | 安土 | 安土（天主5階） |
+| `az_gaki.webp` `az_hiryu.webp` | 縁の羽目板「餓鬼と鬼」、縁の板「鯱と飛龍」（横長の帯） | 安土 | 安土（天主5階の縁） |
+| `az_sanko.webp` `az_komon.webp` `az_shozan.webp` `az_chikurin.webp` | 金碧障壁画「三皇五帝」「孔門十哲」「商山四皓」「竹林の七賢」（4面） | 安土 | 安土（天主6階・信長の館） |
+| `az_tennin.webp` | 格天井の1枚「天人影向」（黒漆の格縁つき。並べて貼る） | 安土 | 安土（天主6階） |
 | `sheet_inuyama.webp` | 8枚組（横4×縦2、1枚 313.5×627px）: 白漆喰・下見板・本瓦・野面積み（苔）／縦の床板・天井板・連子窓（障子）・町家の正面 | 犬山 | 犬山 |
 
 ### 江戸の人々（people/、透過）
