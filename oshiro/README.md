@@ -20,3 +20,6 @@ Claude に「○○城のURLは △△」と伝えれば、上の3つ（スク�
   保存が無いときは `https://32miya.github.io/oshiro/` に戻る。
 - 御城印（登城済みの記録）は localStorage `oshiroSanpo.visited` に保存。端末ごと。
 - 地図のピンは `lat` / `lon` から自動で配置。ラベル位置を調整したいときは `LABEL` に `[dx, dy, "start"|"middle"|"end"]` を足す。
+
+## シリーズ共通の素材とルール
+`common/README.md` を参照（共通素材の一覧、天守の窓から外が見える作り、戻るボタン）。
