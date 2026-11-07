@@ -17,9 +17,10 @@
 | `atlas0.webp`〜`atlas3.webp` | 武将・足軽・町人・旗指物・幟・馬・小物などの切り抜き 439点 | 大阪・姫路・彦根・犬山・安土 |
 | `deco_himeji.webp` | 城の装飾（姫路で描き起こし）: 鯱・鬼瓦・懸魚・華頭窓・社・松・桜・楠・長持・俵・弾薬箱・姥が石・鉄砲 | 姫路（atlas の5ページ目として読む） |
 | `deco_inuyama.webp` | 小物（犬山で描き起こし）: 山車・からくり人形・鵜匠・鵜・幟（赤・青）・城の模型・歴代城主の肖像・看板・人力車・狛犬・手水舎・絵馬・盆栽・具足櫃・槍掛け・鉄砲掛け・縁台・自販機 | 犬山（atlas の5ページ目として読む） |
-| `deco_azuchi.webp` | 装飾（安土で描き起こし）: 金の鯱 `az_shachi`・唐破風 `az_karahafu`・千鳥破風 `az_chidori`・のれんと提灯（天下布武 `az_noren_tenka`/`az_lan_tenka`、桐紋3種 `az_noren_kiri`・`az_noren_kiri53`・`az_noren_kiri57`/`az_lan_kiri`・`az_lan_kiri53`・`az_lan_kiri57`）。桐紋は豊臣家の大阪城などにも使える | 安土（atlas の5ページ目として読む） |
-| `deco_azuchi2.webp` | 安土の人物と小物: 織田信長 `az_nobunaga`・小姓 `az_kosho`・奥の女房 `az_nyobo`・狩野派の絵師 `az_eshi`・茶人 `az_chajin`・普請の石工 `az_ishiku`・近江の商人 `az_omi`・楽市の店主 `az_tenshu`・湖の船頭 `az_sendo`・町の子ども `az_kodomo`・南蛮の商人 `az_nanban`・摠見寺の僧 `az_sokenso`／楽市の露店 `az_roten`・焼き物の露店 `az_yakimono`・魚売りの盤台 `az_bandai`・米俵の山 `az_komedawara`・荷車 `az_niguruma`・湊の杭 `az_kui`・小舟 `az_kobune`・茶屋の床几 `az_shogi`・酒樽と菰かぶり `az_sake`・高札（「定」） `az_kosatsu`・金の擬宝珠 `az_giboshi`・柱の昇り龍/降り龍 `az_ryu_up`/`az_ryu_dn`。町人・商人・僧・小物は戦国〜江戸初めの城下ならどこでも使える | 安土（atlas の6ページ目として読む） |
-| `atlas.json` | 切り出し位置。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` / `deco.azuchi` がそれぞれの装飾ページ（ページ番号4）、`deco.azuchi2` は安土の6ページ目（ページ番号5） | 新しい城はこれを使う |
+| `deco_azuchi.webp` | 装飾（安土で描き起こし）: 金の鯱 `az_shachi`・唐破風 `az_karahafu`・千鳥破風 `az_chidori`・のれんと提灯（天下布武 `az_noren_tenka`/`az_lan_tenka`、桐紋3種 `az_noren_kiri`・`az_noren_kiri53`・`az_noren_kiri57`/`az_lan_kiri`・`az_lan_kiri53`・`az_lan_kiri57`）。桐紋は豊臣家の大阪城などにも使える。安土では鯱と提灯を `deco_azuchi2` に移し、暖簾は `tex/az_noren_tenka.webp` を使うため、いまは読み込んでいない | （他の城向けの予備） |
+| `deco_azuchi2.webp` | 安土の人物と小物: 織田信長 `az_nobunaga`・小姓 `az_kosho`・奥の女房 `az_nyobo`・狩野派の絵師 `az_eshi`・茶人 `az_chajin`・普請の石工 `az_ishiku`・近江の商人 `az_omi`・楽市の店主 `az_tenshu`・湖の船頭 `az_sendo`・町の子ども `az_kodomo`・南蛮の商人 `az_nanban`・摠見寺の僧 `az_sokenso`／楽市の露店 `az_roten`・焼き物の露店 `az_yakimono`・魚売りの盤台 `az_bandai`・米俵の山 `az_komedawara`・荷車 `az_niguruma`・湊の杭 `az_kui`・小舟 `az_kobune`・茶屋の床几 `az_shogi`・酒樽と菰かぶり `az_sake`・高札（「定」） `az_kosatsu`・金の擬宝珠 `az_giboshi`・柱の昇り龍/降り龍 `az_ryu_up`/`az_ryu_dn`・金の鯱 `az_shachi`・天下布武の提灯 `az_lan_tenka`。町人・商人・僧・小物は戦国〜江戸初めの城下ならどこでも使える | 安土（atlas の5ページ目として読む） |
+| `tex/az_noren_tenka.webp` | 天下布武の暖簾（512px。2048pxの装飾ページを丸ごと読まずに済むよう切り出したもの） | 安土 |
+| `atlas.json` | 切り出し位置。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` / `deco.azuchi` がそれぞれの装飾ページ（ページ番号4）、`deco.azuchi2` も安土の5ページ目（ページ番号4。安土は `deco.azuchi` を読まずにこちらだけを使う） | 新しい城はこれを使う |
 
 ### 室内の模様（tiles）
 | ファイル | 中身 | 使っている城 |
