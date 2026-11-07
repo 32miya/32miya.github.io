@@ -27,8 +27,8 @@
 ### 描き下ろしの材質（tex/、512px・繰り返し可）
 | ファイル | 中身 | 元 | 使っている城 |
 |---|---|---|---|
-| `floor_ita.webp` | 板の間の床板（明るめ） | 姫路 | 姫路・大阪・松本 |
-| `floor_ita_kuro.webp` | 板の間の床板（黒ずんだ古材） | 彦根 | 彦根 |
+| `floor_ita.webp` | 板の間の床板（明るめ） | 姫路 | 姫路・大阪 |
+| `floor_ita_kuro.webp` | 板の間の床板（黒ずんだ古材） | 彦根 | 彦根・松本 |
 | `stone_uchikomi.webp`（`_bump`） | 打込接ぎの石垣（刻印入り） | 姫路 | 姫路 |
 | `stone_nozura_atarashii.webp` | 野面積みの石垣（新しい石） | 彦根 | 彦根（江戸） |
 | `stone_nozura_koke.webp` | 野面積みの石垣（苔むした石） | 彦根 | 彦根（現代） |
