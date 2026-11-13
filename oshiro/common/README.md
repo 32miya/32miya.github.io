@@ -20,7 +20,32 @@
 | `deco_azuchi.webp` | 装飾（安土で描き起こし）: 金の鯱 `az_shachi`・唐破風 `az_karahafu`・千鳥破風 `az_chidori`・のれんと提灯（天下布武 `az_noren_tenka`/`az_lan_tenka`、桐紋3種 `az_noren_kiri`・`az_noren_kiri53`・`az_noren_kiri57`/`az_lan_kiri`・`az_lan_kiri53`・`az_lan_kiri57`）。桐紋は豊臣家の大阪城などにも使える。安土では鯱と提灯を `deco_azuchi2` に移し、暖簾は `tex/az_noren_tenka.webp` を使うため、いまは読み込んでいない | （他の城向けの予備） |
 | `deco_azuchi2.webp` | 安土の人物と小物: 織田信長 `az_nobunaga`・小姓 `az_kosho`・奥の女房 `az_nyobo`・狩野派の絵師 `az_eshi`・茶人 `az_chajin`・普請の石工 `az_ishiku`・近江の商人 `az_omi`・楽市の店主 `az_tenshu`・湖の船頭 `az_sendo`・町の子ども `az_kodomo`・南蛮の商人 `az_nanban`・摠見寺の僧 `az_sokenso`／楽市の露店 `az_roten`・焼き物の露店 `az_yakimono`・魚売りの盤台 `az_bandai`・米俵の山 `az_komedawara`・荷車 `az_niguruma`・湊の杭 `az_kui`・小舟 `az_kobune`・茶屋の床几 `az_shogi`・酒樽と菰かぶり `az_sake`・高札（「定」） `az_kosatsu`・金の擬宝珠 `az_giboshi`・柱の昇り龍/降り龍 `az_ryu_up`/`az_ryu_dn`・金の鯱 `az_shachi`・天下布武の提灯 `az_lan_tenka`。町人・商人・僧・小物は戦国〜江戸初めの城下ならどこでも使える | 安土（atlas の5ページ目として読む） |
 | `tex/az_noren_tenka.webp` | 天下布武の暖簾（512px。2048pxの装飾ページを丸ごと読まずに済むよう切り出したもの） | 安土 |
-| `atlas.json` | 切り出し位置。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` / `deco.azuchi` がそれぞれの装飾ページ（ページ番号4）、`deco.azuchi2` も安土の5ページ目（ページ番号4。安土は `deco.azuchi` を読まずにこちらだけを使う） | 新しい城はこれを使う |
+| `atlas.json` | 切り出し位置。`deco.edo` は江戸の建物・調度品・具足・欄間（下の表）。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` / `deco.azuchi` がそれぞれの装飾ページ（ページ番号4）、`deco.azuchi2` も安土の5ページ目（ページ番号4。安土は `deco.azuchi` を読まずにこちらだけを使う） | 新しい城はこれを使う |
+
+### 江戸の建物・調度品・具足・欄間（deco_edo、透過の切り抜き 106点）
+| ファイル | 中身 |
+|---|---|
+| `deco_edo.webp` | 2048px 1枚。位置は `atlas.json` の `deco.edo`（ページ番号は4として書いてあるので、atlas のページとして読む城は番号を読み替える） |
+| `/oshiro/common/edo_deco.js` | 置くための小さな道具。`<script src="/oshiro/common/edo_deco.js"></script>` を three.js の後に入れ、`EdoDeco.init(THREE).put(親, 名前, x, y, z, {yaw, h, s, flip})`。yaw を省くとカメラの方を向く立ち物、yaw を付けると向きを固定した板（欄間・掛軸・屏風）。使う絵だけを小さく切り出すので GPU のメモリを食わない。読めないときは何も置かない |
+
+- ① 建物と庭（`e_`）: `e_daimyo_yashiki` 大名屋敷（唐破風の玄関と土塀）・`e_buke_yashiki` 武家屋敷・`e_jiin` 寺院の本堂と五重塔・`e_omotemon` 御殿の表門（唐破風・家紋入り）・`e_kabukimon` 武家屋敷の冠木門・`e_dobei` 石垣の上の土塀・`e_nagayabei` 長屋塀・`e_sumiyagura` 石垣の上の隅櫓・`e_dozo` 土蔵・`e_niwa_ike` 庭園の池と石橋・`e_niwa_ishi` 庭の石組と石灯籠・`e_ishidoro` 石灯籠・`e_taikobashi` 朱の太鼓橋と竹垣・`e_ikegaki` 生垣・`e_take` 竹・`e_sakura` 桜・`e_shoheki_sakura` 金地の障壁画（桜）・`e_shoheki_matsu` 金地の障壁画（松）・`e_tokonoma` 床の間（掛軸・花・香炉）・`e_byobu_matsuzakura` 金屏風（松と桜）・`e_hata_kiri` 旗（紺地に桐紋）・`e_hata_mitsuba` 旗（紺地に金の紋）・`e_hata_hishi` 旗（白地に菱）・`e_gusoku_kazari` 飾り具足（台座つき）・`e_gusoku_tachi` 立ち姿の具足・`e_tansu` 箪笥・`e_tsubo` 染付の壺・`e_chaki` 茶道具（茶碗・茶入・鉄瓶）・`e_andon` 行灯・`e_tsukue` 文机・`e_oke` 手桶・`e_ido` 屋根付きの井戸・`e_hanetsurube` 石組の井戸・`e_daihachi` 大八車と俵・`e_saku` 木の柵
+- ② 室内の調度品（`i_`）: `i_byobu_matsu` 金屏風（老松）・`i_byobu_sakura` 金屏風（桜）・`i_byobu_fuji` 金屏風（藤）・`i_kake_fuji` 掛軸（富士）・`i_kake_tsuru` 掛軸（鶴）・`i_kake_take` 掛軸（竹）・`i_kake_ume` 掛軸（梅）・`i_tsubo_sometsuke` 染付の壺・`i_tsubo_iroe` 色絵の壺・`i_tsubo_seiji` 青磁の壺・`i_hachi_makie` 蒔絵の鉢・`i_kobako` 蒔絵の小箪笥・`i_kazaridana` 蒔絵の飾り棚・`i_andon` 行灯・`i_toro_kin` 金の灯籠・`i_bonbori` 雪洞（ぼんぼり）・`i_andon_makie` 蒔絵の角行灯・`i_tansu_kuro` 黒漆の箪笥（蒔絵）・`i_tansu_shu` 朱漆の箪笥（蒔絵）・`i_zataku` 蒔絵の座卓・`i_zabuton` 錦の座布団・`i_tetsubin` 鉄瓶と台・`i_koro_kin` 金の香炉・`i_ikebana` 生け花・`i_sensu` 扇（飾り台）・`i_kabuto` 兜（飾り台）・`i_katanakake` 刀掛け・`i_yarikake` 槍掛け・`i_kyodai` 鏡台・`i_maku_kiri` 紫の幕（桐紋）・`i_byobu_kumo` 黒地金雲の屏風・`i_nagabitsu` 長持（家紋入り）・`i_zushi` 厨子・`i_bonsai` 盆栽・`i_hata_kiri` 旗（紺地に桐紋）
+- ③ 床の間などに飾る大名家の具足（`gk_toko0`〜`5`）、大名家の具足・家紋入り（`gk_daimyo0`〜`5`。`gk_daimyo1` は金の後光の立物で豊臣秀吉の馬藺後立を思わせる）
+- ④ 大名家以外の武家屋敷の具足（`gk_buke0`〜`5`）
+- ⑤ 金の欄間（`rm_kin_`）: 鳳凰・龍・牡丹・松に鶴・獅子に牡丹・波に菊
+- ⑥⑦ 素木の欄間（`rm_shiraki_`）: 松と梅・松と城・雲に花紋・丸に花紋・松に鶴（金雲）・松に扇・桜と流水・松と富士／金具・金地の欄間（`rm_ryu_kinbuchi` `rm_kinji_tsuru` `rm_kinji_hoo` `rm_kinji_kiku`）
+
+姫路・彦根・大阪・犬山は `rp()`（部屋の飾り）と `orn()`/`ranmaRow()`（壁の彫刻・欄間）に、アトラスにない名前はこちらで置く受け口（`edoPut`）がある。松本は `EDO.put` を直接使う。
+
+#### 城ごとの使い分け（金の多い・少ないで城の性格を変えない）
+| 城 | 方針 | 使っている所 |
+|---|---|---|
+| 姫路 | 現存天守は素木を生かした質実な造り。天守には置かない。旧御殿は現存しないので絵図などを手がかりにした想像を交えた再現。御居城は鶴・虎の間 | 本丸御殿の大広間（素木と金地の欄間・飾り具足・金の灯籠・老松の屏風）、御居城の書院（素木の欄間・鶴の掛軸・虎の屏風）、武家屋敷の座敷（素木の欄間・家臣の具足・刀掛け）、化粧櫓（鏡台・朱の箪笥）、御居城の前の石灯籠 |
+| 熊本（未実装） | 本丸御殿「昭君之間」の華麗な装飾 → 金の欄間（`rm_kin_`）・金地の欄間・金屏風を使う | — |
+| 松本 | 黒漆の外観と、素木・露出した木組みの内部。金の欄間は使わない | 二の丸御殿の大広間（素木の欄間を南北の鴨居の上に・黒漆の飾り具足・刀掛け） |
+| 犬山 | 古い木造天守らしい簡素な室内、望楼型の古式な意匠。天守には置かない | 松の丸御殿の書院（素木の欄間・成瀬家の具足）、城とまちミュージアム（具足の展示） |
+| 彦根 | 天守・櫓の木造建築、楽々園・槻御殿の書院建築。井伊家の赤備え | 表御殿の大広間・御座之間・家老屋敷・槻御殿・楽々園（素木の欄間・掛軸）、博物館と大広間・家老屋敷（朱の具足）、家老屋敷と槻御殿の前の石灯籠・井戸・庭石 |
+| 大阪 | 豊臣時代の金碧装飾と、徳川の再建・現代の復興天守を区別する。金の欄間・具足は豊臣期の御殿と屋敷だけ。現代の天守閣は「展示」として置く | 千畳敷・対面所・奥御殿（金の欄間・太閤の具足・金の灯籠・桐紋の幕）、大名屋敷（武具の間の具足・書院）、寺の本堂と大名屋敷の前の石灯籠・井戸、現代の天守閣4階（具足の展示） |
 
 ### 室内の模様（tiles）
 | ファイル | 中身 | 使っている城 |
