@@ -175,7 +175,7 @@ footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:un
   <div class="eyebrow">３Ｄ 城郭散策シリーズ</div>
   <h1>お城さんぽ<small>天守をめぐる</small></h1>
   <p class="lead">石垣を見上げ、門をくぐり、天守の最上階へ。<br>名城を歩いてめぐり、時代を切り替えればかつての城下がよみがえる。<br>行きたい城の札に触れて、登城してください。</p>
-  <div class="goshuin" aria-live="polite"><div class="seal">登城</div><div><b id="gsCount">0</b> <span>/ <span id="gsTotal">0</span> 城 &nbsp;御城印</span></div><div class="dots" id="gsDots"></div></div>
+  <div class="goshuin" aria-live="polite"><div class="seal">登城</div><div><b id="gsCount">0</b> <span>/ <span id="gsTotal">0</span> 城 &nbsp;御城印 <small style="opacity:.72;font-size:.82em">（天守の最上階で押印）</small></span></div><div class="dots" id="gsDots"></div></div>
 </header>
 
 <main class="wrap">
@@ -226,7 +226,7 @@ footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:un
 
   <footer>
     「お城さんぽ」は、建物の配置と寸法を簡略化して再現した3D散策シリーズです。江戸時代などの再現には、絵図などをもとにした想像を交えた部分があります。<br>
-    御城印（登城の記録）はこの端末のブラウザにだけ保存されます。
+    御城印は、各城で天守の最上階まで登るといただけます。記録はこの端末のブラウザにだけ保存されます。
     <div><button class="reset" id="resetBtn">登城の記録を消す</button></div>
   </footer>
 </main>
@@ -308,7 +308,7 @@ const LABEL = {
 
 /* ---------- 共通 ---------- */
 const PORTAL_KEY = "oshiroSanpo.portal";   // 各城の「お城選びへ戻る」が参照する
-const VISIT_KEY  = "oshiroSanpo.visited";
+const VISIT_KEY  = "oshiroSanpo.goshuin"; /* 御城印は各城で天守の最上階に着いたときに記録する（/oshiro/common/goshuin.js）。以前の "oshiroSanpo.visited" は起動しただけで付いていたので使わない */
 const SORT_KEY   = "oshiroSanpo.sort";
 const store = {
   get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v);}catch(e){return d;} },
@@ -464,7 +464,6 @@ function jumpTo(id){
   if(!isOpen(c)) toast(`${c.name}は ただいま普請中です`);
 }
 function go(c){
-  visited.add(c.id); store.set(VISIT_KEY,[...visited]);
   $("#leavingT").innerHTML=`${esc(c.name)}へ<small>登城しています…</small>`;
   $("#leaving").classList.add("on");
 }
@@ -472,7 +471,7 @@ $("#rail").addEventListener("click",e=>{
   const card=e.target.closest(".card"); if(!card) return;
   const c=CASTLES.find(x=>x.id===card.dataset.id);
   if(!isOpen(c)){ e.preventDefault(); toast(`${c.name}は ただいま普請中です。開城をお待ちください`); return; }
-  if(e.metaKey||e.ctrlKey||e.shiftKey) { visited.add(c.id); store.set(VISIT_KEY,[...visited]); return; }
+  if(e.metaKey||e.ctrlKey||e.shiftKey) return;
   e.preventDefault(); go(c); setTimeout(()=>{ location.href=c.url; },260);
 });
 $("#rail").addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("wip")){ e.preventDefault(); e.target.click(); }});
