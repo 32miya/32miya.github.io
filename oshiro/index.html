@@ -279,6 +279,13 @@ const CASTLES = [
     era:"現代⇄江戸時代⇄西南戦争", point:"武者返しの高石垣、宇土櫓、52日間の籠城",
     nen:"加藤清正、茶臼山で築城をはじめる" },
 
+  { id:"aizu", name:"会津若松城", kana:"あいづわかまつじょう", alias:"鶴ヶ城", pref:"福島県会津若松市",
+    url:"https://32miya.github.io/32miya-aizu-castle/", img:"img/aizu.webp", tiers:5,
+    lat:37.488, lon:139.930, year:1384, wareki:"至徳元年", founder:"蒲生氏郷（いまの縄張り）",
+    tenshu:"再建天守・5層5階（赤瓦）", badges:["国史跡","戊辰戦争"], genzon:false, kokuho:false,
+    era:"現代⇄江戸時代⇄戊辰戦争", point:"赤瓦の天守、白虎隊と娘子隊、約1か月の籠城",
+    nen:"蘆名直盛が東黒川館を築いたと伝わる" },
+
   { id:"matsuyama", name:"松山城", kana:"まつやまじょう", alias:"金亀城・勝山城", pref:"愛媛県松山市",
     url:"https://32miya.github.io/32miya-matsuyama-castle/", img:"img/matsuyama.webp", tiers:3,
     lat:33.845, lon:132.766, year:1602, wareki:"慶長7年", founder:"加藤嘉明",
@@ -303,7 +310,7 @@ const CASTLES = [
 /* 地図の表記位置（城名ラベルを点からどれだけずらすか）。新しい城は自動で右に置く */
 const LABEL = {
   osaka:[8,22,"start"], himeji:[-10,20,"end"], matsumoto:[-10,-8,"end"], hikone:[14,-16,"start"],
-  inuyama:[16,8,"start"], matsuyama:[0,22,"middle"], azuchi:[-16,-14,"end"], kumamoto:[10,-10,"start"], bitchu:[0,-14,"middle"]
+  inuyama:[16,8,"start"], matsuyama:[0,22,"middle"], azuchi:[-16,-14,"end"], kumamoto:[10,-10,"start"], bitchu:[0,-14,"middle"], aizu:[10,4,"start"]
 };
 
 /* ---------- 共通 ---------- */

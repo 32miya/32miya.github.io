@@ -13,6 +13,7 @@
     '32miya-32miya-hikone-castle':            ['hikone','彦根城'],
     '32miya-inuyama-castle':                  ['inuyama','犬山城'],
     '32miya-kumamoto-castle':                 ['kumamoto','熊本城'],
+    '32miya-aizu-castle':                     ['aizu','会津若松城'],
     '32miya-matsuyama-castle':                ['matsuyama','松山城'],
     '32miya-32miya-azuchi-castle':            ['azuchi','安土城'],
     '32miya-32miya-bitchu-matsuyama-castle-': ['bitchu','備中松山城']
