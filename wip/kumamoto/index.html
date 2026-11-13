@@ -2322,7 +2322,8 @@ B=BS; curSet=BSETS.shared;
 function slabHoles(bt,fp,holes,y,th){ const xs=[fp.x0,fp.x1],zs=[fp.z0,fp.z1]; for(const h of holes){ if(!h) continue; xs.push(Math.max(fp.x0,Math.min(fp.x1,h.x0)),Math.max(fp.x0,Math.min(fp.x1,h.x1))); zs.push(Math.max(fp.z0,Math.min(fp.z1,h.z0)),Math.max(fp.z0,Math.min(fp.z1,h.z1))); }
   const X=[...new Set(xs)].sort((a,b)=>a-b),Z=[...new Set(zs)].sort((a,b)=>a-b);
   for(let i=0;i<X.length-1;i++) for(let j=0;j<Z.length-1;j++){ const x0=X[i],x1=X[i+1],z0=Z[j],z1=Z[j+1]; if(x1-x0<.01||z1-z0<.01) continue; const mx=(x0+x1)/2,mz=(z0+z1)/2; if(holes.some(h=>h&&mx>h.x0&&mx<h.x1&&mz>h.z0&&mz<h.z1)) continue; bt.add(boxUVGeo(x1-x0,th,z1-z0,2.4,2.4),TM(mx,y-th/2,mz)); } }
-function keepInterior(era){ const T=TEN[era],{cx,cz,FL,ST}=T,mod=era==='modern',WB=F=>F&&F.rects&&{rects:F.rects}; B=mod?BM:BE; curSet=mod?BSETS.modern:BSETS.edo;
+const KXI=new THREE.Group(); GE.add(KXI);
+function keepInterior(era){ const T=TEN[era],{cx,cz,FL,ST}=T,mod=era==='modern',WB=F=>F&&F.rects&&{rects:F.rects}; const BI=mod?BM:mkB(); B=BI; curSet=mod?BSETS.modern:BSETS.edo;
   /* 地階（穴蔵）: 石の壁、柱、礎石 */
   { const F=FL[0],y=F.y,ti=(TZ.bw/2-TZ.bat),tj=(TZ.bd/2-TZ.bat),E=T.entry; box(B.stone,cx-ti,cx+ti,y-.3,y,cz-tj,cz+tj);
     for(const [x0,x1,z0,z1] of [[-ti,-ti+.8,-tj,tj],[ti-.8,ti,-tj,tj],[-ti,ti,-tj,-tj+.8],[-ti,-1.6,tj-.8,tj],[1.6,ti,tj-.8,tj]]) box(B.stone,cx+x0,cx+x1,y,y+TZ.bh-.3,cz+z0,cz+z1);
@@ -2334,7 +2335,7 @@ function keepInterior(era){ const T=TEN[era],{cx,cz,FL,ST}=T,mod=era==='modern',
   FL.forEach((F,i)=>{ if(i===0) return; const y=F.y,last=i===FL.length-1;
     const wellDn=ST[i-1]?wellR(ST[i-1],WB(F)):null,wellUp=ST[i]?wellR(ST[i],WB(FL[i+1])):null;
     const hD=[wellDn&&{x0:wellDn.x0-cx,x1:wellDn.x1-cx,z0:wellDn.z0-cz,z1:wellDn.z1-cz}].filter(Boolean);
-    B[mod?'floor':'tenF'].add(polySlab(F.P,hD,.25),TM(cx,y-.25,cz));
+    B.floor.add(polySlab(F.P,hD,.25),TM(cx,y-.25,cz));
     if(!last){ const hU=[wellUp&&{x0:wellUp.x0-cx,x1:wellUp.x1-cx,z0:wellUp.z0-cz,z1:wellUp.z1-cz}].filter(Boolean); B[mod?'kmHall':'darkwood'].add(polySlab(F.P,hU,.2),TM(cx,FL[i+1].y-.45,cz)); }
     else B[mod?'kmHall':'darkwood'].add(polySlab(F.P,[],.2),TM(cx,y+F.h-.05,cz));
     if(ST[i-1]) stairWell(F,ST[i-1],mod?'rail':'darkwood',WB(F));
@@ -2368,9 +2369,9 @@ function keepInterior(era){ const T=TEN[era],{cx,cz,FL,ST}=T,mod=era==='modern',
     for(let k=0;k<n;k++){ const zc=s.from+(k+.5)/n*run,yt=y0+(k+1)/n*s.rise; B.darkwood.add(new THREE.BoxGeometry(w-.12,.08,st+.05),TM(x,yt-.04,zc)); B.darkwood.add(new THREE.BoxGeometry(w-.16,s.rise/n,.04),TM(x,yt-s.rise/n/2,zc-sg*st/2)); }
     const L=Math.hypot(run,s.rise),ang=-Math.atan2(s.rise,run),mz=(s.from+s.to)/2;
     for(const xx of [s.x0+.06,s.x1-.06]){ B.darkwood.add(new THREE.BoxGeometry(.1,.32,L),TM(xx,y0+s.rise/2-.1,mz,0,1,1,1,ang)); B[mod?'rail':'darkwood'].add(new THREE.BoxGeometry(.06,.06,L),TM(xx,y0+s.rise/2+.85,mz,0,1,1,1,ang)); } });
-  /* 渡廊下と小天守1階の床・天井 */ { const F=FL[1],y=F.y; for(const r of F.rects.slice(1)){ B[mod?'floor':'tenF'].add(boxUVGeo(r.x1-r.x0+1.5,.25,r.z1-r.z0+1.5,2.4,2.4),TM((r.x0+r.x1)/2,y-.125,(r.z0+r.z1)/2)); B[mod?'kmHall':'darkwood'].add(boxUVGeo(r.x1-r.x0+1.5,.2,r.z1-r.z0+1.5,2.4,2.4),TM((r.x0+r.x1)/2,y+3.9,(r.z0+r.z1)/2)); }
+  /* 渡廊下と小天守1階の床・天井 */ { const F=FL[1],y=F.y; for(const r of F.rects.slice(1)){ B.floor.add(boxUVGeo(r.x1-r.x0+1.5,.25,r.z1-r.z0+1.5,2.4,2.4),TM((r.x0+r.x1)/2,y-.125,(r.z0+r.z1)/2)); B[mod?'kmHall':'darkwood'].add(boxUVGeo(r.x1-r.x0+1.5,.2,r.z1-r.z0+1.5,2.4,2.4),TM((r.x0+r.x1)/2,y+3.9,(r.z0+r.z1)/2)); }
     if(mod){ const r=F.rects[2]; panel(F,(r.x0+r.x1)/2,r.z0+.3,0,3,1.4); } else DECO_KEEP.push(['km_andon',SX.cx+2,y,SX.cz-2]); }
-  B=BS; curSet=BSETS.shared; }
+  if(!mod) for(const k in BI) BI[k].build(M[k],k!=='lampIn',KXI); B=BS; curSet=BSETS.shared; }
 keepInterior('edo'); keepInterior('modern');
 /* ================= 両方の時代 ================= */
 B=BS; curSet=BSETS.shared;
@@ -2623,7 +2624,7 @@ for(let i=0;i<7000;i++){ const x=INR.x0+3+rnd()*(INR.x1-INR.x0-6),z=INR.z0+3+rnd
   const r=rnd(); if(r<.22) addPine(x,z,1+rnd()*.6); else if(r<.32) addRound(x,z,1.2+rnd()*.5,false,['#c9a53a','#d4b444','#b8962f']); else addRound(x,z,1.1+rnd()*.7,false,DEEP); }
 /* 本丸の大銀杏（天守の北） */ addRound(30,-44,2.6,false,['#c9a53a','#d4b444','#b8962f']);
 for(const [set,mode] of [[TSETS.modern,'modern'],[TSETS.edo,'edo']]){ TS=set; MODE=mode; const edo=mode==='edo';
-  for(const p of PLAT){ const n=edo?2:Math.round((p.x1-p.x0)*(p.z1-p.z0)/(p.id==='nino'?260:180)); for(let i=0;i<n*3&&n>0;i++){ const x=p.x0+3+rnd()*(p.x1-p.x0-6),z=p.z0+3+rnd()*(p.z1-p.z0-6); if(!okT(x,z)) continue; if(Math.hypot(x-TA.cx,z-TA.cz)<24) continue; if(Math.abs(x-GOT.cx)<24&&Math.abs(z-GOT.cz)<10) continue; if(p.id==='nino'&&!edo&&Math.abs(z+20)<30) continue;
+  for(const p of PLAT){ const n=edo?2:Math.round((p.x1-p.x0)*(p.z1-p.z0)/(p.id==='nino'?260:180)); for(let i=0;i<n*3&&n>0;i++){ const x=p.x0+3+rnd()*(p.x1-p.x0-6),z=p.z0+3+rnd()*(p.z1-p.z0-6); if(!okT(x,z)) continue; if(Math.hypot(x-TA.cx,z-TA.cz)<24) continue; if(Math.abs(x-GOT.cx)<24&&Math.abs(z-GOT.cz)<10) continue; if(p.id==='nino'&&!edo&&!(x<p.x0+14||x>p.x1-14||z<p.z0+14||z>p.z1-14)) continue;
       edo?addPine(x,z,1+rnd()*.3):(rnd()<.45?addBlossom(x,z,1.1+rnd()*.3,SAKURA):addRound(x,z,1+rnd()*.4,false)); } }
   /* 坪井川の岸と行幸坂の桜 */ for(let x=MOAT.x0+4;x<MOAT.x1-4;x+=edo?14:9){ if(okT(x,111)) (edo?addRound(x,111,1,false):addBlossom(x,111,1,SAKURA)); }
   if(!edo) for(let z=60;z<108;z+=7) for(const x of [-131,-117]) if(okT(x,z)) addBlossom(x,z,1.05,SAKURA);
@@ -3151,7 +3152,7 @@ const RUIN=new THREE.Group(); RUIN.visible=false; GE.add(RUIN);
   for(let i=0;i<40;i++){ const m=mesh(new THREE.BoxGeometry(.8+rnd(),.3,.6+rnd()),M.roof); m.position.set(TA.cx+(rnd()-.5)*16,y+.2,TA.cz+(rnd()-.5)*13); m.rotation.set(rnd(),rnd()*3,rnd()); RUIN.add(m); }
   for(let i=0;i<30;i++){ const m=mesh(new THREE.BoxGeometry(.4,1.5+rnd()*2,.4),std({color:0x221d18,roughness:1})); m.position.set(GOT.cx+(rnd()-.5)*38,GOT.y+.7,GOT.cz+(rnd()-.5)*12); m.rotation.set((rnd()-.5)*.6,rnd()*3,(rnd()-.5)*.6); RUIN.add(m); } }
 function flName(){ const F=FL[P.level]; if(F&&F.zones) for(const z of F.zones) if(inR(z.r,P.x,P.z,0)) return z.name; return F?F.name:''; }
-function keepState(s){ KX.visible=s!=='gone'; GOTG.visible=s!=='gone'; RUIN.visible=s==='gone'||s==='burning'; }
+function keepState(s){ KX.visible=s!=='gone'; KXI.visible=s!=='gone'; GOTG.visible=s!=='gone'; RUIN.visible=s==='gone'||s==='burning'; }
 /* ---------- 部隊（兵の集団）---------- */
 const K_INF=['km_hohei_a','km_aim','km_hohei_b','km_kneel','km_load','km_hohei_c','km_crouch','km_aim'],K_LINE=['km_kneel','km_aim','km_load','km_crouch','km_kneel','km_aim'],
   T_INF=['km_sat_a','km_sat_b','km_shizoku','km_sat_a','km_shosei','km_sat_b'],T_LEAD=['km_shizoku','km_sat_b'],CIV=['km_musume','km_onna','km_nofu','km_kodomo','km_mino','km_sou','q_merchant','okami_p','w_box','ninpu'],
@@ -3196,9 +3197,9 @@ const DC=(sp,x,z,o,y,keep)=>{ if(!keep){ const f=freeSpot(x,z); if(!f) return nu
 /* ---------- 西南戦争の場面 ---------- */
 /* 天守の炎上: PH.fire={t0,dur} の間、天守と本丸御殿から炎と煙。終わると焼け落ちる */
 function fireStep(t,dt){ const F=PH.fire; if(t<F.t0) return; const k=(t-F.t0)/F.dur;
-  if(k<1){ const n=40*dt; for(let i=0;i<n;i++){ const a=rnd()*6.283,r=rnd()*9,x=TA.cx+Math.cos(a)*r,z=TA.cz+Math.sin(a)*r*.85,y=TA.y0+rnd()*22*(1-k*.6); FX.emit(2,x,y,z,3+rnd()*3,(rnd()-.5)*.8,2+rnd()*2,(rnd()-.5)*.8,1+rnd()*.8); if(rnd()<.3) FX.emit(1,x,y+4,z,5,(rnd()-.5)+.5,3+rnd()*2,(rnd()-.5),12); if(rnd()<.25) FX.emit(4,x,y,z,.4,(rnd()-.5)*3,3+rnd()*3,(rnd()-.5)*3,2.5); }
+  if(k<1){ const n=Math.max(3,90*dt); for(let i=0;i<n;i++){ const a=rnd()*6.283,r=rnd()*9,x=TA.cx+Math.cos(a)*r,z=TA.cz+Math.sin(a)*r*.85,y=TA.y0+rnd()*22*(1-k*.6); FX.emit(2,x,y,z,7+rnd()*5,(rnd()-.5)*.8,2+rnd()*2,(rnd()-.5)*.8,1+rnd()*.8); if(rnd()<.5) FX.emit(1,x,y+4,z,8,(rnd()-.5)+.5,3+rnd()*2,(rnd()-.5),14); if(rnd()<.25) FX.emit(4,x,y,z,.4,(rnd()-.5)*3,3+rnd()*3,(rnd()-.5)*3,2.5); }
     for(let i=0;i<14*dt;i++){ const x=GOT.cx+(rnd()-.5)*38,z=GOT.cz+(rnd()-.5)*12; FX.emit(2,x,GOT.y+1+rnd()*5,z,3+rnd()*2,(rnd()-.5)*.6,2+rnd()*2,(rnd()-.5)*.6,1+rnd()*.6); if(rnd()<.3) FX.emit(1,x,GOT.y+6,z,5,.4,3,0,10); }
-    if(k>.62&&KX.visible){ keepState('burning'); for(let i=0;i<80;i++) FX.emit(4,TA.cx+(rnd()-.5)*16,TA.y0+rnd()*14,TA.cz+(rnd()-.5)*14,.5,(rnd()-.5)*7,2+rnd()*6,(rnd()-.5)*7,3); showHint('天守が焼け落ちた…（明治10年2月19日）'); } }
+    if(k>.62&&KX.visible){ keepState('gone'); for(let i=0;i<80;i++) FX.emit(4,TA.cx+(rnd()-.5)*16,TA.y0+rnd()*14,TA.cz+(rnd()-.5)*14,.5,(rnd()-.5)*7,2+rnd()*6,(rnd()-.5)*7,3); showHint('天守が焼け落ちた…（明治10年2月19日）'); } }
   else if(rnd()<dt*3) FX.emit(1,TA.cx+(rnd()-.5)*8,TA.y0+2,TA.cz+(rnd()-.5)*8,6,.5,2.5,0,14); }
 const camTo=(x,z,tx,tz,pitch,dr)=>[x,z,yawTo(x,z,tx,tz),pitch||(dr?-.42:.02),dr?1:0];
 /* 石垣の上に並ぶ守備の兵: (x0,z0)→(x1,z1) の線上に n 隊。face: 外向き */

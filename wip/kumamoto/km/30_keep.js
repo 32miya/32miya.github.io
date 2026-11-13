@@ -121,7 +121,8 @@ B=BS; curSet=BSETS.shared;
 function slabHoles(bt,fp,holes,y,th){ const xs=[fp.x0,fp.x1],zs=[fp.z0,fp.z1]; for(const h of holes){ if(!h) continue; xs.push(Math.max(fp.x0,Math.min(fp.x1,h.x0)),Math.max(fp.x0,Math.min(fp.x1,h.x1))); zs.push(Math.max(fp.z0,Math.min(fp.z1,h.z0)),Math.max(fp.z0,Math.min(fp.z1,h.z1))); }
   const X=[...new Set(xs)].sort((a,b)=>a-b),Z=[...new Set(zs)].sort((a,b)=>a-b);
   for(let i=0;i<X.length-1;i++) for(let j=0;j<Z.length-1;j++){ const x0=X[i],x1=X[i+1],z0=Z[j],z1=Z[j+1]; if(x1-x0<.01||z1-z0<.01) continue; const mx=(x0+x1)/2,mz=(z0+z1)/2; if(holes.some(h=>h&&mx>h.x0&&mx<h.x1&&mz>h.z0&&mz<h.z1)) continue; bt.add(boxUVGeo(x1-x0,th,z1-z0,2.4,2.4),TM(mx,y-th/2,mz)); } }
-function keepInterior(era){ const T=TEN[era],{cx,cz,FL,ST}=T,mod=era==='modern',WB=F=>F&&F.rects&&{rects:F.rects}; B=mod?BM:BE; curSet=mod?BSETS.modern:BSETS.edo;
+const KXI=new THREE.Group(); GE.add(KXI);
+function keepInterior(era){ const T=TEN[era],{cx,cz,FL,ST}=T,mod=era==='modern',WB=F=>F&&F.rects&&{rects:F.rects}; const BI=mod?BM:mkB(); B=BI; curSet=mod?BSETS.modern:BSETS.edo;
   /* 地階（穴蔵）: 石の壁、柱、礎石 */
   { const F=FL[0],y=F.y,ti=(TZ.bw/2-TZ.bat),tj=(TZ.bd/2-TZ.bat),E=T.entry; box(B.stone,cx-ti,cx+ti,y-.3,y,cz-tj,cz+tj);
     for(const [x0,x1,z0,z1] of [[-ti,-ti+.8,-tj,tj],[ti-.8,ti,-tj,tj],[-ti,ti,-tj,-tj+.8],[-ti,-1.6,tj-.8,tj],[1.6,ti,tj-.8,tj]]) box(B.stone,cx+x0,cx+x1,y,y+TZ.bh-.3,cz+z0,cz+z1);
@@ -133,7 +134,7 @@ function keepInterior(era){ const T=TEN[era],{cx,cz,FL,ST}=T,mod=era==='modern',
   FL.forEach((F,i)=>{ if(i===0) return; const y=F.y,last=i===FL.length-1;
     const wellDn=ST[i-1]?wellR(ST[i-1],WB(F)):null,wellUp=ST[i]?wellR(ST[i],WB(FL[i+1])):null;
     const hD=[wellDn&&{x0:wellDn.x0-cx,x1:wellDn.x1-cx,z0:wellDn.z0-cz,z1:wellDn.z1-cz}].filter(Boolean);
-    B[mod?'floor':'tenF'].add(polySlab(F.P,hD,.25),TM(cx,y-.25,cz));
+    B.floor.add(polySlab(F.P,hD,.25),TM(cx,y-.25,cz));
     if(!last){ const hU=[wellUp&&{x0:wellUp.x0-cx,x1:wellUp.x1-cx,z0:wellUp.z0-cz,z1:wellUp.z1-cz}].filter(Boolean); B[mod?'kmHall':'darkwood'].add(polySlab(F.P,hU,.2),TM(cx,FL[i+1].y-.45,cz)); }
     else B[mod?'kmHall':'darkwood'].add(polySlab(F.P,[],.2),TM(cx,y+F.h-.05,cz));
     if(ST[i-1]) stairWell(F,ST[i-1],mod?'rail':'darkwood',WB(F));
@@ -167,7 +168,7 @@ function keepInterior(era){ const T=TEN[era],{cx,cz,FL,ST}=T,mod=era==='modern',
     for(let k=0;k<n;k++){ const zc=s.from+(k+.5)/n*run,yt=y0+(k+1)/n*s.rise; B.darkwood.add(new THREE.BoxGeometry(w-.12,.08,st+.05),TM(x,yt-.04,zc)); B.darkwood.add(new THREE.BoxGeometry(w-.16,s.rise/n,.04),TM(x,yt-s.rise/n/2,zc-sg*st/2)); }
     const L=Math.hypot(run,s.rise),ang=-Math.atan2(s.rise,run),mz=(s.from+s.to)/2;
     for(const xx of [s.x0+.06,s.x1-.06]){ B.darkwood.add(new THREE.BoxGeometry(.1,.32,L),TM(xx,y0+s.rise/2-.1,mz,0,1,1,1,ang)); B[mod?'rail':'darkwood'].add(new THREE.BoxGeometry(.06,.06,L),TM(xx,y0+s.rise/2+.85,mz,0,1,1,1,ang)); } });
-  /* 渡廊下と小天守1階の床・天井 */ { const F=FL[1],y=F.y; for(const r of F.rects.slice(1)){ B[mod?'floor':'tenF'].add(boxUVGeo(r.x1-r.x0+1.5,.25,r.z1-r.z0+1.5,2.4,2.4),TM((r.x0+r.x1)/2,y-.125,(r.z0+r.z1)/2)); B[mod?'kmHall':'darkwood'].add(boxUVGeo(r.x1-r.x0+1.5,.2,r.z1-r.z0+1.5,2.4,2.4),TM((r.x0+r.x1)/2,y+3.9,(r.z0+r.z1)/2)); }
+  /* 渡廊下と小天守1階の床・天井 */ { const F=FL[1],y=F.y; for(const r of F.rects.slice(1)){ B.floor.add(boxUVGeo(r.x1-r.x0+1.5,.25,r.z1-r.z0+1.5,2.4,2.4),TM((r.x0+r.x1)/2,y-.125,(r.z0+r.z1)/2)); B[mod?'kmHall':'darkwood'].add(boxUVGeo(r.x1-r.x0+1.5,.2,r.z1-r.z0+1.5,2.4,2.4),TM((r.x0+r.x1)/2,y+3.9,(r.z0+r.z1)/2)); }
     if(mod){ const r=F.rects[2]; panel(F,(r.x0+r.x1)/2,r.z0+.3,0,3,1.4); } else DECO_KEEP.push(['km_andon',SX.cx+2,y,SX.cz-2]); }
-  B=BS; curSet=BSETS.shared; }
+  if(!mod) for(const k in BI) BI[k].build(M[k],k!=='lampIn',KXI); B=BS; curSet=BSETS.shared; }
 keepInterior('edo'); keepInterior('modern');

@@ -1,9 +1,9 @@
 /* ---------- 西南戦争の場面 ---------- */
 /* 天守の炎上: PH.fire={t0,dur} の間、天守と本丸御殿から炎と煙。終わると焼け落ちる */
 function fireStep(t,dt){ const F=PH.fire; if(t<F.t0) return; const k=(t-F.t0)/F.dur;
-  if(k<1){ const n=40*dt; for(let i=0;i<n;i++){ const a=rnd()*6.283,r=rnd()*9,x=TA.cx+Math.cos(a)*r,z=TA.cz+Math.sin(a)*r*.85,y=TA.y0+rnd()*22*(1-k*.6); FX.emit(2,x,y,z,3+rnd()*3,(rnd()-.5)*.8,2+rnd()*2,(rnd()-.5)*.8,1+rnd()*.8); if(rnd()<.3) FX.emit(1,x,y+4,z,5,(rnd()-.5)+.5,3+rnd()*2,(rnd()-.5),12); if(rnd()<.25) FX.emit(4,x,y,z,.4,(rnd()-.5)*3,3+rnd()*3,(rnd()-.5)*3,2.5); }
+  if(k<1){ const n=Math.max(3,90*dt); for(let i=0;i<n;i++){ const a=rnd()*6.283,r=rnd()*9,x=TA.cx+Math.cos(a)*r,z=TA.cz+Math.sin(a)*r*.85,y=TA.y0+rnd()*22*(1-k*.6); FX.emit(2,x,y,z,7+rnd()*5,(rnd()-.5)*.8,2+rnd()*2,(rnd()-.5)*.8,1+rnd()*.8); if(rnd()<.5) FX.emit(1,x,y+4,z,8,(rnd()-.5)+.5,3+rnd()*2,(rnd()-.5),14); if(rnd()<.25) FX.emit(4,x,y,z,.4,(rnd()-.5)*3,3+rnd()*3,(rnd()-.5)*3,2.5); }
     for(let i=0;i<14*dt;i++){ const x=GOT.cx+(rnd()-.5)*38,z=GOT.cz+(rnd()-.5)*12; FX.emit(2,x,GOT.y+1+rnd()*5,z,3+rnd()*2,(rnd()-.5)*.6,2+rnd()*2,(rnd()-.5)*.6,1+rnd()*.6); if(rnd()<.3) FX.emit(1,x,GOT.y+6,z,5,.4,3,0,10); }
-    if(k>.62&&KX.visible){ keepState('burning'); for(let i=0;i<80;i++) FX.emit(4,TA.cx+(rnd()-.5)*16,TA.y0+rnd()*14,TA.cz+(rnd()-.5)*14,.5,(rnd()-.5)*7,2+rnd()*6,(rnd()-.5)*7,3); showHint('天守が焼け落ちた…（明治10年2月19日）'); } }
+    if(k>.62&&KX.visible){ keepState('gone'); for(let i=0;i<80;i++) FX.emit(4,TA.cx+(rnd()-.5)*16,TA.y0+rnd()*14,TA.cz+(rnd()-.5)*14,.5,(rnd()-.5)*7,2+rnd()*6,(rnd()-.5)*7,3); showHint('天守が焼け落ちた…（明治10年2月19日）'); } }
   else if(rnd()<dt*3) FX.emit(1,TA.cx+(rnd()-.5)*8,TA.y0+2,TA.cz+(rnd()-.5)*8,6,.5,2.5,0,14); }
 const camTo=(x,z,tx,tz,pitch,dr)=>[x,z,yawTo(x,z,tx,tz),pitch||(dr?-.42:.02),dr?1:0];
 /* 石垣の上に並ぶ守備の兵: (x0,z0)→(x1,z1) の線上に n 隊。face: 外向き */

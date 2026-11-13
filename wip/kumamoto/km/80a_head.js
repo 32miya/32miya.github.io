@@ -13,7 +13,7 @@ const RUIN=new THREE.Group(); RUIN.visible=false; GE.add(RUIN);
 { const y=TA.y0; for(let i=0;i<14;i++){ const m=mesh(new THREE.BoxGeometry(.35,1+rnd()*3.2,.35),std({color:0x1d1a17,roughness:1})); m.position.set(TA.cx+(rnd()-.5)*15,y+.8,TA.cz+(rnd()-.5)*12); m.rotation.set((rnd()-.5)*.8,rnd()*3,(rnd()-.5)*.8); RUIN.add(m); }
   for(let i=0;i<40;i++){ const m=mesh(new THREE.BoxGeometry(.8+rnd(),.3,.6+rnd()),M.roof); m.position.set(TA.cx+(rnd()-.5)*16,y+.2,TA.cz+(rnd()-.5)*13); m.rotation.set(rnd(),rnd()*3,rnd()); RUIN.add(m); }
   for(let i=0;i<30;i++){ const m=mesh(new THREE.BoxGeometry(.4,1.5+rnd()*2,.4),std({color:0x221d18,roughness:1})); m.position.set(GOT.cx+(rnd()-.5)*38,GOT.y+.7,GOT.cz+(rnd()-.5)*12); m.rotation.set((rnd()-.5)*.6,rnd()*3,(rnd()-.5)*.6); RUIN.add(m); } }
-function keepState(s){ KX.visible=s!=='gone'; GOTG.visible=s!=='gone'; RUIN.visible=s==='gone'||s==='burning'; }
+function keepState(s){ KX.visible=s!=='gone'; KXI.visible=s!=='gone'; GOTG.visible=s!=='gone'; RUIN.visible=s==='gone'||s==='burning'; }
 /* ---------- 部隊（兵の集団）---------- */
 const K_INF=['km_hohei_a','km_aim','km_hohei_b','km_kneel','km_load','km_hohei_c','km_crouch','km_aim'],K_LINE=['km_kneel','km_aim','km_load','km_crouch','km_kneel','km_aim'],
   T_INF=['km_sat_a','km_sat_b','km_shizoku','km_sat_a','km_shosei','km_sat_b'],T_LEAD=['km_shizoku','km_sat_b'],CIV=['km_musume','km_onna','km_nofu','km_kodomo','km_mino','km_sou','q_merchant','okami_p','w_box','ninpu'],
