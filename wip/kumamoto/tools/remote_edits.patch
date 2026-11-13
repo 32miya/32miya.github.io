@@ -1,0 +1,75 @@
+diff --git a/index.html b/index.html
+index ec5591e..3183d9f 100644
+--- a/index.html
++++ b/index.html
+@@ -209,6 +209,7 @@ body.touchui #poi{bottom:calc(env(safe-area-inset-bottom,0px) + 234px);max-width
+ <div id="err" hidden>この端末では3D表示を開始できませんでした。<br>WebGLに対応したブラウザで開いてください。</div>
+ 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
++<script src="/oshiro/common/edo_deco.js"></script>
+ <script>/* three.js r128 examples (MIT): postprocessing */
+ ( function () {
+ 
+@@ -2481,7 +2482,7 @@ B=BE;
+ { const R=RD.goten=mkRoom(Object.assign({era:'edo'},doorAt(-6,GOT.cz-GOT.d/2-.7,0,-1),roomTxt('本丸御殿 昭君之間','ほんまるごてん しょうくんのま','本丸御殿でもっとも格式の高い部屋。中国・漢の時代の王昭君の物語を描いた金の障壁画で飾られていたと伝わります（ここに並ぶ松・桜・鶴・竹の襖絵は再現のための想像の絵）。「昭君」は「将軍」の隠語で、豊臣秀頼をかくまうための部屋だったという言い伝えもあります（真偽は不明）。',[['完成','慶長15年（1610）ごろ'],['焼失','明治10年（1877）'],['復元','平成20年（2008）'],['伝承','秀頼をかくまう部屋']])));
+   const w=20,d=12,h=4.6; shell(R,w,d,h,{floor:'tatami',ftile:1.8,wall:'kin',front:'shoji',ceil:'kinpaku',ctile:2.4,door:2.4,doorH:2.6,lamps:4}); pillarsRow(R,'lacquer',w,d,h,3,true); nageshi(R,'lacquer',w,d,2.9);
+   fusumaWall(R,w,d,2.85,3.2,['kmMatsuL','kmMatsuR','kmSakuraL','kmSakuraR','kmTsuru','kmTake','kmSakura2L','kmSakura2R']); coffer(R,w,d,h,2,['kinpaku','greenP','kinpaku']);
+-  ranmaRow(R,w,d,2.95,3.75,3.4,['km_ranma_matsu','km_ranma_nami']);
++  ranmaRow(R,w,d,2.95,3.75,3.4,['km_ranma_matsu','rm_kin_hoo','km_ranma_nami','rm_kin_botan','rm_kin_tsuru']); /* 熊本専用の欄間に、お城さんぽ共通の金の欄間（鳳凰・牡丹・松に鶴）をまぜて華麗に */
+   rb(R,'tatami',-5,5,0,.4,-d/2+.2,-d/2+3.4,true,1.8); rb(R,'lacquer',-5,5,.36,.42,-d/2+3.35,-d/2+3.45);
+   rg(R,'kmByobu',new THREE.BoxGeometry(6,1.7,.05),0,1.25,-d/2+.6); }
+ /* 城下の町家（江戸時代） */
+@@ -2989,7 +2990,12 @@ class Crowd{ constructor(par,max,shadows){ this.par=par; this.max=max||400; this
+   setOn(it,v){ if(it.hidden||it.off===!v) return; it.off=!v; it.p.A.size.setXY(it.i,v?(it.flip?-it.w:it.w):0,v?it.h:0); it.p.A.size.needsUpdate=true; }
+   hide(it){ if(it.bk) this.hide(it.bk); it.hidden=true; it.p.A.size.setXY(it.i,0,0); it.p.A.size.needsUpdate=true; if(it.si>=0){ this.sh.setMatrixAt(it.si,TM(0,-999,0)); this.sh.instanceMatrix.needsUpdate=true; } }
+   set visible(v){ for(const p of this.pages) p.mesh.visible=v; if(this.sh) this.sh.visible=v; } }
+-function sprTint(v){ for(const m of _sprMats) m.color.setScalar(v); }
++function sprTint(v){ for(const m of _sprMats) m.color.setScalar(v); if(EDO) EDO.tint(v); }
++/* お城さんぽ共通の江戸の調度品・具足・欄間・建物（/oshiro/common/edo_deco.js と deco_edo.webp）。
++   アトラスにない名前（gk_… rm_… i_… e_…）は、rp() や orn() からこちらで置く。読み込めないときは何も置かない */
++const EDO=window.EdoDeco?EdoDeco.init(THREE):null;
++function edoInfo(n){ const s=EDO&&EDO.size(n); return s?{edo:true,h:s.h,aspect:s.w/s.h}:null; }
++function edoPut(par,name,x,y,z,o){ if(!EDO||!EDO.size(name)) return null; const ms=EDO.put(par,name,x,y,z,o); if(!ms) return null; const u=ms.userData.edo; return {x,y,z,w:u.w,h:u.h,name,mesh:ms}; }
+ 
+ /* ---------- 煙・炎・閃光（パーティクル） ---------- */
+ const FX=(()=>{ const N=2400,pos=new Float32Array(N*3),col=new Float32Array(N*4),sz=new Float32Array(N),life=new Float32Array(N),vel=new Float32Array(N*3),kind=new Uint8Array(N),grow=new Float32Array(N),max=new Float32Array(N); let head=0;
+@@ -3038,7 +3044,7 @@ function updateNPC(dt){ if(!GNPC.visible||!GE.visible) return; const rx=Math.cos
+     const a=n.path[0],b=n.path[1],u=n.t/n.len,x=a[0]+(b[0]-a[0])*u,z=a[1]+(b[1]-a[1])*u; n.ph+=dt*n.spd*(n.spd>2?3:5); const mx=(b[0]-a[0])*n.dir,mz=(b[1]-a[1])*n.dir;
+     const y=n.fixedY?n.y:withMode('edo',()=>groundH(x,z,n.lastY===undefined?n.y:n.lastY)); n.lastY=y; npcCrowd.move(n.it,x,y+Math.abs(Math.sin(n.ph))*.04,z,(mx*rx+mz*rz)<0); } }
+ const decoRoomT=new Crowd(GE,300,true),decoRoomM=new Crowd(GM,200,true);
+-function rp(R,spr,x,y,z,o,solid,talk){ const C=R.era==='modern'?decoRoomM:decoRoomT; const it=C.add(spr,R.ox+x,R.y+y,R.oz+z,o); if(it&&solid){ const w=Math.max(.5,it.w*.4); R.boxes.push({x0:R.ox+x-w,x1:R.ox+x+w,z0:R.oz+z-.45,z1:R.oz+z+.45}); } if(it&&talk) TALK.push({it,name:talk[0],say:talk[1],era:R.era}); return it; }
++function rp(R,spr,x,y,z,o,solid,talk){ const C=R.era==='modern'?decoRoomM:decoRoomT; const it=C.add(spr,R.ox+x,R.y+y,R.oz+z,o)||edoPut(R.era==='modern'?GM:GE,spr,R.ox+x,R.y+y,R.oz+z,o); if(it&&solid){ const w=Math.max(.5,it.w*.4); R.boxes.push({x0:R.ox+x-w,x1:R.ox+x+w,z0:R.oz+z-.45,z1:R.oz+z+.45}); } if(it&&talk) TALK.push({it,name:talk[0],say:talk[1],era:R.era}); return it; }
+ function standAt(par,x,y0,z,h,w,d,mat){ const m=mesh(new THREE.BoxGeometry(w||.7,h,d||.5),M[mat||'lacquer']); m.position.set(x,y0+h/2,z); par.add(m); return y0+h; }
+ function rpS(R,spr,x,z,h,o,w,d,mat){ const y=standAt(R.era==='modern'?GM:GE,R.ox+x,R.y,R.oz+z,h,w,d,mat); return rp(R,spr,x,y-R.y,z,o); }
+ 
+@@ -3077,7 +3083,7 @@ for(const [s,x,y,z] of DECO_KEEP) decoT.add(s,x,y,z,{});
+ /* ---------- 室内の調度品・人物 ---------- */
+ { const D=RD;
+   rp(D.goten,'lord_green',0,.4,-d2(D.goten)-.6,{},true,['加藤清正（想像）','この城は、どんな大軍に攻められても落ちぬよう築いた。井戸も兵糧の備えも万全じゃ。']);
+-  rp(D.goten,'samurai_a',-6,0,1.5,{},true,['家臣','殿は朝鮮での戦いの経験をもとに、この城の守りを工夫されたと聞く。']); rp(D.goten,'sam_kami',6,0,1.5,{flip:true},true,['家臣','この昭君之間の絵は、狩野派の筆と伝わる。']);
++  rp(D.goten,'i_toro_kin',-4.6,.4,-5.3); rp(D.goten,'i_toro_kin',4.6,.4,-5.3); rp(D.goten,'samurai_a',-6,0,1.5,{},true,['家臣','殿は朝鮮での戦いの経験をもとに、この城の守りを工夫されたと聞く。']); rp(D.goten,'sam_kami',6,0,1.5,{flip:true},true,['家臣','この昭君之間の絵は、狩野派の筆と伝わる。']);
+   for(const [s,x,z] of [['km_andon',-8.6,-4.6],['km_andon',8.6,-4.6],['km_tsubo',-6.4,-4.8],['km_zushi',6.4,-4.9],['km_shokudai',-3,-1.4],['km_shokudai',3,-1.4]]) rp(D.goten,s,x,0,z,{},true);
+   rp(D.goten,'km_maku',-8.8,0,3,{},false); rp(D.goten,'km_kikyo_ban',0,3.0,-5.9,{},false);
+   rp(D.machi,'q_merchant',1.6,.45,1.2,{},false,['町家の主人','清正公のおかげで、熊本の町は商いで賑わっております。']); for(const [s,x,z] of [['km_tawara',-2.5,-1.5],['km_taru',-2.4,3.6],['km_hako',-2.2,.2]]) rp(D.machi,s,x,0,z,{},true);
+@@ -3100,11 +3106,11 @@ function tapHit(it,sx,sy,maxD){ _pv.set(it.x,it.y,it.z); const d=_pv.distanceTo(
+ /* ---------- 門・唐破風・御殿の彫刻と金具（切り抜き画像を壁に貼る） ---------- */
+ { const crowds=new Map(),wp=new THREE.Vector3(),wq=new THREE.Quaternion(),we=new THREE.Euler();
+   const rootOf=g=>{ let r=g; while(r.parent&&r.parent!==scene) r=r.parent; return r; };
+-  for(const o of ORN){ const I=sprInfo(o.spr); if(!I) continue; let x=o.x,y=o.y,z=o.z,yaw=o.yaw,root=o.root||GE;
++  for(const o of ORN){ const I=sprInfo(o.spr)||edoInfo(o.spr); if(!I) continue; let x=o.x,y=o.y,z=o.z,yaw=o.yaw,root=o.root||GE;
+     if(o.g){ o.g.updateWorldMatrix(true,false); wp.set(o.x,o.y,o.z); o.g.localToWorld(wp); x=wp.x; y=wp.y; z=wp.z; o.g.getWorldQuaternion(wq); we.setFromQuaternion(wq,'YXZ'); yaw+=we.y; root=rootOf(o.g); }
+     let h=typeof o.size==='number'?o.size:(o.size.w/I.aspect); if(o.size&&o.size.hmax&&h>o.size.hmax) h=o.size.hmax;
+     let C=crowds.get(root); if(!C){ C=new Crowd(root,900,false); crowds.set(root,C); }
+-    const top=o.spr.startsWith('kg_')||o.spr==='pillar_k'; C.add(o.spr,x,top?y:y-h/2,z,{yaw,s:h/I.h,flip:!!o.flip}); } }
++    const top=o.spr.startsWith('kg_')||o.spr==='pillar_k'; if(I.edo) edoPut(root,o.spr,x,top?y:y-h/2,z,{yaw,h,flip:!!(o.size&&o.size.flip)}); else C.add(o.spr,x,top?y:y-h/2,z,{yaw,s:h/I.h,flip:!!o.flip}); } }
+ /* ---------- 画面の札を小さく・端へ寄せて、3Dの景色をふさがない ---------- */
+ { const st=document.createElement('style'); st.textContent=`
+ #poi{padding:6px 10px 6px 8px;gap:7px;border-radius:10px;font-size:12px;background:rgba(18,19,22,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+@@ -3585,6 +3591,7 @@ renderer.domElement.addEventListener('webglcontextlost',e=>{ e.preventDefault();
+   if(menu) menu.appendChild(make());
+ })();
+ </script>
++<script src="/oshiro/common/goshuin.js"></script>
+ <!-- oshiro-portal:end -->
+ 
+ </body>

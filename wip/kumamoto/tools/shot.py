@@ -10,7 +10,7 @@ THREE=open('/home/claude/work/vendor/package/build/three.min.js','rb').read()
 async def main(actions, out):
     async with async_playwright() as p:
         b=await p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
-        pg=await b.new_page(viewport={'width':900,'height':600})
+        pg=await b.new_page(viewport={'width':int(os.environ.get('VW','900')),'height':int(os.environ.get('VH','600'))})
         logs=[]
         pg.on('console',lambda m: logs.append(m.type+': '+m.text) if m.type in ('error','warning') else None)
         pg.on('response',lambda r: logs.append('404: '+r.url) if r.status==404 and '127.0.0.1' in r.url else None)

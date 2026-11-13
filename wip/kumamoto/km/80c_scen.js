@@ -28,28 +28,28 @@ const SCENS={seinan:{name:'西南戦争（明治10年・1877）',fill:{},phases:
  {date:'明治10年2月22日',title:'薩摩軍の総攻撃',time:0,dur:80,cam:camTo(-10,190,10,90,-.35,1),gnd:[10,100,20,150],
   text:'夜明けとともに、薩摩軍は南・西・東から一斉に攻めかかりました。しかし加藤清正が築いた高い石垣と「武者返し」、長塀や櫓からの銃撃に阻まれ、城に取り付くことができません。薩摩軍は力攻めをあきらめ、城を囲んで兵糧攻めに切り替えます。',
   build(){ keepState('gone'); HQ();
-    unit({spr:T_INF,n:10,at:[-40,250],to:[-40,138],t0:2,dur:30,w:40,d:10,fire:.6,fireT0:25,aim:[-40,106],back:.35,hold:12,bdur:20,loss:.2});
-    unit({spr:T_INF,n:9,at:[60,260],to:[60,138],t0:6,dur:30,w:36,d:10,fire:.6,fireT0:28,aim:[60,106],back:.35,hold:12,bdur:20,loss:.2});
-    unit({spr:T_INF,n:8,at:[-430,40],to:[-362,20],t0:4,dur:30,w:30,d:12,fire:.5,fireT0:26,aim:[-330,20],back:.3,hold:10,loss:.15});
-    unit({spr:T_INF,n:8,at:[240,0],to:[160,-10],t0:8,dur:30,w:30,d:12,fire:.5,fireT0:30,aim:[104,-10],back:.3,hold:10,loss:.15});
+    unit({spr:T_INF,n:14,at:[-40,250],to:[-40,138],t0:0,dur:16,w:22,d:8,fire:.6,fireT0:14,aim:[-40,106],back:.35,hold:12,bdur:20,loss:.2});
+    unit({spr:T_INF,n:13,at:[60,260],to:[60,138],t0:2,dur:16,w:22,d:8,fire:.6,fireT0:16,aim:[60,106],back:.35,hold:12,bdur:20,loss:.2});
+    unit({spr:T_INF,n:8,at:[-430,40],to:[-362,20],t0:0,dur:18,w:20,d:9,fire:.5,fireT0:16,aim:[-330,20],back:.3,hold:10,loss:.15});
+    unit({spr:T_INF,n:8,at:[240,0],to:[160,-10],t0:2,dur:18,w:20,d:9,fire:.5,fireT0:18,aim:[104,-10],back:.3,hold:10,loss:.15});
     wallLine(-30,106,95,106,0,[0,1],7,{fire:.5}); wallLine(-146,47,-100,47,PL.nishide.H,[0,1],3,{fire:.4}); wallLine(104.5,-55,104.5,50,PL.higashi.H,[1,0],5,{fire:.4}); wallLine(-340,-100,-340,60,PL.nino.H,[-1,0],5,{fire:.4});
     dc('km_hohou',-8,92,{}); dc('km_hohou',60,92,{}); FXS.push({type:'cannon',from:[-8,8,92],to:[-40,1,170],every:4,spread:14},{type:'cannon',from:[60,8,92],to:[60,1,175],every:5,spread:14});
     smokeCols([[-200,220],[100,240],[-380,0]]); }},
  {date:'明治10年3月',title:'包囲・段山の攻防・兵糧攻め',time:1,dur:75,cam:camTo(-420,-60,-300,-140,-.3,1),gnd:[-330,-104,-380,-150],
   text:'薩摩軍は城を囲み、西の花岡山に大砲を据えて城を砲撃しました。3月12〜13日には、城の北西の段山（だにやま）で激しい奪い合いとなり、鎮台が奪い返します。城内では食糧が乏しくなり、兵は粥や馬の肉でしのいだと伝わります。4月には薩摩軍が川をせき止めて城のまわりを水びたしにする「水攻め」も行いました。',
   build(){ keepState('gone'); HQ();
-    unit({spr:T_INF,n:10,at:[-420,-170],to:[-390,-150],t0:0,dur:20,w:30,d:10,fire:.6,aim:[-345,-120],mill:.4,millR:6});
+    unit({spr:T_INF,n:10,at:[-420,-170],to:[-390,-150],t0:0,dur:20,w:20,d:8,fire:.6,aim:[-345,-120],mill:.4,millR:6});
     unit({spr:K_INF,n:10,at:[-330,-100],to:[-370,-140],t0:10,dur:30,w:24,d:8,fire:.6,aim:[-410,-170],back:.2,hold:8});
-    dc('km_hohou',-430,300,{flip:true}); dc('km_sat_b',-424,306,{}); FXS.push({type:'cannon',from:[-430,0,300],to:[TA.cx,30,TA.cz+20],every:6,spread:20});
+    dc('km_hohou',-430,300,{flip:true}); dc('km_sat_b',-424,306,{}); unit({spr:T_INF,n:6,at:[-420,292],w:10,d:4,face:[.7,-.7],mill:.3,millR:1.5}); FXS.push({type:'cannon',from:[-430,0,300],to:[TA.cx,30,TA.cz+20],every:6,spread:20});
     for(let x=-300;x<120;x+=24) dc(pick(['km_saku','km_sakamogi']),x,150,{}); for(let z=-120;z<100;z+=24) dc(pick(['km_saku','km_sakamogi']),165,z,{});
     unit({spr:T_INF,n:6,at:[-100,160],w:60,d:6,face:[0,-1],fire:.15,aim:[-100,106]}); unit({spr:T_INF,n:5,at:[175,-20],w:40,d:6,face:[-1,0],fire:.15,aim:[104,-20]});
     wallLine(-30,106,95,106,0,[0,1],5,{fire:.12}); wallLine(-340,-100,-340,60,PL.nino.H,[-1,0],4,{fire:.2});
-    for(const [s,x,z] of [['km_tawara',-6,26],['km_taru',-2,26],['km_tent',-30,40],['km_kagaribi',-20,30]]) dc(s,x,z,{}); }},
+    for(const [s,x,z] of [['km_tawara',-6,26],['km_taru',-2,26],['km_tent',-30,40],['km_kagaribi',-20,30]]) dc(s,x,z,{}); unit({spr:K_INF,n:7,at:[-14,34],w:10,d:5,face:[0,-1],mill:.25,millR:1.5}); }},
  {date:'明治10年4月14日',title:'包囲が解かれる（籠城52日）',time:0,dur:80,cam:camTo(30,280,40,160,-.35,1),gnd:[44,110,44,180],
   text:'4月8日、鎮台の一隊（奥保鞏の突囲隊）が包囲を破って城外の味方と連絡をつけました。そして4月14日、南から進んできた政府軍の別働隊（山川浩らの隊）が熊本城に入城し、52日間の籠城は終わります。薩摩軍は東へ退き、戦いは九州各地へ移っていきました。',
   build(){ keepState('gone'); HQ();
-    unit({spr:K_INF.concat(['km_gun_a','km_gun_b']),n:12,at:[40,330],to:[44,140],t0:2,dur:40,w:30,d:14,fire:.2});
-    unit({spr:['km_kihei','km_kihei'],n:3,at:[10,330],to:[20,150],t0:0,dur:30,w:10,d:4,dust:.8,noScale:true}); unit({spr:['km_gunki'],n:1,at:[44,330],to:[44,145],t0:2,dur:40,w:1,d:1,noScale:true});
+    unit({spr:K_INF.concat(['km_gun_a','km_gun_b']),n:12,at:[40,330],to:[44,140],t0:0,dur:30,w:20,d:10,fire:.2});
+    unit({spr:['km_kihei','km_kihei'],n:3,at:[10,330],to:[20,150],t0:0,dur:30,w:10,d:4,dust:.8,noScale:true}); unit({spr:['km_gunki'],n:1,at:[44,330],to:[44,145],t0:0,dur:30,w:1,d:1,noScale:true});
     unit({spr:T_INF,n:9,at:[170,140],to:[300,40],t0:6,dur:40,w:30,d:12,loss:.1}); unit({spr:T_INF,n:7,at:[-200,170],to:[-80,330],t0:4,dur:40,w:30,d:10});
     unit({spr:['km_charge','km_hohei_a','km_hohei_b'],n:8,at:[44,100],to:[44,124],t0:20,dur:10,w:8,d:6});
     wallLine(-30,106,95,106,0,[0,1],4,{fire:0}); }}]}};

@@ -26,6 +26,7 @@ R=[
 ("'/oshiro/common/assets/deco_azuchi2.webp'","'/oshiro/common/assets/deco_kumamoto.webp'"),
 ("P.level>=0?FL[P.level].name","P.level>=0?flName()"),
 ("const P={x:0,z:36,y:1.6","const P={x:8,z:-2,y:31.6"),
+("P.y+=(ty-P.y)*Math.min(1,dt*(drone?1.6:10));","if(!P.camLock) P.y+=(ty-P.y)*Math.min(1,dt*(drone?1.6:10));"),
 ]
 for a,b in R:
     n=s.count(a)

@@ -46,4 +46,4 @@ $('scGnd').onclick=()=>{ tourStop(false); scGround=!(scGround&&P.mode==='walk');
 $('scAuto').onclick=()=>{ if(tour.on){ tourStop(false); } else { tour.on=true; auto=true; $('scAuto').classList.add('on'); tourStart(); showHint('自動案内を始めます'); } }; $('scTg').onclick=()=>{ const m=$('scen').classList.toggle('min'); $('scTg').textContent=m?'ひらく':'たたむ'; };
 
 window.__scn={KB,KEEP,setT:v=>{phT=v},get STBK(){return STBK},FX,get FXS(){return FXS},get phT(){return phT},get UNITS(){return UNITS},setScen,setPhase,chooseEra};
-window.__km={get P(){return P},setMode,teleport:id=>teleport(curSpots.find(s=>s.id===id)),groundH,walkable,get FL(){return FL},TEN,setLook:(x,y,z,yaw,pitch,mode)=>{ P.x=x; P.y=y; P.z=z; P.yaw=yaw; P.pitch=pitch; P.mode=mode||'drone'; P.level=-1; P.room=null; },applyTime};
+window.__km={get P(){return P},get scene(){return scene},setMode,teleport:id=>teleport(curSpots.find(s=>s.id===id)),groundH,walkable,get FL(){return FL},TEN,setLook:(x,y,z,yaw,pitch,mode)=>{ P.x=x; P.y=y; P.z=z; P.yaw=yaw; P.pitch=pitch; P.mode=mode||'drone'; P.level=-1; P.room=null; },applyTime};

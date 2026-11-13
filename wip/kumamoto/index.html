@@ -209,6 +209,7 @@ body.touchui #poi{bottom:calc(env(safe-area-inset-bottom,0px) + 234px);max-width
 <div id="err" hidden>この端末では3D表示を開始できませんでした。<br>WebGLに対応したブラウザで開いてください。</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/oshiro/common/edo_deco.js"></script>
 <script>/* three.js r128 examples (MIT): postprocessing */
 ( function () {
 
@@ -2481,7 +2482,7 @@ B=BE;
 { const R=RD.goten=mkRoom(Object.assign({era:'edo'},doorAt(-6,GOT.cz-GOT.d/2-.7,0,-1),roomTxt('本丸御殿 昭君之間','ほんまるごてん しょうくんのま','本丸御殿でもっとも格式の高い部屋。中国・漢の時代の王昭君の物語を描いた金の障壁画で飾られていたと伝わります（ここに並ぶ松・桜・鶴・竹の襖絵は再現のための想像の絵）。「昭君」は「将軍」の隠語で、豊臣秀頼をかくまうための部屋だったという言い伝えもあります（真偽は不明）。',[['完成','慶長15年（1610）ごろ'],['焼失','明治10年（1877）'],['復元','平成20年（2008）'],['伝承','秀頼をかくまう部屋']])));
   const w=20,d=12,h=4.6; shell(R,w,d,h,{floor:'tatami',ftile:1.8,wall:'kin',front:'shoji',ceil:'kinpaku',ctile:2.4,door:2.4,doorH:2.6,lamps:4}); pillarsRow(R,'lacquer',w,d,h,3,true); nageshi(R,'lacquer',w,d,2.9);
   fusumaWall(R,w,d,2.85,3.2,['kmMatsuL','kmMatsuR','kmSakuraL','kmSakuraR','kmTsuru','kmTake','kmSakura2L','kmSakura2R']); coffer(R,w,d,h,2,['kinpaku','greenP','kinpaku']);
-  ranmaRow(R,w,d,2.95,3.75,3.4,['km_ranma_matsu','km_ranma_nami']);
+  ranmaRow(R,w,d,2.95,3.75,3.4,['km_ranma_matsu','rm_kin_hoo','km_ranma_nami','rm_kin_botan','rm_kin_tsuru']); /* 熊本専用の欄間に、お城さんぽ共通の金の欄間（鳳凰・牡丹・松に鶴）をまぜて華麗に */
   rb(R,'tatami',-5,5,0,.4,-d/2+.2,-d/2+3.4,true,1.8); rb(R,'lacquer',-5,5,.36,.42,-d/2+3.35,-d/2+3.45);
   rg(R,'kmByobu',new THREE.BoxGeometry(6,1.7,.05),0,1.25,-d/2+.6); }
 /* 城下の町家（江戸時代） */
@@ -2846,7 +2847,7 @@ function updatePlayer(dt){ let ix=0,iz=0; if(keys.KeyW||keys.ArrowUp) iz+=1; if(
   else if(!P.room&&ROOMS.some(R=>R.era===MODE&&R.extra&&R.extra.some(e=>inR(e.zone,P.x+dx,P.z+dz,0)))){ const R=ROOMS.find(R=>R.era===MODE&&R.extra&&R.extra.some(e=>inR(e.zone,P.x+dx,P.z+dz,0))); enterRoom(R,R.extra.find(e=>inR(e.zone,P.x+dx,P.z+dz,0)).exitPos); }
   else if(stepOK(P.x+dx,P.z+dz)){ P.x+=dx; P.z+=dz; } else if(stepOK(P.x+dx,P.z)) P.x+=dx; else if(stepOK(P.x,P.z+dz)) P.z+=dz;
   const nn=(P.level>=0||P.room)?.08:.25; if(camera.near!==nn){ camera.near=nn; camera.updateProjectionMatrix(); }
-  const ty=drone?Math.max(86,groundH(P.x,P.z)+40):(P.room?P.room.y:P.level>=0?floorY(P.level,P.x,P.z):groundH(P.x,P.z,P.y-1.6))+1.6; P.y+=(ty-P.y)*Math.min(1,dt*(drone?1.6:10));
+  const ty=drone?Math.max(86,groundH(P.x,P.z)+40):(P.room?P.room.y:P.level>=0?floorY(P.level,P.x,P.z):groundH(P.x,P.z,P.y-1.6))+1.6; if(!P.camLock) P.y+=(ty-P.y)*Math.min(1,dt*(drone?1.6:10));
   let bob=0; if(!drone&&l>.1&&!reduceMotion){ P.bob+=dt*sp*2.1; bob=Math.sin(P.bob)*.035; }
   /* 階段では進む向きに合わせて目線を少し上下させ、行き先（上の階・下の階）が見えるようにする（お城さんぽ共通仕様） */
   { let tg=0; if(!drone&&!P.room&&P.level>=0&&l>.1){ const st=stairAt(P.level,P.x,P.z); if(st){ const s=st.s,run=s.to-s.from,mv=fz*iz+rz*ix,up=Math.sign(mv)===Math.sign(run); tg=(up?.62:-.5)*Math.atan2(s.rise,Math.abs(run)); } }
@@ -2989,7 +2990,12 @@ class Crowd{ constructor(par,max,shadows){ this.par=par; this.max=max||400; this
   setOn(it,v){ if(it.hidden||it.off===!v) return; it.off=!v; it.p.A.size.setXY(it.i,v?(it.flip?-it.w:it.w):0,v?it.h:0); it.p.A.size.needsUpdate=true; }
   hide(it){ if(it.bk) this.hide(it.bk); it.hidden=true; it.p.A.size.setXY(it.i,0,0); it.p.A.size.needsUpdate=true; if(it.si>=0){ this.sh.setMatrixAt(it.si,TM(0,-999,0)); this.sh.instanceMatrix.needsUpdate=true; } }
   set visible(v){ for(const p of this.pages) p.mesh.visible=v; if(this.sh) this.sh.visible=v; } }
-function sprTint(v){ for(const m of _sprMats) m.color.setScalar(v); }
+function sprTint(v){ for(const m of _sprMats) m.color.setScalar(v); if(EDO) EDO.tint(v); }
+/* お城さんぽ共通の江戸の調度品・具足・欄間・建物（/oshiro/common/edo_deco.js と deco_edo.webp）。
+   アトラスにない名前（gk_… rm_… i_… e_…）は、rp() や orn() からこちらで置く。読み込めないときは何も置かない */
+const EDO=window.EdoDeco?EdoDeco.init(THREE):null;
+function edoInfo(n){ const s=EDO&&EDO.size(n); return s?{edo:true,h:s.h,aspect:s.w/s.h}:null; }
+function edoPut(par,name,x,y,z,o){ if(!EDO||!EDO.size(name)) return null; const ms=EDO.put(par,name,x,y,z,o); if(!ms) return null; const u=ms.userData.edo; return {x,y,z,w:u.w,h:u.h,name,mesh:ms}; }
 
 /* ---------- 煙・炎・閃光（パーティクル） ---------- */
 const FX=(()=>{ const N=2400,pos=new Float32Array(N*3),col=new Float32Array(N*4),sz=new Float32Array(N),life=new Float32Array(N),vel=new Float32Array(N*3),kind=new Uint8Array(N),grow=new Float32Array(N),max=new Float32Array(N); let head=0;
@@ -3038,7 +3044,7 @@ function updateNPC(dt){ if(!GNPC.visible||!GE.visible) return; const rx=Math.cos
     const a=n.path[0],b=n.path[1],u=n.t/n.len,x=a[0]+(b[0]-a[0])*u,z=a[1]+(b[1]-a[1])*u; n.ph+=dt*n.spd*(n.spd>2?3:5); const mx=(b[0]-a[0])*n.dir,mz=(b[1]-a[1])*n.dir;
     const y=n.fixedY?n.y:withMode('edo',()=>groundH(x,z,n.lastY===undefined?n.y:n.lastY)); n.lastY=y; npcCrowd.move(n.it,x,y+Math.abs(Math.sin(n.ph))*.04,z,(mx*rx+mz*rz)<0); } }
 const decoRoomT=new Crowd(GE,300,true),decoRoomM=new Crowd(GM,200,true);
-function rp(R,spr,x,y,z,o,solid,talk){ const C=R.era==='modern'?decoRoomM:decoRoomT; const it=C.add(spr,R.ox+x,R.y+y,R.oz+z,o); if(it&&solid){ const w=Math.max(.5,it.w*.4); R.boxes.push({x0:R.ox+x-w,x1:R.ox+x+w,z0:R.oz+z-.45,z1:R.oz+z+.45}); } if(it&&talk) TALK.push({it,name:talk[0],say:talk[1],era:R.era}); return it; }
+function rp(R,spr,x,y,z,o,solid,talk){ const C=R.era==='modern'?decoRoomM:decoRoomT; const it=C.add(spr,R.ox+x,R.y+y,R.oz+z,o)||edoPut(R.era==='modern'?GM:GE,spr,R.ox+x,R.y+y,R.oz+z,o); if(it&&solid){ const w=Math.max(.5,it.w*.4); R.boxes.push({x0:R.ox+x-w,x1:R.ox+x+w,z0:R.oz+z-.45,z1:R.oz+z+.45}); } if(it&&talk) TALK.push({it,name:talk[0],say:talk[1],era:R.era}); return it; }
 function standAt(par,x,y0,z,h,w,d,mat){ const m=mesh(new THREE.BoxGeometry(w||.7,h,d||.5),M[mat||'lacquer']); m.position.set(x,y0+h/2,z); par.add(m); return y0+h; }
 function rpS(R,spr,x,z,h,o,w,d,mat){ const y=standAt(R.era==='modern'?GM:GE,R.ox+x,R.y,R.oz+z,h,w,d,mat); return rp(R,spr,x,y-R.y,z,o); }
 
@@ -3077,7 +3083,7 @@ for(const [s,x,y,z] of DECO_KEEP) decoT.add(s,x,y,z,{});
 /* ---------- 室内の調度品・人物 ---------- */
 { const D=RD;
   rp(D.goten,'lord_green',0,.4,-d2(D.goten)-.6,{},true,['加藤清正（想像）','この城は、どんな大軍に攻められても落ちぬよう築いた。井戸も兵糧の備えも万全じゃ。']);
-  rp(D.goten,'samurai_a',-6,0,1.5,{},true,['家臣','殿は朝鮮での戦いの経験をもとに、この城の守りを工夫されたと聞く。']); rp(D.goten,'sam_kami',6,0,1.5,{flip:true},true,['家臣','この昭君之間の絵は、狩野派の筆と伝わる。']);
+  rp(D.goten,'i_toro_kin',-4.6,.4,-5.3); rp(D.goten,'i_toro_kin',4.6,.4,-5.3); rp(D.goten,'samurai_a',-6,0,1.5,{},true,['家臣','殿は朝鮮での戦いの経験をもとに、この城の守りを工夫されたと聞く。']); rp(D.goten,'sam_kami',6,0,1.5,{flip:true},true,['家臣','この昭君之間の絵は、狩野派の筆と伝わる。']);
   for(const [s,x,z] of [['km_andon',-8.6,-4.6],['km_andon',8.6,-4.6],['km_tsubo',-6.4,-4.8],['km_zushi',6.4,-4.9],['km_shokudai',-3,-1.4],['km_shokudai',3,-1.4]]) rp(D.goten,s,x,0,z,{},true);
   rp(D.goten,'km_maku',-8.8,0,3,{},false); rp(D.goten,'km_kikyo_ban',0,3.0,-5.9,{},false);
   rp(D.machi,'q_merchant',1.6,.45,1.2,{},false,['町家の主人','清正公のおかげで、熊本の町は商いで賑わっております。']); for(const [s,x,z] of [['km_tawara',-2.5,-1.5],['km_taru',-2.4,3.6],['km_hako',-2.2,.2]]) rp(D.machi,s,x,0,z,{},true);
@@ -3100,11 +3106,11 @@ function tapHit(it,sx,sy,maxD){ _pv.set(it.x,it.y,it.z); const d=_pv.distanceTo(
 /* ---------- 門・唐破風・御殿の彫刻と金具（切り抜き画像を壁に貼る） ---------- */
 { const crowds=new Map(),wp=new THREE.Vector3(),wq=new THREE.Quaternion(),we=new THREE.Euler();
   const rootOf=g=>{ let r=g; while(r.parent&&r.parent!==scene) r=r.parent; return r; };
-  for(const o of ORN){ const I=sprInfo(o.spr); if(!I) continue; let x=o.x,y=o.y,z=o.z,yaw=o.yaw,root=o.root||GE;
+  for(const o of ORN){ const I=sprInfo(o.spr)||edoInfo(o.spr); if(!I) continue; let x=o.x,y=o.y,z=o.z,yaw=o.yaw,root=o.root||GE;
     if(o.g){ o.g.updateWorldMatrix(true,false); wp.set(o.x,o.y,o.z); o.g.localToWorld(wp); x=wp.x; y=wp.y; z=wp.z; o.g.getWorldQuaternion(wq); we.setFromQuaternion(wq,'YXZ'); yaw+=we.y; root=rootOf(o.g); }
     let h=typeof o.size==='number'?o.size:(o.size.w/I.aspect); if(o.size&&o.size.hmax&&h>o.size.hmax) h=o.size.hmax;
     let C=crowds.get(root); if(!C){ C=new Crowd(root,900,false); crowds.set(root,C); }
-    const top=o.spr.startsWith('kg_')||o.spr==='pillar_k'; C.add(o.spr,x,top?y:y-h/2,z,{yaw,s:h/I.h,flip:!!o.flip}); } }
+    const top=o.spr.startsWith('kg_')||o.spr==='pillar_k'; if(I.edo) edoPut(root,o.spr,x,top?y:y-h/2,z,{yaw,h,flip:!!(o.size&&o.size.flip)}); else C.add(o.spr,x,top?y:y-h/2,z,{yaw,s:h/I.h,flip:!!o.flip}); } }
 /* ---------- 画面の札を小さく・端へ寄せて、3Dの景色をふさがない ---------- */
 { const st=document.createElement('style'); st.textContent=`
 #poi{padding:6px 10px 6px 8px;gap:7px;border-radius:10px;font-size:12px;background:rgba(18,19,22,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
@@ -3224,28 +3230,28 @@ const SCENS={seinan:{name:'西南戦争（明治10年・1877）',fill:{},phases:
  {date:'明治10年2月22日',title:'薩摩軍の総攻撃',time:0,dur:80,cam:camTo(-10,190,10,90,-.35,1),gnd:[10,100,20,150],
   text:'夜明けとともに、薩摩軍は南・西・東から一斉に攻めかかりました。しかし加藤清正が築いた高い石垣と「武者返し」、長塀や櫓からの銃撃に阻まれ、城に取り付くことができません。薩摩軍は力攻めをあきらめ、城を囲んで兵糧攻めに切り替えます。',
   build(){ keepState('gone'); HQ();
-    unit({spr:T_INF,n:10,at:[-40,250],to:[-40,138],t0:2,dur:30,w:40,d:10,fire:.6,fireT0:25,aim:[-40,106],back:.35,hold:12,bdur:20,loss:.2});
-    unit({spr:T_INF,n:9,at:[60,260],to:[60,138],t0:6,dur:30,w:36,d:10,fire:.6,fireT0:28,aim:[60,106],back:.35,hold:12,bdur:20,loss:.2});
-    unit({spr:T_INF,n:8,at:[-430,40],to:[-362,20],t0:4,dur:30,w:30,d:12,fire:.5,fireT0:26,aim:[-330,20],back:.3,hold:10,loss:.15});
-    unit({spr:T_INF,n:8,at:[240,0],to:[160,-10],t0:8,dur:30,w:30,d:12,fire:.5,fireT0:30,aim:[104,-10],back:.3,hold:10,loss:.15});
+    unit({spr:T_INF,n:14,at:[-40,250],to:[-40,138],t0:0,dur:16,w:22,d:8,fire:.6,fireT0:14,aim:[-40,106],back:.35,hold:12,bdur:20,loss:.2});
+    unit({spr:T_INF,n:13,at:[60,260],to:[60,138],t0:2,dur:16,w:22,d:8,fire:.6,fireT0:16,aim:[60,106],back:.35,hold:12,bdur:20,loss:.2});
+    unit({spr:T_INF,n:8,at:[-430,40],to:[-362,20],t0:0,dur:18,w:20,d:9,fire:.5,fireT0:16,aim:[-330,20],back:.3,hold:10,loss:.15});
+    unit({spr:T_INF,n:8,at:[240,0],to:[160,-10],t0:2,dur:18,w:20,d:9,fire:.5,fireT0:18,aim:[104,-10],back:.3,hold:10,loss:.15});
     wallLine(-30,106,95,106,0,[0,1],7,{fire:.5}); wallLine(-146,47,-100,47,PL.nishide.H,[0,1],3,{fire:.4}); wallLine(104.5,-55,104.5,50,PL.higashi.H,[1,0],5,{fire:.4}); wallLine(-340,-100,-340,60,PL.nino.H,[-1,0],5,{fire:.4});
     dc('km_hohou',-8,92,{}); dc('km_hohou',60,92,{}); FXS.push({type:'cannon',from:[-8,8,92],to:[-40,1,170],every:4,spread:14},{type:'cannon',from:[60,8,92],to:[60,1,175],every:5,spread:14});
     smokeCols([[-200,220],[100,240],[-380,0]]); }},
  {date:'明治10年3月',title:'包囲・段山の攻防・兵糧攻め',time:1,dur:75,cam:camTo(-420,-60,-300,-140,-.3,1),gnd:[-330,-104,-380,-150],
   text:'薩摩軍は城を囲み、西の花岡山に大砲を据えて城を砲撃しました。3月12〜13日には、城の北西の段山（だにやま）で激しい奪い合いとなり、鎮台が奪い返します。城内では食糧が乏しくなり、兵は粥や馬の肉でしのいだと伝わります。4月には薩摩軍が川をせき止めて城のまわりを水びたしにする「水攻め」も行いました。',
   build(){ keepState('gone'); HQ();
-    unit({spr:T_INF,n:10,at:[-420,-170],to:[-390,-150],t0:0,dur:20,w:30,d:10,fire:.6,aim:[-345,-120],mill:.4,millR:6});
+    unit({spr:T_INF,n:10,at:[-420,-170],to:[-390,-150],t0:0,dur:20,w:20,d:8,fire:.6,aim:[-345,-120],mill:.4,millR:6});
     unit({spr:K_INF,n:10,at:[-330,-100],to:[-370,-140],t0:10,dur:30,w:24,d:8,fire:.6,aim:[-410,-170],back:.2,hold:8});
-    dc('km_hohou',-430,300,{flip:true}); dc('km_sat_b',-424,306,{}); FXS.push({type:'cannon',from:[-430,0,300],to:[TA.cx,30,TA.cz+20],every:6,spread:20});
+    dc('km_hohou',-430,300,{flip:true}); dc('km_sat_b',-424,306,{}); unit({spr:T_INF,n:6,at:[-420,292],w:10,d:4,face:[.7,-.7],mill:.3,millR:1.5}); FXS.push({type:'cannon',from:[-430,0,300],to:[TA.cx,30,TA.cz+20],every:6,spread:20});
     for(let x=-300;x<120;x+=24) dc(pick(['km_saku','km_sakamogi']),x,150,{}); for(let z=-120;z<100;z+=24) dc(pick(['km_saku','km_sakamogi']),165,z,{});
     unit({spr:T_INF,n:6,at:[-100,160],w:60,d:6,face:[0,-1],fire:.15,aim:[-100,106]}); unit({spr:T_INF,n:5,at:[175,-20],w:40,d:6,face:[-1,0],fire:.15,aim:[104,-20]});
     wallLine(-30,106,95,106,0,[0,1],5,{fire:.12}); wallLine(-340,-100,-340,60,PL.nino.H,[-1,0],4,{fire:.2});
-    for(const [s,x,z] of [['km_tawara',-6,26],['km_taru',-2,26],['km_tent',-30,40],['km_kagaribi',-20,30]]) dc(s,x,z,{}); }},
+    for(const [s,x,z] of [['km_tawara',-6,26],['km_taru',-2,26],['km_tent',-30,40],['km_kagaribi',-20,30]]) dc(s,x,z,{}); unit({spr:K_INF,n:7,at:[-14,34],w:10,d:5,face:[0,-1],mill:.25,millR:1.5}); }},
  {date:'明治10年4月14日',title:'包囲が解かれる（籠城52日）',time:0,dur:80,cam:camTo(30,280,40,160,-.35,1),gnd:[44,110,44,180],
   text:'4月8日、鎮台の一隊（奥保鞏の突囲隊）が包囲を破って城外の味方と連絡をつけました。そして4月14日、南から進んできた政府軍の別働隊（山川浩らの隊）が熊本城に入城し、52日間の籠城は終わります。薩摩軍は東へ退き、戦いは九州各地へ移っていきました。',
   build(){ keepState('gone'); HQ();
-    unit({spr:K_INF.concat(['km_gun_a','km_gun_b']),n:12,at:[40,330],to:[44,140],t0:2,dur:40,w:30,d:14,fire:.2});
-    unit({spr:['km_kihei','km_kihei'],n:3,at:[10,330],to:[20,150],t0:0,dur:30,w:10,d:4,dust:.8,noScale:true}); unit({spr:['km_gunki'],n:1,at:[44,330],to:[44,145],t0:2,dur:40,w:1,d:1,noScale:true});
+    unit({spr:K_INF.concat(['km_gun_a','km_gun_b']),n:12,at:[40,330],to:[44,140],t0:0,dur:30,w:20,d:10,fire:.2});
+    unit({spr:['km_kihei','km_kihei'],n:3,at:[10,330],to:[20,150],t0:0,dur:30,w:10,d:4,dust:.8,noScale:true}); unit({spr:['km_gunki'],n:1,at:[44,330],to:[44,145],t0:0,dur:30,w:1,d:1,noScale:true});
     unit({spr:T_INF,n:9,at:[170,140],to:[300,40],t0:6,dur:40,w:30,d:12,loss:.1}); unit({spr:T_INF,n:7,at:[-200,170],to:[-80,330],t0:4,dur:40,w:30,d:10});
     unit({spr:['km_charge','km_hohei_a','km_hohei_b'],n:8,at:[44,100],to:[44,124],t0:20,dur:10,w:8,d:6});
     wallLine(-30,106,95,106,0,[0,1],4,{fire:0}); }}]}};
@@ -3297,7 +3303,7 @@ $('scGnd').onclick=()=>{ tourStop(false); scGround=!(scGround&&P.mode==='walk');
 $('scAuto').onclick=()=>{ if(tour.on){ tourStop(false); } else { tour.on=true; auto=true; $('scAuto').classList.add('on'); tourStart(); showHint('自動案内を始めます'); } }; $('scTg').onclick=()=>{ const m=$('scen').classList.toggle('min'); $('scTg').textContent=m?'ひらく':'たたむ'; };
 
 window.__scn={KB,KEEP,setT:v=>{phT=v},get STBK(){return STBK},FX,get FXS(){return FXS},get phT(){return phT},get UNITS(){return UNITS},setScen,setPhase,chooseEra};
-window.__km={get P(){return P},setMode,teleport:id=>teleport(curSpots.find(s=>s.id===id)),groundH,walkable,get FL(){return FL},TEN,setLook:(x,y,z,yaw,pitch,mode)=>{ P.x=x; P.y=y; P.z=z; P.yaw=yaw; P.pitch=pitch; P.mode=mode||'drone'; P.level=-1; P.room=null; },applyTime};
+window.__km={get P(){return P},get scene(){return scene},setMode,teleport:id=>teleport(curSpots.find(s=>s.id===id)),groundH,walkable,get FL(){return FL},TEN,setLook:(x,y,z,yaw,pitch,mode)=>{ P.x=x; P.y=y; P.z=z; P.yaw=yaw; P.pitch=pitch; P.mode=mode||'drone'; P.level=-1; P.room=null; },applyTime};
 /* ================= 合戦・築城の案内: 自動案内・テロップ・部隊の名札・兵力グラフ・戦況図 ================= */
 /* 兵力（通説・諸説あり）と、人形の数の目安（1体＝約500人） */
 const FORCE={seinan:{t:14000,k:3800}};
@@ -3310,15 +3316,28 @@ let UMULT={t:1,k:1};
 function unitSide(spr){ let k=0,t=0; for(const s of spr){ if(SIDE_K.test(s)) k++; else if(SIDE_T.test(s)) t++; } return k>t?'k':t>0?'t':null; }
 
 /* 自動案内の立ち寄り先: [x,z, 見る先x,z, 空撮1/地上0, テロップ] */
+/* 案内の止まり場所: [カメラx,z, 見る先x,z, 空撮?, 解説, 特別, 空撮の高さ（地面から）]。各場所のあと CLOSE の寄りのカメラで兵の様子を近くから見せる */
 const TOURS={
  seinan:[
-  [[-60,70,TA.cx,TA.cz,1,'明治10年2月19日の昼ごろ、本丸から火の手が上がりました。天守も本丸御殿も、みるみる炎に包まれます'],[-6,4,TA.cx,TA.cz,0,'出火の原因は、失火・薩摩方の放火・鎮台の自焼など諸説あり、今もわかっていません'],[60,40,TA.cx,TA.cz,1,'加藤清正の築いた天守は、こうして270年の歴史を閉じました']],
-  [[-40,260,0,200,1,'鎮台は、敵が町家に隠れて近づけないよう、城のまわりの町に火を放ちました'],[30,104,30,150,0,'長塀や石垣の上に兵を並べ、門をふさいで籠城の構えをとります'],[-60,200,-60,300,1,'住民は家財を持って、城下から逃げ出しました']],
-  [[-10,190,0,120,1,'2月22日、薩摩軍は南・西・東から一斉に攻めかかりました'],[20,100,20,150,0,'長塀の内側から、鎮台の兵が銃で応戦します'],[-60,30,-120,47,1,'西出丸の高い石垣と武者返しが、薩摩軍を寄せつけません'],[200,-60,104,-10,1,'東の坪井川の向こうからも攻撃がありましたが、城に取り付けませんでした']],
-  [[-420,-60,-380,-150,1,'3月12〜13日、城の北西の段山で激しい奪い合いが起こりました'],[-380,320,TA.cx,TA.cz,1,'西の花岡山から、薩摩軍の大砲が城を狙います'],[-6,30,-4,26,0,'城内では米が足りなくなり、粥や馬の肉でしのいだと伝わります']],
-  [[30,280,40,160,1,'4月14日、南から政府軍の別働隊が到着し、熊本城に入りました'],[44,110,44,180,0,'52日間の籠城は終わり、城は最後まで落ちませんでした'],[200,60,300,40,1,'薩摩軍は東へ退き、戦いは九州各地へと移っていきます']]]};
+  [[-34,16,TA.cx,TA.cz,1,'明治10年2月19日の昼ごろ、本丸から火の手が上がりました。鎮台の兵が本丸に駆けつけます',null,20],
+   [10,6,26,-6,1,'本営では、司令長官の谷干城が籠城の覚悟を決めます。出火の原因は失火・放火・自焼など諸説あり、今もわかっていません',null,'auto'],
+   [TA.cx,TA.cz,TA.cx,TA.cz,1,'加藤清正の築いた天守は、こうして270年の歴史を閉じました',{orbit:[TA.cx,TA.cz,58,26,.4,2.6,24]}]],
+  [[-150,150,-60,220,1,'鎮台は、敵が町家に隠れて近づけないよう、城のまわりの町に火を放ちました',null,30],
+   [-60,200,-60,214,1,'住民は家財を持って、燃える城下から逃げ出しました',null,'auto'],
+   [-120,140,-120,134,1,'城の外まわりでは、鎮台の兵が見張りにつき、門をふさいで籠城の構えをとります',null,'auto']],
+  [[-10,220,0,140,1,'2月22日の朝、薩摩軍は南・西・東から一斉に攻めかかりました',null,30],
+   [-14,182,-40,136,1,'南の城下から、薩摩軍が坪井川の岸まで押し寄せ、長塀に向けて撃ちかけます',null,16],
+   [-10,100,-10,106,1,'長塀の内側から、鎮台の兵が銃と大砲で応戦します',null,'auto'],
+   [-380,30,-362,22,1,'西の二の丸にも薩摩軍が迫りますが、高い石垣に阻まれて取り付けません',null,'auto'],
+   [170,0,160,-8,1,'東の坪井川の向こうからも攻撃がありましたが、城は落ちませんでした',null,'auto']],
+  [[-380,-150,-385,-150,1,'3月12〜13日、城の北西の段山で、薩摩軍と鎮台が激しく奪い合いました',null,'auto'],
+   [-420,296,-428,298,1,'西の花岡山には薩摩軍の大砲が据えられ、城を狙い撃ちしました',null,'auto'],
+   [-10,30,-10,30,1,'城内では米が足りなくなり、粥や馬の肉でしのいだと伝わります',null,'auto']],
+  [[90,300,44,250,1,'4月14日、南から政府軍の別働隊が熊本城をめざして進んできました',null,24],
+   [44,160,44,150,1,'52日間の籠城は終わり、城は最後まで落ちませんでした',null,'auto'],
+   [220,100,220,100,1,'薩摩軍は東へ退き、戦いは九州各地へと移っていきます',null,'auto']]]};
 /* 寄って見せる見どころ（望遠のズーム倍率）: ZOOM[場面][番号][見どころの番号] */
-const ZOOM={seinan:[[0,1.4,0],[0,1.2,0],[0,1.3,1.2,0],[1.4,0,1.2],[0,1.2,0]]};
+const ZOOM={seinan:[[1.1,1.2,1],[1,1.2,1.1],[1,1.15,1.2,1.15,1.15],[1.1,1.3,1.2],[1.1,1.2,1]]};
 const BASE_FOV=camera.fov; let fovNow=BASE_FOV;
 function setFov(z){ const f=BASE_FOV/Math.max(1,z); if(Math.abs(f-camera.fov)>.01){ camera.fov=f; camera.updateProjectionMatrix(); } fovNow=f; }
 /* ---------- 名札（3Dの部隊の上に浮かぶ） ---------- */
@@ -3337,7 +3356,7 @@ const _tv=new THREE.Vector3();
 function updateTags(){ const cx=camera.position.x,cy=camera.position.y,cz=camera.position.z,H=innerHeight,W=innerWidth,f=1/Math.tan(camera.fov*Math.PI/360),L=[];
   for(const t of TAGS){ let x=t.x,z=t.z;
     if(t.u){ const p=unitPos(t.u,{ox:0,oz:0,mx:.5,ph:0},phT); x=p[0]; z=p[2]; } const y=withScen(()=>groundH(x,z))+t.h+(t.u&&t.u.y!==null?t.u.y:0);
-    const d=Math.hypot(x-cx,y-cy,z-cz),hh=Math.min(60,Math.max(1.2,(H>W?24:H<500?15:21)*2*d/(f*H))); t.s.position.set(x,y+hh*.6,z); t.s.scale.set(hh*t.s.userData.aspect,hh,1); t.s.visible=d<900&&!P.room&&P.level<0;
+    const d=Math.hypot(x-cx,y-cy,z-cz),hh=Math.min(60,Math.max(1.2,(H>W?24:H<500?15:21)*2*d/(f*H))); t.s.position.set(x,y+hh*.6,z); t.s.scale.set(hh*t.s.userData.aspect,hh,1); t.s.visible=d<900&&d>45&&!P.room&&P.level<0;
     if(!t.s.visible) continue; _tv.copy(t.s.position).project(camera); if(_tv.z>1) continue; const ph=hh*f/d*H/2*1.08,pw=ph*t.s.userData.aspect;
     L.push({t,sx:(_tv.x+1)/2*W,sy:(1-_tv.y)/2*H,pw,ph,d,hh}); }
   /* 重なった名札は、近いものを下に残し、遠いものを上へずらす（それでも重なれば小さく薄くする） */
@@ -3404,12 +3423,13 @@ function drawForce(){ const F=FORCE[SCEN],el=$('scForce'); if(!F){ el.innerHTML=
 
 /* ---------- 自動案内（カメラが見どころを順に回る） ---------- */
 const tour={on:true,i:-1,t:0,dur:0,from:null,to:null,move:0,done:false,snap:null};
-function stopCam(s){ const [x,z,lx,lz,dr]=s; const yy=dr?49.6:withScen(()=>groundH(x,z))+1.6,ty=withScen(()=>groundH(lx,lz))+(dr?2:1.4); const d=Math.hypot(lx-x,lz-z)||1;
+function stopCam(s){ const [x,z,lx,lz,dr]=s; const yy=dr?(typeof s[7]==='number'?Math.max(withScen(()=>groundH(x,z)),withScen(()=>groundH(lx,lz)))+s[7]:49.6):withScen(()=>groundH(x,z))+1.6,ty=withScen(()=>groundH(lx,lz))+(dr?2:1.4); const d=Math.hypot(lx-x,lz-z)||1;
   return {x,z,y:yy,yaw:Math.atan2(-(lx-x),-(lz-z)),pitch:Math.max(-1.1,Math.min(.4,Math.atan2(ty-yy,d)*(dr?.78:1))),dr}; }
 function tourStops(){ return ((TOURS[SCEN]||[])[PHI])||[]; }
 function tourGo(i){ const S=tourStops(); tour.i=i; tour.spun=false; if(i>=S.length){ tour.done=true; tour.t=0; return; } const s=S[i]; tour.to=stopCam(s); tour.to.zoom=((ZOOM[SCEN]||[])[PHI]||[])[i]||1; tour.from=Object.assign({x:P.x,z:P.z,y:P.y,yaw:P.yaw,pitch:P.pitch},{zoom:BASE_FOV/camera.fov}); tour.move=0; tour.t=0;
   P.room=null; P.level=-1; P.mode=s[4]?'drone':'walk'; $('vView').textContent=s[4]?'空撮':'歩く'; setTicker(s[5],(i+1)+' / '+S.length); tour.dur=Math.max(9,tickerNeed());
-  const sp=s[6]; if(sp==='sled'&&PH&&PH.sled){ PH.sledT0=phT+2.6; tour.to=Object.assign(sledCam(PH.sled[0],PH.sled[1]),{zoom:1}); tour.dur=Math.max(26,tour.dur); }
+  const sp=s[6]; if(s[7]==='auto'){ const c=autoClose(s,P,true); tour.to=Object.assign(c,{zoom:tour.to.zoom,dr:1}); P.mode='drone'; }
+  if(sp==='sled'&&PH&&PH.sled){ PH.sledT0=phT+2.6; tour.to=Object.assign(sledCam(PH.sled[0],PH.sled[1]),{zoom:1}); tour.dur=Math.max(26,tour.dur); }
   else if(sp&&sp.orbit){ tour.to=Object.assign(orbitCam(sp.orbit,0),{zoom:1}); tour.dur=Math.max(sp.orbit[6],tour.dur); } }
 /* 特別なカメラ: 修羅を横から追う／燃える天守のまわりをゆっくり回る */
 function sledCam(p,q){ const dx=q[0]-p[0],dz=q[1]-p[1],l=Math.hypot(dx,dz)||1,ux=dx/l,uz=dz/l,x=p[0]-uz*20-ux*6,z=p[1]+ux*20-uz*6,gh=(a,b)=>withScen(()=>groundH(a,b)),y=Math.max(gh(x,z),gh(p[0],p[1]))+8,tx=p[0]+ux*6,tz=p[1]+uz*6;
@@ -3422,14 +3442,14 @@ function userMoving(){ return joy.id!==null||looks.size>0||Object.keys(keys).som
 function tourStop(msg){ setFov(1); if(!tour.on) return; tour.on=false; auto=false; $('scAuto').classList.remove('on'); if(msg) showHint('自動案内を止めました。「自動案内」でもう一度始まります'); const S=tourStops(); if(PH) setTicker(PH.text,'解説'); }
 function tourEnd(){ setFov(1); tour.on=false; auto=false; $('scAuto').classList.remove('on'); setTicker('自動案内はここで終わりです。「自動案内」でもう一度見られます。パッドで自由に歩くこともできます','終了');
   const E=ERAS.find(e=>e.k===SCEN); $('tourEndT').textContent=(E?E.b:'')+'の自動案内が終わりました'; $('tourEnd').hidden=false; }
-function updateTour(dt){ if(!SCEN||!PH) return; updateTicker(dt); updateTags(); if(!tour.on) return;
+function updateTour(dt){ P.camLock=!!(SCEN&&PH&&tour.on&&!tour.done&&tour.i>=0); if(!SCEN||!PH) return; updateTicker(dt); updateTags(); if(!tour.on) return;
   if(userMoving()){ tourStop(true); return; }
   if(tour.done){ tour.t+=dt; if(tour.t>3){ if(PHI<SCENS[SCEN].phases.length-1){ if(auto){ setPhase(PHI+1); tourStart(); } } else tourEnd(); } return; }
   if(tour.i<0) return; const a=tour.from,b=tour.to;
   if(tour.move<1){ tour.move=Math.min(1,tour.move+dt/2.6); const k=tour.move*tour.move*(3-2*tour.move); let dy=b.yaw-a.yaw; dy=Math.atan2(Math.sin(dy),Math.cos(dy));
     P.x=a.x+(b.x-a.x)*k; P.z=a.z+(b.z-a.z)*k; P.y=a.y+(b.y-a.y)*k; P.yaw=a.yaw+dy*k; P.pitch=a.pitch+(b.pitch-a.pitch)*k; setFov(tour.move<.5?1+(a.zoom-1)*(1-tour.move*2):1+(b.zoom-1)*sstep((tour.move-.5)*2)); return; }
-  P.x=b.x; P.z=b.z; tour.t+=dt;
-  const sp=tourStops()[tour.i][6];
+  P.x=b.x; P.z=b.z; P.y=b.y; tour.t+=dt;
+  const S0=tourStops()[tour.i]; if(!S0){ tour.done=true; tour.t=0; return; } const sp=S0[6];
   if(sp==='sled'||(sp&&sp.orbit)){ if(tour.t>tour.dur){ tourGo(tour.i+1); return; } const c=sp==='sled'?sledCam(...sledNow()):orbitCam(sp.orbit,Math.min(1,tour.t/tour.dur)); P.x=c.x; P.z=c.z; P.y=c.y; P.yaw=c.yaw; P.pitch=c.pitch; setFov(1); return; }
   if(tour.t<=tour.dur){ P.yaw=b.yaw; P.pitch=b.pitch; setFov(b.zoom); return; }
   /* 見どころを見たあと、地上へ降りて見どころに寄って見せる（降りられない所は、その場でズーム） */
@@ -3442,10 +3462,53 @@ function updateTour(dt){ if(!SCEN||!PH) return; updateTicker(dt); updateTags(); 
 const CLOSE_T=7;   /* 地上で見どころを見る秒数 */
 /* 見どころ（s の見る先）のそばの地上の立ち位置を探す */
 /* 寄って見せる所（見どころごとに手で決めた、少し高い所からの寄りのカメラ）: [カメラx,z,地面からの高さ, 見る先x,z,地面からの高さ, ズーム] */
-const CLOSE={};
-function closeCam(s,b){ const dr=s[4],zm=Math.max(1,b.zoom||1); if(!dr) return {x:b.x,z:b.z,y:b.y,yaw:b.yaw,pitch:b.pitch,zoom:Math.min(2.4,Math.max(1.3,zm*1.3)),walk:true};
+const CLOSE={
+ 'seinan/0/0':[-36,12,2.2,-20,-10,1.6,1.15],
+ 'seinan/1/0':[-74,214,3,-60,226,1.4,1.15],'seinan/1/2':[-34,101.5,2.2,10,106,1.2,1.2],
+ 'seinan/2/0':[-22,160,3,-40,140,1.5,1.2],'seinan/2/1':[-58,150,2,-40,139,1.4,1.25],'seinan/2/2':[-6,92,3,-4,108,1,1.15],'seinan/2/3':[-378,36,2.2,-362,22,1.4,1.25],'seinan/2/4':[176,2,2.2,160,-8,1.4,1.25],
+ 'seinan/3/0':[-364,-168,2.4,-386,-150,1.4,1.2],'seinan/3/1':[-418,292,2,-430,302,1.2,1.3],
+ 'seinan/4/0':[60,262,2.4,44,250,1.5,1.2],'seinan/4/1':[58,166,2.4,44,152,1.5,1.25]};
+function closeCam(s,b){ const dr=s[4],zm=Math.max(1,b.zoom||1); if(SCEN==='seinan') return autoClose(s,b);
+  if(!dr) return {x:b.x,z:b.z,y:b.y,yaw:b.yaw,pitch:b.pitch,zoom:Math.min(2.4,Math.max(1.3,zm*1.3)),walk:true};
   const C=CLOSE[SCEN+'/'+PHI+'/'+tour.i]; if(!C) return null; const [cx,cz,ch,lx,lz,lh,z]=C,gh=(x,z)=>withScen(()=>groundH(x,z)),y=Math.max(gh(cx,cz),gh(lx,lz))+ch,ty=gh(lx,lz)+lh,d=Math.hypot(lx-cx,lz-cz);
   return {x:cx,z:cz,y,yaw:Math.atan2(-(lx-cx),-(lz-cz)),pitch:Math.atan2(ty-y,d),zoom:z,walk:false}; }
+/* 兵のそばへ寄るカメラ: 見どころの近くにいる部隊を探し、石垣や塀にさえぎられない向きから 15〜30m ほどで兵の顔が見える高さに構える */
+function liveCenter(u,t){ let x=0,z=0,n=0; for(const m of u.mem){ if(m.flag||(m.dead&&unitProg(u,t)>m.tdie)) continue; const p=unitPos(u,m,t); x+=p[0]; z+=p[2]; n++; } return n?[x/n,z/n,n]:null; }
+function sightClear(ax,ay,az,bx,by,bz){ const gh=(x,z)=>withScen(()=>groundH(x,z)),L=Math.hypot(bx-ax,bz-az),N=Math.max(4,Math.ceil(L/1.5));
+  for(let i=1;i<N;i++){ const k=i/N; if(L*(1-k)<4) break; const x=ax+(bx-ax)*k,z=az+(bz-az)*k,y=ay+(by-ay)*k,g=gh(x,z); if(y<g+.6) return false; if(hitBlock(x,z,0)&&y<g+16) return false; } return true; }
+/* 実際の建物・木・石垣にさえぎられないかを確かめる（候補の上位だけ） */
+const _rc=new THREE.Raycaster(),_ro=new THREE.Vector3(),_rd=new THREE.Vector3();
+function sightMeshes(){ const M=[]; scene.traverseVisible(o=>{ if(o.isMesh&&!o.isSprite&&o.geometry&&o.geometry.attributes.position) M.push(o); }); const gb=new Set(); GB.traverse(o=>gb.add(o)); return M.filter(o=>!gb.has(o)); }
+function rayClear(M,ax,ay,az,bx,by,bz){ _ro.set(ax,ay,az); _rd.set(bx-ax,by-ay,bz-az); const L=_rd.length(); if(L<1) return true; _rd.multiplyScalar(1/L); _rc.set(_ro,_rd); _rc.near=.5; _rc.far=Math.max(.5,L-2.5); try{ if(_rc.intersectObjects(M,false).length) return false; _ro.set(bx,by,bz); _rc.set(_ro,_rd.negate()); _rc.near=2.5; _rc.far=L-.3; return _rc.intersectObjects(M,false).length===0; }catch(e){ return true; } }
+/* カメラのすぐ横に石垣や高い地面がないか（壁に張り付いた画にしない） */
+function roomy(x,y,z,r){ for(let a=0;a<8;a++){ const q=a/8*Math.PI*2; if(withScen(()=>groundH(x+Math.cos(q)*r,z+Math.sin(q)*r))>y-1.2) return false; } return true; }
+function autoClose(s,b,wide){ const T0=performance.now(); try{ return autoClose0(s,b,wide); } finally{ window.__acMs=Math.max(window.__acMs||0,performance.now()-T0); } }
+function autoClose0(s,b,wide){ const lx=s[2],lz=s[3],t=phT+3,gh=(x,z)=>withScen(()=>groundH(x,z));
+  /* 見どころに近い部隊（主役）と、そのそばの敵（相手） */
+  const cs=[]; for(const u of UNITS){ if(!u.mem||!u.mem.length) continue; const c=liveCenter(u,t); if(!c||c[2]<2) continue; const d=Math.hypot(c[0]-lx,c[1]-lz); if(d<110) cs.push({u,c,d}); }
+  cs.sort((a,b)=>a.d-b.d); const main=(cs[0]&&cs[0].d<40)?cs[0]:(cs.find(e=>e.u.side)||cs[0]); let tx=lx,tz=lz,foe=null;
+  if(main){ tx=main.c[0]; tz=main.c[1]; foe=cs.filter(e=>e.u.side&&main.u.side&&e.u.side!==main.u.side).sort((a,b)=>Math.hypot(a.c[0]-tx,a.c[1]-tz)-Math.hypot(b.c[0]-tx,b.c[1]-tz))[0];
+    if(foe&&Math.hypot(foe.c[0]-tx,foe.c[1]-tz)>70) foe=null; }
+  let fx=tx,fz=tz,pref=null,D=8;
+  /* 寄りは、部隊の中ほどにいる兵ひとりを主役にして、そのすぐそばから見る */
+  if(!wide&&main){ let bm=null,bd=1e9; for(const m of main.u.mem){ if(m.flag||(m.dead&&unitProg(main.u,t)>m.tdie)) continue; const p=unitPos(main.u,m,t),d=Math.hypot(p[0]-tx,p[2]-tz); if(d<bd){ bd=d; bm=p; } } if(bm){ tx=bm[0]; tz=bm[2]; fx=tx; fz=tz; } }
+  if(foe){ const sep=Math.hypot(foe.c[0]-tx,foe.c[1]-tz)||1,ux=(foe.c[0]-tx)/sep,uz=(foe.c[1]-tz)/sep;
+    if(wide){ fx=(tx+foe.c[0])/2; fz=(tz+foe.c[1])/2; pref=Math.atan2(uz,ux)+Math.PI/2; D=Math.min(34,sep*.5+12); }
+    else { fx=tx+ux*2.5; fz=tz+uz*2.5; pref=Math.atan2(-uz,-ux)+.9; D=8; } }
+  else { if(main&&main.u.fwd) pref=Math.atan2(main.u.fwd[1],main.u.fwd[0])+.5; D=wide?26:8; }
+  const HS=wide?[10,15,22]:[2.2,3.6,6]; const ty=gh(fx,fz)+1.3,cand=[];
+  for(const dk of [1,.8,1.3,1.6,2.2]) for(let a=0;a<24;a++){ const ang=a/24*Math.PI*2,x=fx+Math.cos(ang)*D*dk,z=fz+Math.sin(ang)*D*dk; if(hitBlock(x,z,wide?6:3.5)) continue;
+    for(const hh of HS){ const y=Math.max(gh(x,z),gh(fx,fz))+hh; if(!sightClear(x,y,z,fx,ty,fz)||!roomy(x,y,z,wide?7:4)) continue;
+      let sc=hh*.15+Math.abs(dk-1)*2; if(pref!=null){ const da=Math.abs(Math.atan2(Math.sin(ang-pref),Math.cos(ang-pref))); sc+=(foe&&wide)?Math.min(da,Math.PI-da)*3:da*1.6; }
+      const bd=Math.atan2(Math.sin(ang-Math.atan2(b.z-fz,b.x-fx)),Math.cos(ang-Math.atan2(b.z-fz,b.x-fx))); sc+=Math.abs(bd)*.5;
+      cand.push({x,z,y,sc}); break; } }
+  cand.sort((p,q)=>p.sc-q.sc); let best=null; const meshes=sightMeshes();
+  for(let i=0;i<cand.length&&i<10;i++){ const c=cand[i]; if(!rayClear(meshes,c.x,c.y,c.z,fx,ty,fz)) continue;
+    if(wide){ const ya=Math.atan2(fz-c.z,fx-c.x),R=14; let ok=true; for(const o of [-.35,.35]){ if(!rayClear(meshes,c.x,c.y,c.z,c.x+Math.cos(ya+o)*R,c.y-3,c.z+Math.sin(ya+o)*R)){ ok=false; break; } } if(!ok) continue; }
+    best=c; break; }
+  if(!best) best=cand[0];
+  if(!best){ const y=gh(fx,fz)+18; best={x:fx+Math.cos(pref||0)*24,z:fz+Math.sin(pref||0)*24,y}; }
+  const d=Math.hypot(fx-best.x,fz-best.z); return {x:best.x,z:best.z,y:best.y,yaw:Math.atan2(-(fx-best.x),-(fz-best.z)),pitch:Math.atan2(ty-best.y,d),zoom:wide?1:(foe?1.1:1.2),walk:false}; }
 { const st=document.createElement('style'); st.textContent=`#tourEnd{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%);z-index:30;width:min(320px,calc(100% - 40px));background:var(--panel);border:1px solid rgba(210,69,44,.7);border-radius:14px;padding:16px;text-align:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 #tourEnd b{display:block;font-family:var(--f-disp);font-size:18px;margin-bottom:6px} #tourEnd p{font-size:12.5px;color:var(--mute);margin:0 0 12px;line-height:1.6} #tourEnd .r{display:flex;gap:8px;justify-content:center}
 #tourEnd button{height:36px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:transparent;cursor:pointer;font-size:13px} #tourEnd button.p{background:rgba(210,69,44,.35);border-color:rgba(210,69,44,.8)}`; document.head.appendChild(st);
@@ -3472,7 +3535,7 @@ window.__tour={tour,tourGo,TAGS,get phT(){return phT},sc:(s)=>sideCenter(tour.bt
 
 
 /* ---------- 合戦を追うカメラ: 近くでぶつかる薩摩軍・政府軍の両方が画面に入る位置から、動きに合わせて追う ---------- */
-function battleGroups(lx,lz){ if(SCEN!=='seinan') return null; let near=UNITS.filter(u=>u.side&&u.n>2&&u.mem.length&&Math.hypot(u.at[0]-lx,u.at[1]-lz)<300&&Math.hypot((u.to||u.at)[0]-lx,(u.to||u.at)[1]-lz)<300);
+function battleGroups(lx,lz){ return null; let near=UNITS.filter(u=>u.side&&u.n>2&&u.mem.length&&Math.hypot(u.at[0]-lx,u.at[1]-lz)<300&&Math.hypot((u.to||u.at)[0]-lx,(u.to||u.at)[1]-lz)<300);
   const mv0=near.filter(u=>u.to); if(!mv0.length) return null; let fx=0,fz=0; for(const u of mv0){ fx+=u.to[0]; fz+=u.to[1]; } fx/=mv0.length; fz/=mv0.length;
   near=near.filter(u=>Math.hypot((u.to||u.at)[0]-fx,(u.to||u.at)[1]-fz)<140||(u.to&&Math.hypot(u.at[0]-fx,u.at[1]-fz)<200)); if(!near.some(u=>u.side==='t')||!near.some(u=>u.side==='k')) return null;
   let start=1e9,end=0; for(const u of near) if(u.to){ start=Math.min(start,u.t0||0); end=Math.max(end,(u.t0||0)+(u.dur||20)+(u.back?(u.hold||4)+(u.bdur||u.dur||20):0)); } if(end===0){ start=0; end=20; }
@@ -3585,6 +3648,7 @@ renderer.domElement.addEventListener('webglcontextlost',e=>{ e.preventDefault();
   if(menu) menu.appendChild(make());
 })();
 </script>
+<script src="/oshiro/common/goshuin.js"></script>
 <!-- oshiro-portal:end -->
 
 </body>
