@@ -9,6 +9,7 @@
    ④ 解像度: スマホは画素密度の上限を1.25倍にする（城の「画質 高」の1.6倍から）。
    ⑤ 自動調整: 動かしている間の速さを測り、カクつき（毎秒27回未満、または引っかかり）が続いたら一段ずつ軽くする
          （解像度1.0倍 → 城の「画質」を「軽」に → 解像度0.8倍）。自分で画質ボタンを押したら、画質の切り替えはしない。
+   写真モード（fuda.js）のために、描いた直後の画面を写す OshiroPerf.capture(cb) も持つ。
    確認用: URL に ?perf=off で無効、?perf=hud で左下に状態を表示。window.OshiroPerf で状態を見られる。 */
 (function(){
   'use strict';
@@ -74,7 +75,11 @@
   Wrapped.prototype = R0.prototype;
   T.WebGLRenderer = Wrapped;
 
+  var capQ = [];
+  /* 写真モード（fuda.js）用: 次に画面へ描いた直後の絵を JPEG で渡す。描いた直後に読むので preserveDrawingBuffer は要らない */
+  S.capture = function(cb){ capQ.push(cb); lastInput = now(); };
   function setup(r){
+    try{ r.domElement.classList.add('oshiro-gl'); }catch(e){}
     /* ④ 解像度の上限 */
     var setPR0 = r.setPixelRatio.bind(r);
     r.__wantPR = r.getPixelRatio();
@@ -131,7 +136,9 @@
           if(upd){ shAge = 0; S.shadowRenders++; if(l){ lastDir.copy(tmp); lastPos.copy(tmp2); } }
         }
       }
-      return render0(scene, camera);
+      var out = render0(scene, camera);
+      if(capQ.length && r.getRenderTarget() === null){ var url = null; try{ url = r.domElement.toDataURL('image/jpeg', .95); }catch(e){} capQ.splice(0).forEach(function(f){ try{ f(url); }catch(e){} }); }
+      return out;
     };
   }
 

@@ -94,6 +94,9 @@ header.hero{position:relative;padding-top:calc(env(safe-area-inset-top,0px) + 34
 .card .stamp{position:absolute;right:12px;top:34px;width:68px;height:68px;border:2.5px solid var(--shu);border-radius:50%;color:var(--shu);display:none;place-items:center;text-align:center;
   font-family:var(--mincho);font-weight:800;font-size:12px;line-height:1.15;transform:rotate(-14deg);background:rgba(250,240,230,.06);box-shadow:inset 0 0 0 3px rgba(210,69,44,.25)}
 .card.visited .stamp{display:grid}
+/* 見どころ札（各城で名所に歩いて着くともらえる。/oshiro/common/fuda.js） */
+.card .fudaN{margin-top:6px;font-size:11px;color:#e8cf9a;letter-spacing:.06em;display:flex;align-items:center;gap:6px}
+.card .fudaN i{flex:1;height:4px;border-radius:2px;background:rgba(238,235,228,.15);overflow:hidden}.card .fudaN i b{display:block;height:100%;background:linear-gradient(90deg,var(--shu),var(--kin))}
 .card .stamp b{display:block;font-size:17px}
 
 /* 普請中（未公開） */
@@ -226,8 +229,8 @@ footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:un
 
   <footer>
     「お城さんぽ」は、建物の配置と寸法を簡略化して再現した3D散策シリーズです。江戸時代などの再現には、絵図などをもとにした想像を交えた部分があります。<br>
-    御城印は、各城で天守の最上階まで登るといただけます。記録はこの端末のブラウザにだけ保存されます。
-    <div><button class="reset" id="resetBtn">登城の記録を消す</button></div>
+    御城印は、各城で天守の最上階まで登るといただけます。見どころ札は、名所に歩いて着くといただけます（各城のメニューの「札帳」で確認）。記録はこの端末のブラウザにだけ保存されます。
+    <div><button class="reset" id="resetBtn">御城印と見どころ札の記録を消す</button></div>
   </footer>
 </main>
 
@@ -362,6 +365,9 @@ function tenshuSVG(tiers){
 }
 
 /* ---------- 札（カード） ---------- */
+const FUDA_KEY = "oshiroSanpo.fuda"; /* 見どころ札 { 城id: { got:[名所id], total } }（各城の /oshiro/common/fuda.js が記録） */
+function fudaLine(c){ const r=(store.get(FUDA_KEY,{})||{})[c.id]; if(!r||!r.total) return ""; const n=Math.min(r.got.length,r.total);
+  return `<div class="fudaN">見どころ札 ${n} / ${r.total}<i><b style="width:${Math.round(n/r.total*100)}%"></b></i></div>`; }
 function cardHTML(c,i){
   const open=isOpen(c);
   const bg = c.img ? `<div class="bg" style="background-image:url('${esc(c.img)}')"></div>`
@@ -386,6 +392,7 @@ function cardHTML(c,i){
           <dt>天守</dt><dd>${esc(c.tenshu)}</dd>
           <dt>見所</dt><dd>${esc(c.point)}</dd>
         </dl>
+        ${fudaLine(c)}
         <span class="go">${open?"登城する":"開城準備中"}</span>
       </div>
     </div>
@@ -493,7 +500,7 @@ $("#sortBtn").addEventListener("click",()=>{
   const ks=Object.keys(SORTS); sortMode=ks[(ks.indexOf(sortMode)+1)%ks.length]; store.set(SORT_KEY,sortMode);
   $("#sortBtn").textContent="並び："+SORTS[sortMode]; renderCards(); $("#rail").scrollTo({left:0,behavior:"smooth"});
 });
-$("#resetBtn").addEventListener("click",()=>{ visited=new Set(); store.set(VISIT_KEY,[]); renderAll(); toast("登城の記録を消しました"); });
+$("#resetBtn").addEventListener("click",()=>{ visited=new Set(); store.set(VISIT_KEY,[]); store.set(FUDA_KEY,{}); renderAll(); toast("御城印と見どころ札の記録を消しました"); });
 // 城から「戻る」で帰ってきたとき（bfcache）に暗幕を外して記録を反映
 window.addEventListener("pageshow",()=>{ $("#leaving").classList.remove("on"); visited=new Set(store.get(VISIT_KEY,[])); renderAll(); });
 

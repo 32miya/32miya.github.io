@@ -56,6 +56,19 @@
 - 新しい城も、画質ボタン `#tQual`/`#vQual`（高／軽）・`shadowMap.needsUpdate=true` を毎フレーム・`resize` で `renderer.setSize` と `composer.setPixelRatio` を呼ぶ、という今の作りなら、そのまま効く。
 - 確認用: URL に `?perf=hud` で左下に状態（fps・段階・解像度・影を描いた回数）、`?perf=off` で無効。`window.OshiroPerf` で状態を見られる。
 
+### 見どころ札と写真モード（fuda.js）
+- 各城のメニューに「札帳」「写真」のボタンを足す（城の HTML は変えない。`#menu .tools` に差し込む）。
+- **見どころ札**: 各城の名所（`SPOTS`）に**歩いて**着くと、その名所の札がもらえる。名所一覧のワープ・建物の出入り・開始直後は、着いた場所のまわりの名所は15m歩くまでもらえない。ドローン視点・自動案内中はもらえない。屋外の名所は眺める位置から9m／名所そのものから14m、天守の中の名所（`level` 付き）は6m／8m以内。時代ごとの名所も含めて城ごとに集める。
+- **写真モード**: 画面の文字・ボタンを消して景色だけを撮り、右下に「○○城さんぽ・いまいる場所・URL」の透かしを入れる。共有（共有できる端末）・保存・長押し保存。撮影は perf.js の `OshiroPerf.capture` を使う。
+- 記録は localStorage `oshiroSanpo.fuda` = `{城id:{got:[名所id], total:数}}`。入口の城の札に「見どころ札 n / 数」を出す。入口の「御城印と見どころ札の記録を消す」で両方消える。
+- 城側に必要な窓口（`function spotList(){` の直前に置く。全10城に入っている）:
+  ```js
+  window.OshiroGame={ spots:()=>spotList(), all:()=>SPOTS, me:()=>({x:P.x,z:P.z,level:P.level,room:!!P.room,walk:P.mode==='walk',tour:typeof tour!=='undefined'&&!!tour.on}), started:()=>typeof started==='undefined'||!!started, warpAt:0 };
+  { const _tp=teleport; teleport=function(s){ window.OshiroGame.warpAt=performance.now(); return _tp.apply(this,arguments); }; }
+  ```
+- 読み込みは oshiro-portal ブロックで goshuin.js の後に `<script src="/oshiro/common/fuda.js"></script>`（`../castle-snippet.html` に入っている）。
+- 確認用: `OshiroFuda.open()`（札帳）・`OshiroFuda.photo()`（写真）・`OshiroFuda.state()`（記録）・`OshiroFuda.tick()`（判定を1回）。
+
 ### 御城印（goshuin.js）
 - 天守の最上階に着いたら、その城の御城印を記録して「登城 ○○ 御城印」の印を押す演出を出す。起動しただけでは押さない。
 - 各城の oshiro-portal ブロックで `<script src="/oshiro/common/goshuin.js"></script>` を読む（`../castle-snippet.html` に入っている）。各城のコードは変えずに、画面左上の場所の表示（`#area`）が最上階の名前になったら記録する。
