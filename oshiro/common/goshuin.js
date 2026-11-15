@@ -17,7 +17,7 @@
     '32miya-matsuyama-castle':                ['matsuyama','松山城'],
     '32miya-32miya-azuchi-castle':            ['azuchi','安土城'],
     '32miya-32miya-bitchu-matsuyama-castle-': ['bitchu','備中松山城'],
-    '32miya-edo-castle':                      ['edo','江戸城']
+    '32miya-32miya-edo-castle-':              ['edo','江戸城']
   };
   /* 最上階の名前。ふつうは「（大）天守／天主／天守閣 … 最上階 または 展望台」。小天守・櫓の最上階は含めない */
   var DEF = /^大?天[守主]閣?\s.*(最上階|展望台)/;
