@@ -1,6 +1,6 @@
 # お城さんぽ 共通素材・共通ルール
 
-お城さんぽシリーズ（大阪城・姫路城・松本城・彦根城・犬山城・安土城・熊本城・会津若松城、今後の松山城・備中松山城）で
+お城さんぽシリーズ（大阪城・姫路城・松本城・彦根城・犬山城・安土城・熊本城・会津若松城・松山城・備中松山城・江戸城）で
 共通に使う素材と、どの城でもそろえる作りのルールをまとめた場所です。
 
 公開パス: `https://32miya.github.io/oshiro/common/assets/`
@@ -18,7 +18,7 @@
 | `deco_himeji.webp` | 城の装飾（姫路で描き起こし）: 鯱・鬼瓦・懸魚・華頭窓・社・松・桜・楠・長持・俵・弾薬箱・姥が石・鉄砲 | 姫路（atlas の5ページ目として読む） |
 | `deco_inuyama.webp` | 小物（犬山で描き起こし）: 山車・からくり人形・鵜匠・鵜・幟（赤・青）・城の模型・歴代城主の肖像・看板・人力車・狛犬・手水舎・絵馬・盆栽・具足櫃・槍掛け・鉄砲掛け・縁台・自販機 | 犬山（atlas の5ページ目として読む） |
 | `deco_azuchi.webp` | 装飾（安土で描き起こし）: 金の鯱 `az_shachi`・唐破風 `az_karahafu`・千鳥破風 `az_chidori`・のれんと提灯（天下布武 `az_noren_tenka`/`az_lan_tenka`、桐紋3種 `az_noren_kiri`・`az_noren_kiri53`・`az_noren_kiri57`/`az_lan_kiri`・`az_lan_kiri53`・`az_lan_kiri57`）。桐紋は豊臣家の大阪城などにも使える。安土では鯱と提灯を `deco_azuchi2` に移し、暖簾は `tex/az_noren_tenka.webp` を使うため、いまは読み込んでいない | （他の城向けの予備） |
-| `deco_azuchi2.webp` | 安土の人物と小物: 織田信長 `az_nobunaga`・小姓 `az_kosho`・奥の女房 `az_nyobo`・狩野派の絵師 `az_eshi`・茶人 `az_chajin`・普請の石工 `az_ishiku`・近江の商人 `az_omi`・楽市の店主 `az_tenshu`・湖の船頭 `az_sendo`・町の子ども `az_kodomo`・南蛮の商人 `az_nanban`・摠見寺の僧 `az_sokenso`／楽市の露店 `az_roten`・焼き物の露店 `az_yakimono`・魚売りの盤台 `az_bandai`・米俵の山 `az_komedawara`・荷車 `az_niguruma`・湊の杭 `az_kui`・小舟 `az_kobune`・茶屋の床几 `az_shogi`・酒樽と菰かぶり `az_sake`・高札（「定」） `az_kosatsu`・金の擬宝珠 `az_giboshi`・柱の昇り龍/降り龍 `az_ryu_up`/`az_ryu_dn`・金の鯱 `az_shachi`・天下布武の提灯 `az_lan_tenka`。町人・商人・僧・小物は戦国〜江戸初めの城下ならどこでも使える | 安土（atlas の5ページ目として読む） |
+| `deco_azuchi2.webp` | 安土の人物と小物: 織田信長 `az_nobunaga`・小姓 `az_kosho`・奥の女房 `az_nyobo`・狩野派の絵師 `az_eshi`・茶人 `az_chajin`・普請の石工 `az_ishiku`・近江の商人 `az_omi`・楽市の店主 `az_tenshu`・湖の船頭 `az_sendo`・町の子ども `az_kodomo`・南蛮の商人 `az_nanban`・摠見寺の僧 `az_sokenso`／楽市の露店 `az_roten`・焼き物の露店 `az_yakimono`・魚売りの盤台 `az_bandai`・米俵の山 `az_komedawara`・荷車 `az_niguruma`・湊の杭 `az_kui`・小舟 `az_kobune`・茶屋の床几 `az_shogi`・酒樽と菰かぶり `az_sake`・高札（「定」） `az_kosatsu`・金の擬宝珠 `az_giboshi`・柱の昇り龍/降り龍 `az_ryu_up`/`az_ryu_dn`・金の鯱 `az_shachi`・天下布武の提灯 `az_lan_tenka`。町人・商人・僧・小物は戦国〜江戸初めの城下ならどこでも使える | 安土・江戸（atlas の5ページ目として読む。江戸は日本橋の町人・奥の女房（大奥）・小姓（中奥）・露店・小舟・金の鯱以外の小物に使用） |
 | `tex/az_noren_tenka.webp` | 天下布武の暖簾（512px。2048pxの装飾ページを丸ごと読まずに済むよう切り出したもの） | 安土 |
 | `atlas.json` | 切り出し位置。`deco.edo` は江戸の建物・調度品・具足・欄間（下の表）。`s` が共通4ページ（`[ページ,x,y,幅,高さ,高さm]`）、`deco.himeji` / `deco.inuyama` / `deco.azuchi` がそれぞれの装飾ページ（ページ番号4）、`deco.azuchi2` も安土の5ページ目（ページ番号4。安土は `deco.azuchi` を読まずにこちらだけを使う） | 新しい城はこれを使う |
 
@@ -45,6 +45,7 @@
 | 松本 | 黒漆の外観と、素木・露出した木組みの内部。金の欄間は使わない | 二の丸御殿の大広間（素木の欄間を南北の鴨居の上に・黒漆の飾り具足・刀掛け） |
 | 犬山 | 古い木造天守らしい簡素な室内、望楼型の古式な意匠。天守には置かない | 松の丸御殿の書院（素木の欄間・成瀬家の具足）、城とまちミュージアム（具足の展示） |
 | 彦根 | 天守・櫓の木造建築、楽々園・槻御殿の書院建築。井伊家の赤備え | 表御殿の大広間・御座之間・家老屋敷・槻御殿・楽々園（素木の欄間・掛軸）、博物館と大広間・家老屋敷（朱の具足）、家老屋敷と槻御殿の前の石灯籠・井戸・庭石 |
+| 江戸 | 将軍の城。寛永の本丸御殿は狩野派の金碧障壁画 → 表（大広間・白書院）と大奥（御台所の御座所）は金の格天井・金屏風・金の灯籠、黒書院・中奥は水墨と素木。天守は黒い壁と銅瓦の外観で、内部は武具蔵の板の間（最上階だけ畳と黒漆の格天井・想像） | 本丸御殿（表・中奥・大奥の1つの大きな室内。`pw()` で襖の間仕切り、`zn()` で部屋ごとの場所の表示、`jodan()` で上段）、大奥の調度（鏡台・朱と黒の箪笥・厨子・金の香炉・屏風）、大名屋敷の御成御殿、天守の各階（具足・槍・鉄砲・長持） |
 | 大阪 | 豊臣時代の金碧装飾と、徳川の再建・現代の復興天守を区別する。金の欄間・具足は豊臣期の御殿と屋敷だけ。現代の天守閣は「展示」として置く | 千畳敷・対面所・奥御殿（金の欄間・太閤の具足・金の灯籠・桐紋の幕）、大名屋敷（武具の間の具足・書院）、寺の本堂と大名屋敷の前の石灯籠・井戸、現代の天守閣4階（具足の展示） |
 
 ### 軽量化（perf.js）— スマホの発熱・フリーズ対策
@@ -61,7 +62,7 @@
 - **見どころ札**: 各城の名所（`SPOTS`）に**歩いて**着くと、その名所の札がもらえる。名所一覧のワープ・建物の出入り・開始直後は、着いた場所のまわりの名所は15m歩くまでもらえない。ドローン視点・自動案内中はもらえない。屋外の名所は眺める位置から9m／名所そのものから14m、天守の中の名所（`level` 付き）は6m／8m以内。時代ごとの名所も含めて城ごとに集める。
 - **写真モード**: 画面の文字・ボタンを消して景色だけを撮り、右下に「○○城さんぽ・いまいる場所・URL」の透かしを入れる。共有（共有できる端末）・保存・長押し保存。撮影は perf.js の `OshiroPerf.capture` を使う。
 - 記録は localStorage `oshiroSanpo.fuda` = `{城id:{got:[名所id], total:数}}`。入口の城の札に「見どころ札 n / 数」を出す。入口の「御城印と見どころ札の記録を消す」で両方消える。
-- 城側に必要な窓口（`function spotList(){` の直前に置く。全10城に入っている）:
+- 城側に必要な窓口（`function spotList(){` の直前に置く。全城に入っている）:
   ```js
   window.OshiroGame={ spots:()=>spotList(), all:()=>SPOTS, me:()=>({x:P.x,z:P.z,level:P.level,room:!!P.room,walk:P.mode==='walk',tour:typeof tour!=='undefined'&&!!tour.on}), started:()=>typeof started==='undefined'||!!started, warpAt:0 };
   { const _tp=teleport; teleport=function(s){ window.OshiroGame.warpAt=performance.now(); return _tp.apply(this,arguments); }; }
@@ -107,6 +108,13 @@
 | `az_sanko.webp` `az_komon.webp` `az_shozan.webp` `az_chikurin.webp` | 金碧障壁画「三皇五帝」「孔門十哲」「商山四皓」「竹林の七賢」（4面） | 安土 | 安土（天主6階・信長の館） |
 | `az_tennin.webp` | 格天井の1枚「天人影向」（黒漆の格縁つき。並べて貼る） | 安土 | 安土（天主6階） |
 | `sheet_inuyama.webp` | 8枚組（横4×縦2、1枚 313.5×627px）: 白漆喰・下見板・本瓦・野面積み（苔）／縦の床板・天井板・連子窓（障子）・町家の正面 | 犬山 | 犬山 |
+
+### 江戸城で足した作り（コードだけ。画像ファイルは足していない）
+- 室内の場所の表示を2次元に: `R.zones` の要素を `[x0,x1,名前,z0,z1]` にすると、部屋の奥行き（z）でも名前を切り替える（4要素の今までの形も使える）。
+- 室内の上段（一段高い畳）: `R.steps=[{x0,x1,z0,z1,h}]` で、その上では目の高さが上がる（`roomStep`）。
+- 時代ごとの曲輪・石段: `PLAT`・`RAMPS` に `mode:'modern'` などを付けると、その時代だけの段になる（現代の天守台の上と、そこへ上る坂）。
+- 内堀を `WATERS` の一覧で持ち、地面は「平らな地面−堀」と「曲輪の上の平らな面」で作る（自然の斜面がない平城向け）。
+- 天守の鯱を金の立体に（`SHACHI_GOLD`）、銅瓦の屋根 `roofCu`、黒い壁と開いた銅の窓戸（`kmSide`）、現代の御影石の天守台 `mikage`。
 
 ### 江戸の人々（people/、透過）
 `guard_staff` `guard_spear` `samurai` `samurai2` `clerk` `elder` `musume` `okami` `peddler` `cooper` `boy` `hikyaku` `pilgrim` `farmwoman`

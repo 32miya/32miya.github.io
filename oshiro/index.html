@@ -307,13 +307,20 @@ const CASTLES = [
     lat:34.809, lon:133.622, year:1240, wareki:"仁治元年", founder:"水谷勝宗（天守修築）",
     tenshu:"現存天守・2重2階（標高約430m）", badges:["重要文化財","現存天守"], genzon:true, kokuho:false,
     era:"現代⇄江戸時代", point:"雲海に浮かぶ山城、岩盤上の石垣",
-    nen:"秋庭重信が臥牛山の大松山に城を築く" }
+    nen:"秋庭重信が臥牛山の大松山に城を築く" },
+
+  { id:"edo", name:"江戸城", kana:"えどじょう", alias:"千代田城", pref:"東京都千代田区",
+    url:"https://32miya.github.io/32miya-edo-castle/", img:"img/edo.webp", tiers:5,
+    lat:35.688, lon:139.754, year:1457, wareki:"長禄元年", founder:"太田道灌（徳川家康が大改修）",
+    tenshu:"寛永度天守・5重5階地下1階（1657年に焼失）", badges:["特別史跡","天守台","大奥"], genzon:false, kokuho:false,
+    era:"現代⇄江戸時代⇄明暦の大火", point:"日本一の高さの寛永の天守、本丸御殿の表・中奥・大奥",
+    nen:"太田道灌、江戸城を築く" }
 ];
 
 /* 地図の表記位置（城名ラベルを点からどれだけずらすか）。新しい城は自動で右に置く */
 const LABEL = {
   osaka:[8,22,"start"], himeji:[-10,20,"end"], matsumoto:[-10,-8,"end"], hikone:[14,-16,"start"],
-  inuyama:[16,8,"start"], matsuyama:[0,22,"middle"], azuchi:[-16,-14,"end"], kumamoto:[10,-10,"start"], bitchu:[0,-14,"middle"], aizu:[10,4,"start"]
+  inuyama:[16,8,"start"], matsuyama:[0,22,"middle"], azuchi:[-16,-14,"end"], kumamoto:[10,-10,"start"], bitchu:[0,-14,"middle"], aizu:[10,4,"start"], edo:[12,10,"start"]
 };
 
 /* ---------- 共通 ---------- */

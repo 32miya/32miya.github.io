@@ -10,7 +10,7 @@
   'use strict';
   var KEY = 'oshiroSanpo.fuda';
   var NAMES = { osaka:'大阪城', himeji:'姫路城', matsumoto:'松本城', hikone:'彦根城', inuyama:'犬山城', kumamoto:'熊本城',
-                aizu:'鶴ヶ城', matsuyama:'松山城', azuchi:'安土城', bitchu:'備中松山城' };
+                aizu:'鶴ヶ城', matsuyama:'松山城', azuchi:'安土城', bitchu:'備中松山城', edo:'江戸城' };
   var WALK_UNLOCK = 15;   /* ワープ・出入りのあと、札をもらうのに歩く距離（m） */
   var JUMP = 8;           /* 0.3秒でこれ以上動いたらワープ・出入りとみなす（m） */
 
