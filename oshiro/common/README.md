@@ -103,6 +103,10 @@
 | `az_ume.webp` `az_enji.webp` | 水墨の障壁画「墨絵の梅」「遠寺晩鐘」（4面。左右半分ずつ襖2枚に） | 安土 | 安土（天主1階） |
 | `az_kacho.webp` `az_seiobo.webp` `az_koma.webp` | 金碧障壁画「花鳥」「西王母」「駒の牧」（4面） | 安土 | 安土（天主2階） |
 | `az_ryuko.webp` `az_take.webp` `az_kirihoo.webp` | 金碧障壁画「龍虎」「竹の間」「桐に鳳凰」（4面。龍虎は左半分が龍・右半分が虎） | 安土 | 安土（天主3階） |
+| `ed_fs_tora.webp` `ed_fs_matsutaka.webp` `ed_fs_teikan.webp` `ed_fs_shiki.webp` | 金碧障壁画「竹林に虎」「松に鷹」「帝鑑図（中国の故事の人物）」「四季の草花」（4面を1面384×512ずつ横に並べた1536×512。襖1枚に1面ずつ） | 江戸 | 江戸（虎之間・遠侍／大広間／帝鑑之間・柳之間／御台所の御座所） |
+| `ed_fs_akikusa.webp` | 水墨の障壁画「秋草と小川」（4面。同上） | 江戸 | 江戸（黒書院・中奥） |
+| `ed_tenjo_aoi.webp` `ed_tenjo_botan.webp` | 格天井の1マス「金地に三つ葉葵」「金地に牡丹の丸」（512px） | 江戸 | 江戸（大広間・白書院の上段／御台所の御座所） |
+| `ed_mk_*.webp` | 蒔絵の調度の切り抜き（透明背景）: 衣桁と打掛 `iko`・棚 `tana`・鏡台 `kyodai`・貝桶 `kaioke`・雪洞 `bonbori`・手箱 `tebako`・箪笥 `tansu`。三つ葉葵の紋入り | 江戸 | 江戸（御台所の御座所） |
 | `az_shaka.webp` `az_deshi.webp` | 金地の仏画「釈迦説法図」「十大弟子」 | 安土 | 安土（天主5階） |
 | `az_gaki.webp` `az_hiryu.webp` | 縁の羽目板「餓鬼と鬼」、縁の板「鯱と飛龍」（横長の帯） | 安土 | 安土（天主5階の縁） |
 | `az_sanko.webp` `az_komon.webp` `az_shozan.webp` `az_chikurin.webp` | 金碧障壁画「三皇五帝」「孔門十哲」「商山四皓」「竹林の七賢」（4面） | 安土 | 安土（天主6階・信長の館） |
