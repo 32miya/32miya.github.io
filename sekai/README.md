@@ -24,5 +24,5 @@ Claude に「○○のURLは △△」と伝えれば、上の3つ（スクリ�
 - 戻り先は、入口ページが localStorage `sekaiSanpo.portal` に保存したURL（全名所が 32miya.github.io の同一オリジンなので共有される）。
   保存が無いときは `https://32miya.github.io/sekai/` に戻る。
 - 査証印・見どころ札は各名所が自分のキー（`atlantis_seal` など）で保存したものを入口が読むだけ。端末ごと。
-- 地図の名札の位置は `LABEL` に `[dx, dy, "start"|"middle"|"end"]`（画面幅の1/100単位）で調整。海の古名は `SEAS`。
+- 地図の印は札と同じローマ数字。名札は公開中の名所だけに出す（準備中は地図下の索引に名前）。名札の位置は `LABEL` に `[dx, dy, "start"|"middle"|"end"]`（画面幅の1/100単位）で調整。海の古名は `SEAS`。
 - 陸地の形は `land.js`（Natural Earth 1:110m）。

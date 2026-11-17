@@ -86,6 +86,7 @@ header.hero{position:relative;padding-top:calc(env(safe-area-inset-top,0px) + 34
 .card .orig{font-family:var(--latin);font-style:italic;font-weight:600;font-size:17px;color:#dcb873;line-height:1.1;text-shadow:0 1px 6px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.8)}
 .card .nm{font-family:var(--mincho);font-weight:800;font-size:31px;line-height:1.12;letter-spacing:.04em;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.6)}
 .card .nm.long{font-size:25px}
+.card .nm.xlong{font-size:21px}
 .card .badges{display:flex;flex-wrap:wrap;gap:4px}
 .badge{font-size:10px;padding:2px 6px;border-radius:4px;border:1px solid rgba(236,230,218,.35);color:#e8e2d6;letter-spacing:.05em;white-space:nowrap}
 .badge.h{border-color:var(--brass);color:var(--brass)}
@@ -140,6 +141,8 @@ header.hero{position:relative;padding-top:calc(env(safe-area-inset-top,0px) + 34
 .pin .lb{font-family:var(--mincho);font-weight:800;fill:#2b1f12;paint-order:stroke;stroke:#ecdfc2;stroke-linejoin:round}
 .pin .lbs{font-family:var(--latin);font-style:italic;fill:#5a4630;paint-order:stroke;stroke:#ecdfc2;stroke-linejoin:round}
 .pin.wip .lb{fill:#6d5b45;font-weight:600}
+.pin .pno{font-family:var(--latin);font-weight:600;fill:#fbf3e2;text-anchor:middle;pointer-events:none}
+.pin.wip .pno{fill:#4a3a26}
 .pin .ld{stroke:rgba(43,31,18,.55)}
 .pin .halo{transform-box:fill-box;transform-origin:center;fill:none;stroke:var(--wax);opacity:0}
 .pin.open .halo{animation:halo 2.6s ease-out infinite}
@@ -147,6 +150,11 @@ header.hero{position:relative;padding-top:calc(env(safe-area-inset-top,0px) + 34
 .maptitle{position:absolute;left:12px;top:9px;font-family:var(--latin);font-style:italic;font-weight:600;font-size:15px;color:rgba(90,58,30,.75);letter-spacing:.08em;pointer-events:none}
 .maptitle small{display:block;font-family:var(--mincho);font-style:normal;font-weight:800;font-size:11px;letter-spacing:.3em;color:rgba(90,58,30,.6)}
 .maplegend{position:relative;z-index:1;padding:9px 14px;border-top:1px solid rgba(90,70,48,.3);display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:#5a4630;background:rgba(214,196,156,.45)}
+.mapidx{position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:2px 10px;padding:10px 12px;border-top:1px solid rgba(90,70,48,.3);background:rgba(232,220,193,.7)}
+.mapidx button{display:flex;align-items:baseline;gap:7px;text-align:left;padding:4px 2px;font-family:var(--mincho);font-weight:600;font-size:12.5px;color:#2b1f12}
+.mapidx button i{flex:none;width:24px;font-family:var(--latin);font-style:normal;font-weight:600;color:#8a3a26;text-align:right}
+.mapidx button.wip{color:#7a6850}
+.mapidx button.wip i{color:#9a8a70}
 .maplegend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
 
 /* ---------- 時の回廊（年表） ---------- */
@@ -224,10 +232,11 @@ footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:un
   </section>
 
   <section class="sec" aria-labelledby="h-map">
-    <div class="sec-h"><h2 id="h-map">古地図</h2><span class="la">Tabula Orbis</span><span class="sub">地図の印に触れると札へ移ります。緑の点線は伝承の地</span></div>
+    <div class="sec-h"><h2 id="h-map">古地図</h2><span class="la">Tabula Orbis</span><span class="sub">番号は札と同じ。印や名前に触れると札へ移ります。緑の点線は伝承の地</span></div>
     <div class="mapbox">
       <svg id="map" role="img" aria-label="旅先の所在地図"></svg>
       <div class="maptitle">Mappa Mundi<small>世界さんぽ 絵図</small></div>
+      <div class="mapidx" id="mapIdx"></div>
       <div class="maplegend"><span><i style="background:var(--wax)"></i>公開中</span><span><i style="background:#7a1f18"></i>査証済</span><span><i style="background:#3f7f76"></i>伝承の地</span><span><i style="background:#efe4cc;border:1px dashed #5a4630"></i>準備中</span></div>
     </div>
   </section>
@@ -300,14 +309,71 @@ const PLACES = [
     style:"フランス・バロック（古典主義）", scale:"鏡の間 長さ73m・鏡357枚", badges:["世界遺産","太陽王","絶対王政"],
     heritage:true, legend:false, era:"現代⇄太陽王の時代（予定）", point:"鏡の間、王の大居室、幾何学式庭園と大運河",
     nen:"ルイ14世、父の狩猟の館を大宮殿へ改築しはじめる", jp:"江戸時代・4代将軍家綱のころ。明暦の大火で江戸城の天守が焼けた4年後",
-    seal:{key:"versailles_seal", label:"謁見"}, fuda:{key:"versailles_fuda", total:0}, stamp:"#86a8e6" }
+    seal:{key:"versailles_seal", label:"謁見"}, fuda:{key:"versailles_fuda", total:0}, stamp:"#86a8e6" },
+
+  /* ---------- ここから準備中（URLが決まったら url と img を書く） ---------- */
+  { id:"neuschwanstein", name:"ノイシュヴァンシュタイン城", orig:"Schloss Neuschwanstein", where:"ドイツ・バイエルン州シュヴァンガウ",
+    url:"", img:"", sil:"castle",
+    lat:47.5576, lon:10.7498, year:1869, yearLabel:"1869年 着工", builder:"バイエルン王ルートヴィヒ2世",
+    style:"ロマネスク・リヴァイヴァル（歴史主義）", scale:"王の死で未完のまま。完成したのは約15室", badges:["夢の城","狂王ルートヴィヒ"],
+    heritage:false, legend:false, era:"現代⇄王の時代（予定）", point:"歌人の間、玉座の間、マリエン橋からの眺め",
+    nen:"ルートヴィヒ2世、アルプスの断崖に夢の城を築きはじめる", jp:"明治2年。版籍奉還の年",
+    seal:{key:"neuschwanstein_seal", label:"登城"}, fuda:{key:"neuschwanstein_fuda", total:0}, stamp:"#e6c27a" },
+
+  { id:"windsor", name:"ウィンザー城", orig:"Windsor Castle", where:"イギリス・バークシャー州ウィンザー",
+    url:"", img:"", sil:"keep",
+    lat:51.4839, lon:-0.6044, year:1070, yearLabel:"1070年ごろ 築城", builder:"ウィリアム征服王",
+    style:"ノルマン様式〜ゴシック", scale:"いまも人が住む城として世界最古・最大級", badges:["王室の居城","円塔"],
+    heritage:false, legend:false, era:"現代⇄中世（予定）", point:"丘の上の円塔、聖ジョージ礼拝堂、ステート・アパートメント",
+    nen:"ノルマン征服ののち、テムズ川を見下ろす丘に木の砦を築く", jp:"平安時代後期。後三条天皇が荘園整理令を出したころ",
+    seal:{key:"windsor_seal", label:"登塔"}, fuda:{key:"windsor_fuda", total:0}, stamp:"#d06a6a" },
+
+  { id:"montsaintmichel", name:"モン・サン・ミシェル", orig:"Mont-Saint-Michel", where:"フランス・ノルマンディー",
+    url:"", img:"", sil:"mont",
+    lat:48.6361, lon:-1.5115, year:708, yearLabel:"708年 聖堂創建", builder:"アヴランシュ司教オベール（大天使ミカエルのお告げと伝わる）",
+    style:"ロマネスク〜ゴシック（修道院「ラ・メルヴェイユ」）", scale:"潮の満ち引きで島にも陸にもなる岩山", badges:["世界遺産","修道院","潮の島"],
+    heritage:true, legend:false, era:"現代⇄巡礼の時代（予定）", point:"満潮で海に浮かぶ姿、修道院の回廊、グランド・リュ",
+    nen:"大天使ミカエルのお告げで、岩山に小さな聖堂が建つ", jp:"奈良時代の直前・和銅元年。和同開珎が作られた年",
+    seal:{key:"montsaintmichel_seal", label:"巡礼"}, fuda:{key:"montsaintmichel_fuda", total:0}, stamp:"#8fc0d8" },
+
+  { id:"heidelberg", name:"ハイデルベルク城", orig:"Heidelberger Schloss", where:"ドイツ・バーデン＝ヴュルテンベルク州",
+    url:"", img:"", sil:"keep",
+    lat:49.4106, lon:8.7153, year:1214, yearLabel:"1214年 記録に登場", builder:"プファルツ選帝侯家",
+    style:"ゴシック〜ドイツ・ルネサンス（いまは廃墟）", scale:"世界最大級の大酒樽（約22万リットル）", badges:["古城の廃墟","大酒樽"],
+    heritage:false, legend:false, era:"現代（廃墟）⇄選帝侯の時代（予定）", point:"赤い砂岩の廃墟、オットハインリヒ館、ネッカー川の眺め",
+    nen:"ハイデルベルクの城が記録にあらわれる", jp:"鎌倉時代。3代将軍源実朝のころ",
+    seal:{key:"heidelberg_seal", label:"登城"}, fuda:{key:"heidelberg_fuda", total:0}, stamp:"#e08a6a" },
+
+  { id:"alcazar", name:"アルカサル城", orig:"Alcázar de Segovia", where:"スペイン・セゴビア",
+    url:"", img:"", sil:"castle",
+    lat:40.9526, lon:-4.1325, year:1122, yearLabel:"1122年ごろ 記録に登場", builder:"カスティーリャ王家",
+    style:"ゴシック・ムデハル（青い円錐屋根の塔）", scale:"二つの川にはさまれた断崖の先、船の舳先のような城", badges:["世界遺産","カスティーリャ王家"],
+    heritage:true, legend:false, era:"現代⇄イサベル女王の時代（予定）", point:"船の舳先の形、王の間の天井、フアン2世の塔",
+    nen:"セゴビアの断崖の城が記録にあらわれる", jp:"平安時代後期。白河法皇の院政のころ",
+    seal:{key:"alcazar_seal", label:"登塔"}, fuda:{key:"alcazar_fuda", total:0}, stamp:"#7fa6e8" },
+
+  { id:"prague", name:"プラハ城", orig:"Pražský hrad", where:"チェコ・プラハ",
+    url:"", img:"", sil:"spire",
+    lat:50.0911, lon:14.4016, year:880, yearLabel:"880年ごろ 創建", builder:"ボジヴォイ1世（プシェミスル家）",
+    style:"ロマネスク〜ゴシック（聖ヴィート大聖堂）", scale:"世界最大級の古城の敷地", badges:["世界遺産","聖ヴィート大聖堂"],
+    heritage:true, legend:false, era:"現代⇄カレル4世の時代（予定）", point:"聖ヴィート大聖堂、黄金の小路、カレル橋からの眺め",
+    nen:"ボヘミアの公、ヴルタヴァ川を見下ろす丘に城を築く", jp:"平安時代前期。在原業平が亡くなった年",
+    seal:{key:"prague_seal", label:"登城"}, fuda:{key:"prague_fuda", total:0}, stamp:"#c9a35c" },
+
+  { id:"alhambra", name:"アルハンブラ宮殿", orig:"Alhambra · الحمراء", where:"スペイン・グラナダ",
+    url:"", img:"", sil:"moorish",
+    lat:37.1761, lon:-3.5881, year:1238, yearLabel:"1238年 造営開始", builder:"ナスル朝ムハンマド1世",
+    style:"イスラム建築（ナスル朝様式）", scale:"「赤い城」の名をもつ丘の上の城塞宮殿", badges:["世界遺産","ナスル朝","イスラム建築"],
+    heritage:true, legend:false, era:"現代⇄ナスル朝の時代（予定）", point:"ライオンの中庭、アラヤネスの中庭、鍾乳石飾りの天井",
+    nen:"ナスル朝の初代王、グラナダの丘に宮殿を築きはじめる", jp:"鎌倉時代。御成敗式目ができた6年後",
+    seal:{key:"alhambra_seal", label:"謁見"}, fuda:{key:"alhambra_fuda", total:0}, stamp:"#e0a05a" }
 ];
 
 /* 地図の名所名ラベルの位置（点からどれだけずらすか：画面の1/100単位）。無ければ右に置く */
-const LABEL = { sagrada:[-2.2,3.4,"end"], versailles:[2.2,-1.4,"start"], atlantis:[0,6.2,"middle"] };
+const LABEL = { sagrada:[3,1.4,"start"], versailles:[2.2,-1.4,"start"], atlantis:[0,6.2,"middle"] };
 /* 地図に入ったときだけ描く海や地方の古名 */
 const SEAS = [
-  ["OCEANUS ATLANTICUS","大西洋",-26,45], ["MARE MEDITERRANEUM","地中海",19,34], ["MARE GERMANICUM","北海",3,56.5],
+  ["OCEANUS ATLANTICUS","大西洋",-22,45.5], ["MARE MEDITERRANEUM","地中海",19,34], ["MARE GERMANICUM","北海",3,56.5],
   ["AFRICA","",8,22], ["EUROPA","",18,48], ["ASIA","",80,45], ["MARE PACIFICUM","太平洋",-140,10], ["OCEANUS INDICUS","インド洋",75,-15],
   ["AMERICA","",-100,40], ["AEGYPTUS","",30,26.5]
 ];
@@ -370,6 +436,45 @@ function silSVG(kind){
     for(const [x,h] of tw){ s+=`<path d="M${x-8} 182 L${x-6} ${182-h+30} Q${x} ${182-h} ${x+6} ${182-h+30} L${x+8} 182Z" fill="${C}" stroke="${L}" stroke-width=".8"/>`;
       for(let y=182-h+40;y<176;y+=9) s+=`<rect x="${x-3}" y="${y}" width="6" height="3" fill="${D}" opacity=".5"/>`; }
     s+=`<path d="M100 4 L100 -2 M97 0 L103 0" stroke="#c9a35c" stroke-width="2"/>`;
+  }else if(kind==="castle"){
+    // 尖り屋根の塔が並ぶ城（ノイシュヴァンシュタイン・セゴビア）
+    s+=`<path d="M0 182 L36 150 L60 156 L80 140 L200 146 L200 182Z" fill="#3a362e"/>`;
+    s+=`<rect x="56" y="104" width="92" height="46" fill="${C}" opacity=".85"/>`;
+    const T=[[46,96,14,40],[78,70,16,50],[112,52,20,64],[150,84,14,44],[132,96,10,30]];
+    for(const [x,y,w,h] of T){ s+=`<rect x="${x-w/2}" y="${y}" width="${w}" height="${150-y}" fill="${C}"/>`;
+      s+=`<path d="M${x-w/2-2} ${y} L${x} ${y-h*.7} L${x+w/2+2} ${y}Z" fill="${D}" stroke="${L}" stroke-width=".8"/>`;
+      for(let yy=y+8;yy<146;yy+=14) s+=`<rect x="${x-2}" y="${yy}" width="4" height="7" fill="${D}" opacity=".6"/>`; }
+    for(let x=64;x<146;x+=12) s+=`<rect x="${x}" y="116" width="4" height="10" fill="${D}" opacity=".6"/>`;
+  }else if(kind==="keep"){
+    // 鋸壁（狭間）のある塔と城壁（ウィンザー・ハイデルベルク）
+    s+=`<path d="M0 182 L30 160 L170 158 L200 182Z" fill="#3a362e"/>`;
+    const bat=(x,y,w)=>{ let r=""; for(let i=x;i<x+w-1;i+=8) r+=`<rect x="${i}" y="${y-6}" width="5" height="6" fill="${C}"/>`; return r; };
+    s+=`<rect x="14" y="124" width="172" height="36" fill="${C}" opacity=".8"/>`+bat(14,124,172);
+    s+=`<rect x="80" y="70" width="44" height="90" fill="${C}"/>`+bat(80,70,44);
+    s+=`<rect x="24" y="100" width="22" height="60" fill="${C}"/>`+bat(24,100,22);
+    s+=`<rect x="152" y="96" width="24" height="64" fill="${C}"/>`+bat(152,96,24);
+    for(const x of [92,108]) s+=`<rect x="${x}" y="86" width="5" height="12" fill="${D}" opacity=".6"/><rect x="${x}" y="110" width="5" height="12" fill="${D}" opacity=".6"/>`;
+    s+=`<path d="M94 160 L94 146 Q102 136 110 146 L110 160Z" fill="${D}"/>`;
+    s+=`<line x1="102" y1="64" x2="102" y2="44" stroke="${L}" stroke-width="1.2"/><path d="M102 44 L118 49 L102 54Z" fill="#c9a35c"/>`;
+  }else if(kind==="mont"){
+    // 海に浮かぶ岩山の修道院
+    s=`<path d="M0 176 Q100 170 200 176 L200 200 L0 200Z" fill="#1d2630"/>`;
+    s+=`<path d="M20 176 Q60 120 90 100 L112 100 Q150 124 182 176Z" fill="#3a362e"/>`;
+    for(let x=34;x<170;x+=14) s+=`<rect x="${x}" y="${150+Math.abs(x-100)*.12}" width="10" height="12" fill="${C}" opacity=".7"/>`;
+    s+=`<rect x="76" y="80" width="50" height="28" fill="${C}"/>`;
+    s+=`<path d="M74 80 L128 80 L120 70 L82 70Z" fill="${D}" stroke="${L}" stroke-width=".8"/>`;
+    s+=`<rect x="96" y="46" width="10" height="26" fill="${C}"/><path d="M95 46 L101 6 L107 46Z" fill="${D}" stroke="${L}" stroke-width=".8"/>`;
+    s+=`<circle cx="101" cy="4" r="2.2" fill="#c9a35c"/>`;
+    for(let x=82;x<124;x+=8) s+=`<path d="M${x} 104 L${x} 92 Q${x+2.5} 88 ${x+5} 92 L${x+5} 104Z" fill="${D}" opacity=".55"/>`;
+    return `<svg viewBox="0 -6 200 206" aria-hidden="true">${s}</svg>`;
+  }else if(kind==="moorish"){
+    // 馬蹄形アーチと四角い塔の城塞宮殿
+    s+=`<path d="M0 182 L0 150 Q100 136 200 150 L200 182Z" fill="#3a362e"/>`;
+    s+=`<rect x="12" y="112" width="176" height="40" fill="#b9876a" opacity=".85"/>`;
+    for(const [x,w,y] of [[20,26,86],[84,32,66],[150,28,92]]) s+=`<rect x="${x}" y="${y}" width="${w}" height="${152-y}" fill="#c69477"/><path d="M${x} ${y} L${x+w} ${y}" stroke="${L}"/>`+Array.from({length:Math.floor(w/7)},(_,i)=>`<rect x="${x+2+i*7}" y="${y-5}" width="4" height="5" fill="#c69477"/>`).join("");
+    for(let x=56;x<144;x+=11){ if(x>80&&x<118) continue; s+=`<path d="M${x} 150 L${x} 130 Q${x} 120 ${x+4} 119 Q${x+8} 120 ${x+8} 130 L${x+8} 150Z" fill="${D}" opacity=".65"/>`; }
+    s+=`<path d="M92 152 L92 106 Q92 94 100 92 Q108 94 108 106 L108 152Z" fill="${D}"/>`;
+    s+=`<g fill="#2f4a2e">`+[30,62,128,170].map(x=>`<path d="M${x} 182 Q${x-3} 160 ${x} 132 Q${x+3} 160 ${x} 182Z"/>`).join("")+`</g>`;
   }else{
     // 神殿：破風と列柱
     s+=`<path d="M22 182 L178 182 L172 172 L28 172Z" fill="${C}" opacity=".7"/>`;
@@ -411,7 +516,7 @@ function cardHTML(c,i){
     ${visaHTML(c)}
     <div class="body">
       <div class="orig">${esc(c.orig)}</div>
-      <div class="nm ${c.name.length>7?"long":""}">${esc(c.name)}</div>
+      <div class="nm ${c.name.length>11?"xlong":c.name.length>7?"long":""}">${esc(c.name)}</div>
       <div class="badges">${badges}</div>
       <dl>
         <dt>はじまり</dt><dd>${esc(c.yearLabel)}</dd>
@@ -493,14 +598,17 @@ function renderMap(){
     const lx=x+dx*u, ly=y+dy*u, fs=u*3.3;
     const lead=(Math.abs(dx)>2.6||Math.abs(dy)>2.6)?`<line class="ld" stroke-width="${u*.15}" x1="${x}" y1="${y}" x2="${lx}" y2="${ly-(dy>0?fs*.9:-fs*.2)}"/>`:"";
     const ring=c.legend?`<circle class="ring" stroke-width="${u*.25}" cx="${x}" cy="${y}" r="${u*3.6}"/>`:"";
-    return `<g class="pin ${isOpen(c)?"open":"wip"} ${c.legend?"legend":""} ${sealOf(c)?"visited":""}" data-id="${c.id}" tabindex="0" role="button" aria-label="${esc(c.name)}">
-      <circle cx="${x}" cy="${y}" r="${u*4}" fill="transparent"/>${ring}
-      <circle class="halo" stroke-width="${u*.2}" cx="${x}" cy="${y}" r="${u*1}"/>${lead}
-      <circle class="dot" stroke-width="${u*.25}" cx="${x}" cy="${y}" r="${u*(isOpen(c)?1.2:1)}"/>
-      <text class="lb" stroke-width="${u*.9}" font-size="${fs}" x="${lx}" y="${ly}" text-anchor="${anc}">${esc(c.name)}</text>
-      <text class="lbs" stroke-width="${u*.7}" font-size="${fs*.62}" x="${lx}" y="${ly+fs*.95}" text-anchor="${anc}">${esc(c.orig.split(" · ").pop())}</text></g>`;
+    const no=roman(PLACES.indexOf(c)+1), open=isOpen(c);
+    const label=open?`${lead}<text class="lb" stroke-width="${u*.9}" font-size="${fs}" x="${lx}" y="${ly}" text-anchor="${anc}">${esc(c.name)}</text>
+      <text class="lbs" stroke-width="${u*.7}" font-size="${fs*.62}" x="${lx}" y="${ly+fs*.95}" text-anchor="${anc}">${esc(c.orig.split(" · ").pop())}</text>`:"";
+    return `<g class="pin ${open?"open":"wip"} ${c.legend?"legend":""} ${sealOf(c)?"visited":""}" data-id="${c.id}" tabindex="0" role="button" aria-label="${no} ${esc(c.name)}">
+      <circle cx="${x}" cy="${y}" r="${u*3.2}" fill="transparent"/>${ring}
+      <circle class="halo" stroke-width="${u*.2}" cx="${x}" cy="${y}" r="${u*1.6}"/>
+      <circle class="dot" stroke-width="${u*.22}" cx="${x}" cy="${y}" r="${u*1.75}"/>
+      <text class="pno" font-size="${u*(no.length>2?1.25:1.6)}" x="${x}" y="${y+u*.55}">${no}</text>${label}</g>`;
   }).join("");
   const svg=$("#map"); svg.setAttribute("viewBox",`${x0} ${y0} ${w} ${h}`); svg.innerHTML=g;
+  $("#mapIdx").innerHTML=PLACES.map((c,i)=>`<button class="${isOpen(c)?"":"wip"}" data-id="${c.id}"><i>${roman(i+1)}</i>${esc(c.name)}</button>`).join("");
 }
 
 /* ---------- 時の回廊 ---------- */
@@ -539,6 +647,7 @@ $("#rail").addEventListener("click",e=>{
 });
 $("#rail").addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("wip")){ e.preventDefault(); e.target.click(); }});
 $("#map").addEventListener("click",e=>{ const p=e.target.closest(".pin"); if(p) jumpTo(p.dataset.id); });
+$("#mapIdx").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) jumpTo(b.dataset.id); });
 $("#map").addEventListener("keydown",e=>{ const p=e.target.closest(".pin"); if(p&&e.key==="Enter") jumpTo(p.dataset.id); });
 $("#nenpyo").addEventListener("click",e=>{ const n=e.target.closest(".nen"); if(n) jumpTo(n.dataset.id); });
 document.querySelectorAll(".chip[data-f]").forEach(b=>b.addEventListener("click",()=>{
