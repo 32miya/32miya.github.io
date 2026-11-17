@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c0f14">
+<meta name="description" content="アトランティス・サグラダ・ファミリア・ヴェルサイユ宮殿…世界の名所と伝説の都を3Dで歩いてめぐる「世界さんぽ」シリーズの入口">
+<title>世界さんぽ ― 時と海をこえて歩く3D散策</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Zen+Kaku+Gothic+New:wght@400;700&family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&display=swap">
+<style>
+/* 夜の書斎（藍墨）の地に、真鍮（brass）の飾り。羊皮紙は古地図だけ。封蝋の赤は「旅立つ」と査証印だけに使う */
+:root{
+  --ai:#0c0f14; --ai2:#141922; --ai3:#1c2330;
+  --ink:#ece6da; --mute:#a39c8e; --faint:#6c685f;
+  --brass:#c9a35c; --brass-d:#8a6f3f; --wax:#b3372c; --verd:#5c9a8f; --line:rgba(201,163,92,.22);
+  --parch:#e8dcc1; --parch-d:#c9b48c; --sepia:#5a4630;
+  --mincho:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --goth:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif;
+  --latin:"Cormorant Garamond","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ai);color:var(--ink);font-family:var(--goth);-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{min-height:100vh;overflow-x:hidden;
+  background:
+   radial-gradient(1100px 600px at 85% -10%,rgba(201,163,92,.11),transparent 60%),
+   radial-gradient(900px 520px at -10% 35%,rgba(92,154,143,.08),transparent 60%),
+   var(--ai)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+
+/* ---------- 表題 ---------- */
+header.hero{position:relative;padding-top:calc(env(safe-area-inset-top,0px) + 34px);padding-bottom:18px;overflow:hidden}
+.hero .rose{position:absolute;right:-70px;top:-40px;width:320px;height:320px;opacity:.09;pointer-events:none;animation:spin 240s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.eyebrow{font-size:11px;letter-spacing:.32em;color:var(--brass)}
+.hero h1{font-family:var(--mincho);font-weight:800;font-size:clamp(46px,13.5vw,80px);line-height:1.05;letter-spacing:.06em;margin:10px 0 4px}
+.hero h1 small{display:block;font-size:.27em;letter-spacing:.42em;color:var(--mute);font-weight:600;margin-top:10px}
+.hero .motto{font-family:var(--latin);font-style:italic;font-size:17px;color:var(--brass);letter-spacing:.04em;margin:8px 0 10px}
+.hero p.lead{font-family:var(--mincho);font-size:15px;color:#d9d3c6;line-height:1.9;max-width:34em}
+.passport{display:flex;align-items:center;gap:12px;margin-top:18px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(20,25,34,.65);width:fit-content}
+.passport .bk{width:30px;height:40px;border-radius:3px 5px 5px 3px;background:linear-gradient(90deg,#3a1f1a,#5b2c24);border:1px solid #8a5a3a;display:grid;place-items:center;color:var(--brass);font-family:var(--latin);font-size:8px;letter-spacing:.06em;line-height:1.1;text-align:center;box-shadow:inset 3px 0 0 rgba(0,0,0,.35)}
+.passport b{font-family:var(--mincho);font-size:20px;color:var(--ink)}
+.passport span{font-size:12px;color:var(--mute)}
+.passport .dots{display:flex;gap:4px;margin-left:4px}
+.passport .dots i{width:7px;height:7px;border-radius:50%;background:#26303d}
+.passport .dots i.on{background:var(--wax)}
+
+/* ---------- 見出し ---------- */
+.sec{margin-top:36px}
+.sec-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin-bottom:14px}
+.sec-h h2{font-family:var(--mincho);font-weight:800;font-size:22px;letter-spacing:.14em}
+.sec-h h2::before{content:"◆";color:var(--brass);font-size:12px;margin-right:10px;vertical-align:3px}
+.sec-h .la{font-family:var(--latin);font-style:italic;color:var(--brass-d);font-size:15px}
+.sec-h .sub{font-size:12px;color:var(--mute);flex-basis:100%}
+
+/* ---------- 絞り込み ---------- */
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:12px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;color:#d6d0c3;background:rgba(20,25,34,.65)}
+.chip[aria-pressed="true"]{background:var(--brass);color:#17120a;border-color:var(--brass);font-weight:700}
+.chip.sort{margin-left:auto}
+
+/* ---------- 名所の札（カード） ---------- */
+.rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 18px 18px;margin:0 -18px;scrollbar-width:none;overscroll-behavior-x:contain}
+.rail::-webkit-scrollbar{display:none}
+@media (min-width:900px){ .rail{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));overflow:visible;margin:0;padding:4px 0 18px} }
+.card{position:relative;flex:none;width:min(78vw,310px);aspect-ratio:9/15;border-radius:16px;overflow:hidden;scroll-snap-align:center;
+  background:var(--ai2);border:1px solid rgba(255,255,255,.06);box-shadow:0 18px 40px rgba(0,0,0,.45);text-decoration:none;
+  text-align:left;display:block;transition:transform .25s,box-shadow .25s,outline-color .3s;outline:2px solid transparent;outline-offset:3px}
+@media (min-width:900px){ .card{width:auto} }
+.card:active{transform:scale(.985)}
+@media (hover:hover){ .card.open:hover{transform:translateY(-4px);box-shadow:0 26px 50px rgba(0,0,0,.55)} }
+.card.flash{outline-color:var(--brass)}
+.card[hidden]{display:none}
+.card .bg{position:absolute;left:0;right:0;top:-12%;height:100%;background-size:cover;background-position:center 40%;transition:transform 6s ease}
+@media (hover:hover){ .card.open:hover .bg{transform:scale(1.06)} }
+.card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,11,15,.55) 0%,rgba(9,11,15,0) 16%,rgba(9,11,15,0) 34%,rgba(9,11,15,.78) 50%,#0a0d12 68%)}
+.card .frame{position:absolute;inset:7px;border:1px solid rgba(201,163,92,.28);border-radius:11px;pointer-events:none}
+.card .top{position:absolute;left:16px;right:16px;top:13px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.card .where{font-size:10.5px;letter-spacing:.16em;color:#ddd7cb;text-shadow:0 1px 4px rgba(0,0,0,.85)}
+.card .no{font-family:var(--latin);font-weight:600;font-size:15px;color:var(--brass);letter-spacing:.12em;text-shadow:0 1px 4px rgba(0,0,0,.85)}
+.card .body{position:absolute;left:0;right:0;bottom:0;padding:0 16px 16px;display:grid;gap:7px}
+.card .orig{font-family:var(--latin);font-style:italic;font-weight:600;font-size:17px;color:#dcb873;line-height:1.1;text-shadow:0 1px 6px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.8)}
+.card .nm{font-family:var(--mincho);font-weight:800;font-size:31px;line-height:1.12;letter-spacing:.04em;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.card .nm.long{font-size:25px}
+.card .badges{display:flex;flex-wrap:wrap;gap:4px}
+.badge{font-size:10px;padding:2px 6px;border-radius:4px;border:1px solid rgba(236,230,218,.35);color:#e8e2d6;letter-spacing:.05em;white-space:nowrap}
+.badge.h{border-color:var(--brass);color:var(--brass)}
+.badge.m{border-color:var(--verd);color:#8fd0c4}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:2px 9px;font-size:11px;line-height:1.5}
+.card dt{color:var(--mute);white-space:nowrap}
+.card dd{color:#e7e1d6}
+.card .go{margin-top:3px;display:inline-flex;align-items:center;gap:6px;justify-self:start;background:var(--wax);color:#fff;font-weight:700;font-size:14px;letter-spacing:.12em;padding:10px 16px;border-radius:9px}
+.card .go::after{content:"›";font-size:18px;line-height:0}
+.card .fudaN{font-size:11px;color:#e6cf9c;letter-spacing:.06em;display:flex;align-items:center;gap:6px}
+.card .fudaN i{flex:1;height:4px;border-radius:2px;background:rgba(236,230,218,.15);overflow:hidden}
+.card .fudaN i b{display:block;height:100%;background:linear-gradient(90deg,var(--wax),var(--brass))}
+/* 査証印（その名所の最上階・展望に着くと押される） */
+.card .visa{position:absolute;right:14px;top:40px;padding:6px 9px 5px;border:2.5px double var(--sc,#b3372c);border-radius:9px;color:var(--sc,#b3372c);display:none;text-align:center;
+  font-family:var(--latin);font-weight:600;font-size:10px;letter-spacing:.14em;line-height:1.25;transform:rotate(-11deg);background:rgba(10,13,18,.35);opacity:.92;text-shadow:0 0 1px currentColor}
+.card .visa b{display:block;font-family:var(--mincho);font-size:14px;letter-spacing:.06em;margin:1px 0}
+.card.visited .visa{display:block}
+/* 準備中 */
+.card.wip{cursor:default}
+.card.wip .bg{filter:grayscale(1) contrast(.9) brightness(.8)}
+.card.wip .go{background:transparent;border:1px dashed rgba(236,230,218,.4);color:#cfc8bb;font-weight:400;letter-spacing:.1em}
+.card.wip .go::after{content:""}
+.card .soon{position:absolute;left:50%;top:25%;transform:translate(-50%,-50%) rotate(-9deg);border:2px solid rgba(179,55,44,.9);color:rgba(236,120,100,.95);
+  font-family:var(--mincho);font-weight:800;font-size:21px;letter-spacing:.28em;padding:6px 8px 4px 16px;border-radius:4px;background:rgba(12,15,20,.55);white-space:nowrap;text-align:center}
+.card .soon small{display:block;font-family:var(--latin);font-style:italic;font-weight:500;font-size:11px;letter-spacing:.2em;margin-right:8px}
+.etch-bg{position:absolute;inset:0;top:0!important;height:100%!important;background:
+   radial-gradient(120% 70% at 50% 110%,#26231d 0%,transparent 60%),
+   radial-gradient(90% 50% at 30% 30%,#202530 0%,transparent 70%),
+   linear-gradient(180deg,#191c22,#101318)}
+.etch-bg svg{position:absolute;left:50%;top:10%;width:86%;transform:translateX(-50%);opacity:.9}
+
+/* ---------- 古地図 ---------- */
+.mapbox{max-width:820px;position:relative;border-radius:14px;overflow:hidden;background:var(--parch);
+  box-shadow:0 0 0 1px #8a6f3f,0 0 0 5px #1a1510,0 0 0 6px var(--brass-d),0 18px 40px rgba(0,0,0,.5)}
+.mapbox svg{display:block;width:100%;height:auto}
+.mapbox::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,0) 50%,rgba(70,45,15,.38) 100%),
+  repeating-linear-gradient(0deg,rgba(90,70,48,.025) 0 2px,transparent 2px 4px)}
+#map .sea{fill:#e6d8b8}
+#map .land{fill:#d6c49c;stroke:#6b5434;stroke-linejoin:round}
+#map .coast{fill:none;stroke:rgba(107,84,52,.25);stroke-linejoin:round}
+#map .grat{stroke:rgba(90,70,48,.18);fill:none}
+#map .rhumb{stroke:rgba(140,60,40,.16);fill:none}
+#map .sealb{font-family:var(--latin);font-style:italic;fill:rgba(90,70,48,.55);letter-spacing:.18em;text-anchor:middle}
+#map .sealbj{font-family:var(--mincho);fill:rgba(90,70,48,.6);letter-spacing:.3em;text-anchor:middle}
+.pin{cursor:pointer}
+.pin .dot{fill:var(--wax);stroke:#2a1c10}
+.pin.wip .dot{fill:#efe4cc;stroke:#5a4630;stroke-dasharray:.6 .4}
+.pin.legend .dot{fill:#3f7f76}
+.pin.visited .dot{fill:#7a1f18}
+.pin .ring{fill:none;stroke:#3f7f76;stroke-dasharray:1 .8}
+.pin .lb{font-family:var(--mincho);font-weight:800;fill:#2b1f12;paint-order:stroke;stroke:#ecdfc2;stroke-linejoin:round}
+.pin .lbs{font-family:var(--latin);font-style:italic;fill:#5a4630;paint-order:stroke;stroke:#ecdfc2;stroke-linejoin:round}
+.pin.wip .lb{fill:#6d5b45;font-weight:600}
+.pin .ld{stroke:rgba(43,31,18,.55)}
+.pin .halo{transform-box:fill-box;transform-origin:center;fill:none;stroke:var(--wax);opacity:0}
+.pin.open .halo{animation:halo 2.6s ease-out infinite}
+@keyframes halo{0%{transform:scale(1);opacity:.85}100%{transform:scale(3.6);opacity:0}}
+.maptitle{position:absolute;left:12px;top:9px;font-family:var(--latin);font-style:italic;font-weight:600;font-size:15px;color:rgba(90,58,30,.75);letter-spacing:.08em;pointer-events:none}
+.maptitle small{display:block;font-family:var(--mincho);font-style:normal;font-weight:800;font-size:11px;letter-spacing:.3em;color:rgba(90,58,30,.6)}
+.maplegend{position:relative;z-index:1;padding:9px 14px;border-top:1px solid rgba(90,70,48,.3);display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:#5a4630;background:rgba(214,196,156,.45)}
+.maplegend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+/* ---------- 時の回廊（年表） ---------- */
+.nenpyo{position:relative;border-left:1px solid var(--line);margin-left:92px;display:grid;gap:4px}
+.nen{position:relative;display:grid;grid-template-columns:1fr;gap:2px;padding:10px 6px 10px 18px;text-align:left;border-radius:10px;width:100%}
+.nen:hover{background:rgba(255,255,255,.025)}
+.nen::before{content:"";position:absolute;left:-5px;top:17px;width:9px;height:9px;border-radius:50%;background:var(--brass);box-shadow:0 0 0 3px var(--ai)}
+.nen.wip::before{background:var(--ai);border:1.5px dashed #8a857b;width:7px;height:7px}
+.nen.legend::before{background:var(--verd)}
+.nen .y{position:absolute;left:-94px;top:9px;width:82px;text-align:right;font-family:var(--mincho);font-weight:800;font-size:15px;color:var(--ink);line-height:1.2}
+.nen .y small{display:block;font-size:10px;color:var(--mute);font-weight:600;letter-spacing:.06em}
+.nen .t{font-family:var(--mincho);font-size:15px;font-weight:600}
+.nen .t em{font-style:normal;color:var(--mute);font-size:12px;font-family:var(--goth);margin-left:6px}
+.nen .jp{font-size:11.5px;color:#cbb487;line-height:1.6}
+.nen .jp::before{content:"そのころ日本は ";color:var(--faint);letter-spacing:.06em}
+.nen.wip .t{color:#a9a396}
+.jidai{font-size:10px;letter-spacing:.3em;color:var(--faint);padding:12px 0 2px 18px}
+.jidai i{font-family:var(--latin);font-size:12px;letter-spacing:.1em;margin-left:8px}
+
+/* ---------- 旅のことば ---------- */
+.kotoba{display:grid;gap:8px}
+@media (min-width:760px){ .kotoba{grid-template-columns:1fr 1fr} }
+details{border:1px solid var(--line);border-radius:12px;background:rgba(20,25,34,.65)}
+summary{list-style:none;cursor:pointer;padding:13px 16px;font-family:var(--mincho);font-weight:800;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary span{font-family:var(--latin);font-style:italic;font-weight:500;color:var(--brass-d);font-size:13px;margin-left:8px}
+summary::after{content:"＋";color:var(--brass);font-family:var(--goth)}
+details[open] summary::after{content:"－"}
+details p{padding:0 16px 14px;font-size:13px;line-height:1.85;color:#d4cec2}
+details p b{color:var(--brass);font-weight:700}
+
+/* ---------- 姉妹シリーズ ---------- */
+.sister{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(90deg,rgba(210,69,44,.10),rgba(20,25,34,.65));text-decoration:none;max-width:560px}
+.sister .kamon{flex:none;width:44px;height:44px}
+.sister b{display:block;font-family:var(--mincho);font-size:17px;letter-spacing:.1em}
+.sister small{font-size:12px;color:var(--mute);line-height:1.6}
+.sister::after{content:"›";margin-left:auto;font-size:24px;color:var(--brass)}
+
+footer{margin:46px 0 0;padding:22px 0 calc(env(safe-area-inset-bottom,0px) + 28px);border-top:1px solid var(--line);font-size:11px;color:var(--faint);line-height:1.8}
+footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:underline}
+
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:#1b212c;border:1px solid var(--line);color:var(--ink);font-size:13px;padding:11px 16px;border-radius:10px;transition:.3s;z-index:20;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#leaving{position:fixed;inset:0;background:var(--ai);z-index:30;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .35s}
+#leaving.on{opacity:1;pointer-events:auto}
+#leaving div{font-family:var(--mincho);font-weight:800;font-size:22px;letter-spacing:.24em;text-align:center;padding:0 20px}
+#leaving small{display:block;font-family:var(--goth);font-weight:400;font-size:12px;letter-spacing:.2em;color:var(--mute);margin-top:12px}
+#leaving em{display:block;font-family:var(--latin);font-weight:500;font-size:16px;letter-spacing:.08em;color:var(--brass);margin-bottom:10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="hero wrap">
+  <svg class="rose" viewBox="-50 -50 100 100" aria-hidden="true" id="roseBig"></svg>
+  <div class="eyebrow">３Ｄ 世界名所散策シリーズ</div>
+  <h1>世界さんぽ<small>時と海をこえて歩く</small></h1>
+  <div class="motto">Plus Ultra ― さらに彼方へ</div>
+  <p class="lead">聖堂の森のような柱を見上げ、王の回廊を抜け、海に沈んだ都の橋を渡る。<br>世界の名所と伝説の都を歩いてめぐり、時代を切り替えれば、かつての姿がよみがえる。<br>行きたい場所の札に触れて、旅立ってください。</p>
+  <div class="passport" aria-live="polite"><div class="bk">PASS<br>PORT</div><div><b id="psCount">0</b> <span>/ <span id="psTotal">0</span> か所 &nbsp;査証印 <small style="opacity:.72;font-size:.82em">（塔や最上階に登ると押印）</small></span></div><div class="dots" id="psDots"></div></div>
+</header>
+
+<main class="wrap">
+  <section class="sec" id="sec-cards" aria-labelledby="h-cards">
+    <div class="sec-h"><h2 id="h-cards">旅先をえらぶ</h2><span class="la">Itinera</span><span class="sub" id="cardSub"></span></div>
+    <div class="chips" role="toolbar" aria-label="絞り込み">
+      <button class="chip" data-f="all" aria-pressed="true">すべて</button>
+      <button class="chip" data-f="open" aria-pressed="false">公開中</button>
+      <button class="chip" data-f="heritage" aria-pressed="false">世界遺産</button>
+      <button class="chip" data-f="legend" aria-pressed="false">伝説・神話</button>
+      <button class="chip" data-f="wip" aria-pressed="false">準備中</button>
+      <button class="chip sort" id="sortBtn" aria-pressed="false">並び：おすすめ</button>
+    </div>
+    <div class="rail" id="rail"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-map">
+    <div class="sec-h"><h2 id="h-map">古地図</h2><span class="la">Tabula Orbis</span><span class="sub">地図の印に触れると札へ移ります。緑の点線は伝承の地</span></div>
+    <div class="mapbox">
+      <svg id="map" role="img" aria-label="旅先の所在地図"></svg>
+      <div class="maptitle">Mappa Mundi<small>世界さんぽ 絵図</small></div>
+      <div class="maplegend"><span><i style="background:var(--wax)"></i>公開中</span><span><i style="background:#7a1f18"></i>査証済</span><span><i style="background:#3f7f76"></i>伝承の地</span><span><i style="background:#efe4cc;border:1px dashed #5a4630"></i>準備中</span></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-nen">
+    <div class="sec-h"><h2 id="h-nen">時の回廊</h2><span class="la">Chronologia</span><span class="sub">はじまりの年でならべ、同じころの日本をそえています</span></div>
+    <div class="nenpyo" id="nenpyo"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-kotoba">
+    <div class="sec-h"><h2 id="h-kotoba">旅のことば</h2><span class="la">Glossarium</span><span class="sub">歩く前に知っておくと面白い</span></div>
+    <div class="kotoba">
+      <details><summary><div>ヘラクレスの柱<span>Columnae Herculis</span></div></summary><p>ジブラルタル海峡の両岸にそびえる岩山の古い呼び名。古代ギリシアでは「世界の果て」とされました。プラトンは、アトランティスはこの<b>柱の外の大海</b>にあったと書いています。のちにスペイン王家はこの柱に<b>「Plus Ultra（さらに彼方へ）」</b>の標語をそえ、大航海時代の合言葉になりました。</p></details>
+      <details><summary><div>プラトンの対話篇<span>Timaeus et Critias</span></div></summary><p>紀元前360年ごろ、哲学者プラトンが書いた<b>『ティマイオス』『クリティアス』</b>。アテナイの政治家ソロンがエジプトの神官から聞いた話として、海に沈んだ王国アトランティスの都のつくりを、環の幅や神殿の飾りまで細かく語っています。実在を示す証拠は見つかっていません。</p></details>
+      <details><summary><div>オリハルコン<span>Orichalcum</span></div></summary><p>プラトンが「金に次いで貴い」と書いた、<b>火のように輝く金属</b>。アトランティスでは一番内側の城壁と、法を刻んだ柱がこれで覆われていたとされます。正体は真鍮のような銅の合金だったという説が有力です。</p></details>
+      <details><summary><div>バロック<span>Barocco</span></div></summary><p>17世紀のヨーロッパで花開いた、<b>壮大さと劇的な効果</b>を好む様式。ヴェルサイユ宮殿は、その中でも左右対称と秩序を重んじる<b>フランス古典主義</b>の代表で、宮殿・庭園・街路までが一つの軸で設計されています。</p></details>
+      <details><summary><div>モデルニスモ<span>Modernisme</span></div></summary><p>19世紀末から20世紀初めのバルセロナで栄えた芸術運動。アール・ヌーヴォーのカタルーニャ版とも言われ、<b>植物や生き物の曲線</b>、タイルのかけらを貼るモザイクが特徴。ガウディはその頂点に立つ建築家です。</p></details>
+      <details><summary><div>ゴシックの森<span>Gothicus</span></div></summary><p>中世の大聖堂は、細い柱と尖ったアーチで天井を高く押し上げ、ステンドグラスの光で満たしました。ガウディはその<b>ゴシックを作り直し</b>、外側の支え（飛び梁）をなくして、柱を樹のように枝分かれさせました。サグラダ・ファミリアの堂内が「森」と呼ばれるのはそのためです。</p></details>
+      <details><summary><div>鏡の間<span>Galerie des Glaces</span></div></summary><p>ヴェルサイユ宮殿の中心にある長さ<b>73m</b>の回廊。庭に面した17の窓と向かい合うように<b>357枚の鏡</b>が並びます。当時、大きな鏡はヴェネツィアの独占品で、フランスが自国で作り上げたことは国の威信そのものでした。1919年、第一次世界大戦を終わらせるヴェルサイユ条約がここで調印されました。</p></details>
+      <details><summary><div>世界遺産<span>Patrimonium Mundi</span></div></summary><p>ユネスコが人類共通の宝として登録する文化・自然の遺産。<b>ヴェルサイユの宮殿と庭園</b>は1979年に登録。サグラダ・ファミリアは<b>2005年</b>、生誕のファサードと地下聖堂が「アントニ・ガウディの作品群」に加えられました。</p></details>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-sis">
+    <div class="sec-h"><h2 id="h-sis">姉妹編</h2><span class="la">Iaponia</span></div>
+    <a class="sister" href="/oshiro/"><svg class="kamon" viewBox="-50 -50 100 100" aria-hidden="true" id="kamon"></svg><div><b>お城さんぽ</b><small>大阪城・姫路城・江戸城…日本の名城の天守に登る3D散策</small></div></a>
+  </section>
+
+  <footer>
+    「世界さんぽ」は、建物の配置と寸法を簡略化して再現した3D散策シリーズです。昔の時代や伝説の都の再現には、記録をもとにした想像を交えた部分があります。<br>
+    査証印は、各名所で塔や最上階まで登るといただけます。見どころ札は、名所に歩いて着くといただけます。記録はこの端末のブラウザにだけ保存されます。
+    <div><button class="reset" id="resetBtn">査証印と見どころ札の記録を消す</button></div>
+  </footer>
+</main>
+
+<div id="toast" role="status"></div>
+<div id="leaving" aria-hidden="true"><div id="leavingT">旅立ち</div></div>
+
+<script src="land.js"></script>
+<script>
+/* =====================================================================
+   旅先の一覧 ―― 新しい名所を公開したら、ここに url（と img）を書き足すだけ
+   url  : 公開ページのURL。空文字 "" のあいだは「準備中」として表示
+   img  : 札の背景（スタート画面の3D絵 468×800）。無ければ銅版画風のシルエット（sil）で表示
+   sil  : シルエットの形  palace（宮殿）/ spire（尖塔の聖堂）/ temple（神殿）/ pyramid / tower / dome
+   seal : その名所が塔や最上階で localStorage に書く「印」のキー（査証印として表示）
+   fuda : 見どころ札のキーと総数（{ key, total }）
+   year : はじまりの年（紀元前はマイナス）。年表と並び替えに使う
+   ===================================================================== */
+const PLACES = [
+  { id:"sagrada", name:"サグラダ・ファミリア", orig:"Sagrada Família", where:"スペイン・バルセロナ",
+    url:"https://32miya.github.io/32miya-sagrada-familia-sanpo/", img:"img/sagrada.webp", sil:"spire",
+    lat:41.4036, lon:2.1744, year:1882, yearLabel:"1882年 着工", builder:"アントニ・ガウディ（1883年から）",
+    style:"モデルニスモ／ゴシックの再解釈", scale:"イエスの塔 172.5m・18本の塔", badges:["世界遺産","ガウディ","建設中の聖堂"],
+    heritage:true, legend:false, era:"1926年⇄現在⇄完成予想", point:"樹の柱の森、東西のステンドグラス、生誕の塔の橋",
+    nen:"聖ヨセフ帰依者協会の聖堂として着工", jp:"明治15年。鹿鳴館が完成する前の年",
+    seal:{key:"sagrada_seal", label:"登塔"}, fuda:{key:"sagrada_fuda", total:17}, stamp:"#e0604f" },
+
+  { id:"atlantis", name:"アトランティス", orig:"Ἀτλαντίς · Atlantis", where:"大西洋・ヘラクレスの柱の外（伝承）",
+    url:"https://32miya.github.io/atlantis-sanpo/", img:"img/atlantis.webp", sil:"temple",
+    lat:33.0, lon:-17.0, year:-9600, yearLabel:"前9600年ごろ（伝承）", builder:"海神ポセイドン（伝承）",
+    style:"伝説の都（プラトンの記述より再現）", scale:"王の島 直径5スタディオン（約0.9km）", badges:["伝説","プラトン","オリハルコン"],
+    heritage:false, legend:true, era:"繁栄の時代⇄沈む日⇄海の底", point:"三重の水の環、オリハルコンの城壁、ポセイドン神殿",
+    nen:"プラトンが伝えた、海に沈んだ王国が栄えた時代", jp:"縄文時代のはじまりのころ。土器が作られはじめた",
+    seal:{key:"atlantis_seal", label:"登楼"}, fuda:{key:"atlantis_fuda", total:24}, stamp:"#62c2ae" },
+
+  { id:"versailles", name:"ヴェルサイユ宮殿", orig:"Château de Versailles", where:"フランス・ヴェルサイユ",
+    url:"", img:"", sil:"palace",
+    lat:48.8049, lon:2.1204, year:1661, yearLabel:"1661年 大改築", builder:"ルイ14世（建築 ル・ヴォー、アルドゥアン＝マンサール／庭園 ル・ノートル）",
+    style:"フランス・バロック（古典主義）", scale:"鏡の間 長さ73m・鏡357枚", badges:["世界遺産","太陽王","絶対王政"],
+    heritage:true, legend:false, era:"現代⇄太陽王の時代（予定）", point:"鏡の間、王の大居室、幾何学式庭園と大運河",
+    nen:"ルイ14世、父の狩猟の館を大宮殿へ改築しはじめる", jp:"江戸時代・4代将軍家綱のころ。明暦の大火で江戸城の天守が焼けた4年後",
+    seal:{key:"versailles_seal", label:"謁見"}, fuda:{key:"versailles_fuda", total:0}, stamp:"#86a8e6" }
+];
+
+/* 地図の名所名ラベルの位置（点からどれだけずらすか：画面の1/100単位）。無ければ右に置く */
+const LABEL = { sagrada:[-2.2,3.4,"end"], versailles:[2.2,-1.4,"start"], atlantis:[0,6.2,"middle"] };
+/* 地図に入ったときだけ描く海や地方の古名 */
+const SEAS = [
+  ["OCEANUS ATLANTICUS","大西洋",-26,45], ["MARE MEDITERRANEUM","地中海",19,34], ["MARE GERMANICUM","北海",3,56.5],
+  ["AFRICA","",8,22], ["EUROPA","",18,48], ["ASIA","",80,45], ["MARE PACIFICUM","太平洋",-140,10], ["OCEANUS INDICUS","インド洋",75,-15],
+  ["AMERICA","",-100,40], ["AEGYPTUS","",30,26.5]
+];
+
+/* ---------- 共通 ---------- */
+const PORTAL_KEY = "sekaiSanpo.portal";   // 各名所の「世界さんぽへ戻る」が参照する
+const SORT_KEY   = "sekaiSanpo.sort";
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v);}catch(e){return d;} },
+  raw(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+};
+store.set(PORTAL_KEY, location.href.split("#")[0].split("?")[0]);
+
+const isOpen = c => !!c.url;
+const sealOf = c => c.seal && store.raw(c.seal.key);
+let filter = "all";
+let sortMode = store.get(SORT_KEY,"rec");   // rec | west | old
+const SORTS = { rec:"おすすめ", west:"西から", old:"古い順" };
+
+const $ = s => document.querySelector(s);
+const toast = (msg)=>{ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),2400); };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function roman(n){ const r=[[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]]; let s=""; for(const [v,t] of r){ while(n>=v){s+=t;n-=v;} } return s; }
+const yearText = y => y<0 ? `前${-y}` : String(y);
+
+/* ---------- 羅針盤（コンパスローズ） ---------- */
+function roseSVG(col){
+  let s=`<g fill="none" stroke="${col}" stroke-width="1.2"><circle r="46"/><circle r="41"/><circle r="12"/></g>`;
+  for(let i=0;i<32;i++){ const a=i*Math.PI/16, r1=i%2?41:38; s+=`<line x1="${Math.sin(a)*46}" y1="${-Math.cos(a)*46}" x2="${Math.sin(a)*r1}" y2="${-Math.cos(a)*r1}" stroke="${col}" stroke-width=".8"/>`; }
+  const pt=(len,w,rot,fill)=>`<path d="M0 ${-len} L${w} 0 L0 ${len} L${-w} 0Z" transform="rotate(${rot})" fill="${fill}" stroke="${col}" stroke-width=".6"/>`;
+  for(let i=0;i<8;i++) s+=pt(28,4,i*45+22.5,"none");
+  for(let i=0;i<4;i++) s+=pt(36,6,i*90+45,col);
+  for(let i=0;i<4;i++) s+=pt(44,7,i*90,i%2?"none":col);
+  s+=`<path d="M0 -44 L0 -52 M-3 -49 L0 -53 L3 -49" stroke="${col}" stroke-width="1.2" fill="none"/>`;
+  return s;
+}
+$("#roseBig").innerHTML=roseSVG("#c9a35c");
+(function(){ let s=`<circle r="44" fill="none" stroke="#c9a35c" stroke-width="3"/>`; for(let i=0;i<5;i++){ s+=`<ellipse rx="13" ry="22" cy="-18" transform="rotate(${i*72})" fill="none" stroke="#c9a35c" stroke-width="3"/>`; } s+=`<circle r="7" fill="#c9a35c"/>`; $("#kamon").innerHTML=s; })();
+
+/* ---------- 銅版画風シルエット（画像が無い名所用） ---------- */
+function silSVG(kind){
+  const C="#cfc6b2", D="#2b2a28", L="#6b6352"; let s="";
+  const ground=`<path d="M0 182 L200 182 L200 200 L0 200Z" fill="#2c2924"/>`;
+  if(kind==="palace"){
+    // 左右対称の宮殿：中央棟・両翼・マンサード屋根・列柱と破風
+    s+=`<rect x="8" y="128" width="184" height="54" fill="${C}" opacity=".85"/>`;
+    s+=`<path d="M6 128 L194 128 L188 116 L12 116Z" fill="${D}" stroke="${L}" stroke-width=".8"/>`;
+    s+=`<rect x="64" y="104" width="72" height="78" fill="${C}"/>`;
+    s+=`<path d="M60 104 L140 104 L100 84Z" fill="${D}" stroke="${L}" stroke-width=".8"/>`;
+    for(let x=14;x<186;x+=10){ if(x>60&&x<140) continue; s+=`<rect x="${x}" y="136" width="5" height="16" fill="${D}" opacity=".7"/><rect x="${x}" y="160" width="5" height="16" fill="${D}" opacity=".7"/>`; }
+    for(let x=70;x<132;x+=9) s+=`<rect x="${x}" y="112" width="3.5" height="70" fill="${D}" opacity=".45"/>`;
+    s+=`<rect x="92" y="156" width="16" height="26" fill="${D}"/>`;
+    for(let x=20;x<186;x+=24){ if(x>58&&x<142) continue; s+=`<circle cx="${x}" cy="112" r="2.2" fill="#c9a35c"/>`; }
+    s+=`<path d="M96 84 L100 76 L104 84" stroke="#c9a35c" stroke-width="2" fill="none"/>`;
+  }else if(kind==="spire"){
+    const tw=[[60,120],[80,150],[100,176],[120,150],[140,120]];
+    s+=`<rect x="44" y="132" width="112" height="50" fill="${C}" opacity=".85"/>`;
+    for(const [x,h] of tw){ s+=`<path d="M${x-8} 182 L${x-6} ${182-h+30} Q${x} ${182-h} ${x+6} ${182-h+30} L${x+8} 182Z" fill="${C}" stroke="${L}" stroke-width=".8"/>`;
+      for(let y=182-h+40;y<176;y+=9) s+=`<rect x="${x-3}" y="${y}" width="6" height="3" fill="${D}" opacity=".5"/>`; }
+    s+=`<path d="M100 4 L100 -2 M97 0 L103 0" stroke="#c9a35c" stroke-width="2"/>`;
+  }else{
+    // 神殿：破風と列柱
+    s+=`<path d="M22 182 L178 182 L172 172 L28 172Z" fill="${C}" opacity=".7"/>`;
+    s+=`<rect x="30" y="102" width="140" height="10" fill="${C}"/>`;
+    s+=`<path d="M24 102 L176 102 L100 62Z" fill="${D}" stroke="${L}" stroke-width="1"/>`;
+    for(let x=36;x<=164;x+=16) s+=`<rect x="${x-4}" y="112" width="8" height="60" fill="${C}" opacity=".9"/><rect x="${x-6}" y="112" width="12" height="3" fill="${C}"/>`;
+    s+=`<circle cx="100" cy="88" r="5" fill="#c9a35c"/>`;
+  }
+  // 足場（準備中）
+  let sc=""; for(let x=14;x<=186;x+=24) sc+=`<line x1="${x}" y1="182" x2="${x}" y2="70" stroke="#8a7a58" stroke-width="1" opacity=".5"/>`;
+  for(let y=170;y>74;y-=20) sc+=`<line x1="14" y1="${y}" x2="186" y2="${y}" stroke="#8a7a58" stroke-width=".9" opacity=".4"/>`;
+  return `<svg viewBox="0 -6 200 206" aria-hidden="true">${ground}${s}${sc}</svg>`;
+}
+
+/* ---------- 札（カード） ---------- */
+function fudaLine(c){
+  if(!c.fuda||!c.fuda.total) return "";
+  const got=store.get(c.fuda.key,{})||{}; const n=Math.min(Object.keys(got).filter(k=>got[k]).length,c.fuda.total);
+  if(!n) return "";
+  return `<div class="fudaN">見どころ札 ${n} / ${c.fuda.total}<i><b style="width:${Math.round(n/c.fuda.total*100)}%"></b></i></div>`;
+}
+function visaHTML(c){
+  const v=sealOf(c); let d="";
+  if(v && /^\d{10,}$/.test(v)){ const t=new Date(+v); d=`${t.getFullYear()}.${t.getMonth()+1}.${t.getDate()}`; }
+  return `<div class="visa" style="--sc:${c.stamp||"#b3372c"}">VISITED<b>${esc(c.seal?c.seal.label:"")}</b>${esc(d)}</div>`;
+}
+function cardHTML(c,i){
+  const open=isOpen(c);
+  const bg = c.img ? `<div class="bg" style="background-image:url('${esc(c.img)}')"></div>`
+                   : `<div class="bg etch-bg">${silSVG(c.sil)}</div>`;
+  const badges=c.badges.map(b=>`<span class="badge ${b==="世界遺産"?"h":""} ${/伝説|神話/.test(b)?"m":""}">${esc(b)}</span>`).join("");
+  return `
+  <${open?"a":"div"} class="card ${open?"open":"wip"} ${sealOf(c)?"visited":""}" data-id="${c.id}" ${open?`href="${esc(c.url)}"`:`role="button" tabindex="0"`}
+     aria-label="${esc(c.name)}${open?"へ旅立つ":"（準備中）"}">
+    ${bg}
+    <div class="shade"></div><div class="frame"></div>
+    <div class="top"><span class="where">${esc(c.where)}</span><span class="no">${roman(i+1)}</span></div>
+    ${open?"":`<div class="soon">準備中<small>in praeparatione</small></div>`}
+    ${visaHTML(c)}
+    <div class="body">
+      <div class="orig">${esc(c.orig)}</div>
+      <div class="nm ${c.name.length>7?"long":""}">${esc(c.name)}</div>
+      <div class="badges">${badges}</div>
+      <dl>
+        <dt>はじまり</dt><dd>${esc(c.yearLabel)}</dd>
+        <dt>建てた人</dt><dd>${esc(c.builder)}</dd>
+        <dt>様式</dt><dd>${esc(c.style)}</dd>
+        <dt>規模</dt><dd>${esc(c.scale)}</dd>
+        <dt>とき</dt><dd>${esc(c.era)}</dd>
+        <dt>見所</dt><dd>${esc(c.point)}</dd>
+      </dl>
+      ${fudaLine(c)}
+      <span class="go">${open?"旅立つ":"公開準備中"}</span>
+    </div>
+  </${open?"a":"div"}>`;
+}
+function ordered(){
+  const list=PLACES.map((c,i)=>({...c,_i:i}));
+  if(sortMode==="west") list.sort((a,b)=>a.lon-b.lon);
+  else if(sortMode==="old") list.sort((a,b)=>a.year-b.year);
+  else list.sort((a,b)=>(isOpen(b)-isOpen(a))||a._i-b._i);
+  return list;
+}
+function matches(c){
+  return filter==="all" || (filter==="open"&&isOpen(c)) || (filter==="wip"&&!isOpen(c)) ||
+         (filter==="heritage"&&c.heritage) || (filter==="legend"&&c.legend);
+}
+function renderCards(){
+  const list=ordered();
+  $("#rail").innerHTML=list.map(c=>cardHTML(c,c._i)).join("");
+  list.forEach(c=>{ $(`.card[data-id="${c.id}"]`).hidden=!matches(c); });
+  const nOpen=PLACES.filter(isOpen).length;
+  $("#cardSub").textContent=`公開中 ${nOpen}か所・準備中 ${PLACES.length-nOpen}か所`;
+}
+
+/* ---------- 旅券（査証印の数） ---------- */
+function renderPassport(){
+  const open=PLACES.filter(isOpen);
+  $("#psCount").textContent=open.filter(sealOf).length; $("#psTotal").textContent=open.length;
+  $("#psDots").innerHTML=open.map(c=>`<i class="${sealOf(c)?"on":""}" title="${esc(c.name)}"></i>`).join("");
+}
+
+/* ---------- 古地図（名所が増えると自動で範囲が広がる） ---------- */
+function renderMap(){
+  const lons=PLACES.map(c=>c.lon), lats=PLACES.map(c=>c.lat);
+  let lo0=Math.min(...lons), lo1=Math.max(...lons), la0=Math.min(...lats), la1=Math.max(...lats);
+  const midLat=Math.max(-60,Math.min(60,(la0+la1)/2)), k=Math.cos(midLat*Math.PI/180);
+  let w=Math.max(46,(lo1-lo0)*1.35+16)*k, h=Math.max(w/1.55,(la1-la0)*1.3+12);
+  w=Math.max(w,h*1.55);
+  if(w>360*k){ w=360*k; h=Math.min(h,150); }
+  const cx=(lo0+lo1)/2*k, cy=-(la0+la1)/2;
+  const x0=cx-w/2, y0=cy-h/2, u=w/100;          // u = 画面幅の1/100
+  const X=lon=>lon*k, Y=lat=>-lat;
+  let g=`<rect class="sea" x="${x0-50}" y="${y0-50}" width="${w+100}" height="${h+100}"/>`;
+  // 経緯線
+  g+=`<g class="grat" stroke-width="${u*.12}">`;
+  for(let lon=-180;lon<=180;lon+=10) g+=`<line x1="${X(lon)}" x2="${X(lon)}" y1="${y0-5}" y2="${y0+h+5}"/>`;
+  for(let lat=-80;lat<=80;lat+=10) g+=`<line x1="${x0-5}" x2="${x0+w+5}" y1="${Y(lat)}" y2="${Y(lat)}"/>`;
+  g+=`</g>`;
+  // ポルトラーノ海図の航程線（羅針盤から放射）
+  const rx=x0+w*.13, ry=y0+h*.78, rr=u*7;
+  g+=`<g class="rhumb" stroke-width="${u*.1}">`;
+  for(let i=0;i<32;i++){ const a=i*Math.PI/16; g+=`<line x1="${rx}" y1="${ry}" x2="${rx+Math.cos(a)*w*1.4}" y2="${ry+Math.sin(a)*w*1.4}"/>`; }
+  g+=`</g>`;
+  // 陸地（沿岸の二重線は古地図のぼかし）
+  g+=`<g transform="scale(${k},1)"><path class="coast" stroke-width="${u*.9/k}" d="${window.SEKAI_LAND||""}"/><path class="land" stroke-width="${u*.18/k}" d="${window.SEKAI_LAND||""}"/></g>`;
+  g+=`<g transform="translate(${rx},${ry}) scale(${rr/50})" opacity=".8">${roseSVG("#7a5a32")}</g>`;
+  // 海の古名
+  for(const [la,ja,lon,lat] of SEAS){
+    const x=X(lon), y=Y(lat);
+    if(x<x0+u*12||x>x0+w-u*12||y<y0+u*6||y>y0+h-u*4) continue;
+    if(PLACES.some(c=>Math.abs(X(c.lon)-x)<u*20&&Math.abs(Y(c.lat)-y)<u*7)) continue;   // 名所の名札と重ねない
+    g+=`<text class="sealb" x="${x}" y="${y}" font-size="${u*2.5}">${la}</text>`;
+    if(ja) g+=`<text class="sealbj" x="${x}" y="${y+u*3.4}" font-size="${u*2.2}">${ja}</text>`;
+  }
+  // 名所の印（公開中を上に）
+  const list=[...PLACES].sort((a,b)=>isOpen(a)-isOpen(b));
+  g+=list.map(c=>{
+    const x=X(c.lon), y=Y(c.lat);
+    const [dx,dy,anc]=LABEL[c.id]||[2.2,1,"start"];
+    const lx=x+dx*u, ly=y+dy*u, fs=u*3.3;
+    const lead=(Math.abs(dx)>2.6||Math.abs(dy)>2.6)?`<line class="ld" stroke-width="${u*.15}" x1="${x}" y1="${y}" x2="${lx}" y2="${ly-(dy>0?fs*.9:-fs*.2)}"/>`:"";
+    const ring=c.legend?`<circle class="ring" stroke-width="${u*.25}" cx="${x}" cy="${y}" r="${u*3.6}"/>`:"";
+    return `<g class="pin ${isOpen(c)?"open":"wip"} ${c.legend?"legend":""} ${sealOf(c)?"visited":""}" data-id="${c.id}" tabindex="0" role="button" aria-label="${esc(c.name)}">
+      <circle cx="${x}" cy="${y}" r="${u*4}" fill="transparent"/>${ring}
+      <circle class="halo" stroke-width="${u*.2}" cx="${x}" cy="${y}" r="${u*1}"/>${lead}
+      <circle class="dot" stroke-width="${u*.25}" cx="${x}" cy="${y}" r="${u*(isOpen(c)?1.2:1)}"/>
+      <text class="lb" stroke-width="${u*.9}" font-size="${fs}" x="${lx}" y="${ly}" text-anchor="${anc}">${esc(c.name)}</text>
+      <text class="lbs" stroke-width="${u*.7}" font-size="${fs*.62}" x="${lx}" y="${ly+fs*.95}" text-anchor="${anc}">${esc(c.orig.split(" · ").pop())}</text></g>`;
+  }).join("");
+  const svg=$("#map"); svg.setAttribute("viewBox",`${x0} ${y0} ${w} ${h}`); svg.innerHTML=g;
+}
+
+/* ---------- 時の回廊 ---------- */
+function jidai(y){ return y<-3000?["神話と伝説の時代","Aetas Fabulosa"]:y<476?["古代","Antiquitas"]:y<1500?["中世","Medium Aevum"]:y<1789?["近世","Aetas Moderna"]:y<1914?["近代","Saeculum XIX"]:["現代","Hodie"]; }
+function renderNenpyo(){
+  const list=[...PLACES].sort((a,b)=>a.year-b.year);
+  let html="", last="";
+  for(const c of list){
+    const [j,jl]=jidai(c.year);
+    if(j!==last){ html+=`<div class="jidai">${j}<i>${jl}</i></div>`; last=j; }
+    html+=`<button class="nen ${isOpen(c)?"":"wip"} ${c.legend?"legend":""}" data-id="${c.id}"><span class="y">${yearText(c.year)}${c.year<0?"<small>ごろ・伝承</small>":""}</span>
+      <span class="t">${esc(c.name)}<em>${esc(c.nen)}</em></span><span class="jp">${esc(c.jp)}</span></button>`;
+  }
+  $("#nenpyo").innerHTML=html;
+}
+
+/* ---------- 操作 ---------- */
+function jumpTo(id){
+  const c=PLACES.find(x=>x.id===id);
+  if(!matches(c)){ filter="all"; document.querySelectorAll(".chip[data-f]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f==="all")); renderCards(); }
+  const el=$(`.card[data-id="${id}"]`);
+  document.getElementById("sec-cards").scrollIntoView({behavior:"smooth",block:"start"});
+  setTimeout(()=>{ el.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"),1600); },350);
+  if(!isOpen(c)) toast(`${c.name}は ただいま準備中です`);
+}
+function go(c){
+  $("#leavingT").innerHTML=`<em>${esc(c.orig.split(" · ").pop())}</em>${esc(c.name)}へ<small>旅立っています…</small>`;
+  $("#leaving").classList.add("on");
+}
+$("#rail").addEventListener("click",e=>{
+  const card=e.target.closest(".card"); if(!card) return;
+  const c=PLACES.find(x=>x.id===card.dataset.id);
+  if(!isOpen(c)){ e.preventDefault(); toast(`${c.name}は ただいま準備中です。公開をお待ちください`); return; }
+  if(e.metaKey||e.ctrlKey||e.shiftKey) return;
+  e.preventDefault(); go(c); setTimeout(()=>{ location.href=c.url; },280);
+});
+$("#rail").addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("wip")){ e.preventDefault(); e.target.click(); }});
+$("#map").addEventListener("click",e=>{ const p=e.target.closest(".pin"); if(p) jumpTo(p.dataset.id); });
+$("#map").addEventListener("keydown",e=>{ const p=e.target.closest(".pin"); if(p&&e.key==="Enter") jumpTo(p.dataset.id); });
+$("#nenpyo").addEventListener("click",e=>{ const n=e.target.closest(".nen"); if(n) jumpTo(n.dataset.id); });
+document.querySelectorAll(".chip[data-f]").forEach(b=>b.addEventListener("click",()=>{
+  filter=b.dataset.f; document.querySelectorAll(".chip[data-f]").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderCards();
+  $("#rail").scrollTo({left:0,behavior:"smooth"});
+}));
+$("#sortBtn").addEventListener("click",()=>{
+  const ks=Object.keys(SORTS); sortMode=ks[(ks.indexOf(sortMode)+1)%ks.length]; store.set(SORT_KEY,sortMode);
+  $("#sortBtn").textContent="並び："+SORTS[sortMode]; renderCards(); $("#rail").scrollTo({left:0,behavior:"smooth"});
+});
+$("#resetBtn").addEventListener("click",()=>{
+  if(!confirm("この端末の査証印と見どころ札の記録を消します。よろしいですか？")) return;
+  PLACES.forEach(c=>{ if(c.seal) store.del(c.seal.key); if(c.fuda) store.del(c.fuda.key); });
+  renderAll(); toast("査証印と見どころ札の記録を消しました");
+});
+// 名所から「戻る」で帰ってきたとき（bfcache）に暗幕を外して記録を反映
+window.addEventListener("pageshow",()=>{ $("#leaving").classList.remove("on"); renderAll(); });
+
+function renderAll(){ if(!SORTS[sortMode]) sortMode="rec"; $("#sortBtn").textContent="並び："+SORTS[sortMode]; renderCards(); renderPassport(); renderMap(); renderNenpyo(); }
+renderAll();
+</script>
+</body>
+</html>
