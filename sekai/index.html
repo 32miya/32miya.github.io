@@ -327,15 +327,15 @@ const PLACES = [
     nen:"ルートヴィヒ2世、アルプスの断崖に夢の城を築きはじめる", jp:"明治2年。版籍奉還の年",
     seal:{key:"neuschwanstein_seal", label:"登城"}, fuda:{key:"neuschwanstein_fuda", total:34}, stamp:"#e6c27a" },
 
-  /* ---------- ここから準備中（URLが決まったら url と img を書く） ---------- */
-
   { id:"montsaintmichel", name:"モン・サン・ミシェル", orig:"Mont-Saint-Michel", where:"フランス・ノルマンディー",
-    url:"", img:"", sil:"mont",
+    url:"https://32miya.github.io/mont-saint-michel-sanpo/", img:"img/montsaintmichel.webp", sil:"mont",
     lat:48.6361, lon:-1.5115, year:708, yearLabel:"708年 聖堂創建", builder:"アヴランシュ司教オベール（大天使ミカエルのお告げと伝わる）",
     style:"ロマネスク〜ゴシック（修道院「ラ・メルヴェイユ」）", scale:"潮の満ち引きで島にも陸にもなる岩山", badges:["世界遺産","修道院","潮の島"],
-    heritage:true, legend:false, era:"現代⇄巡礼の時代（予定）", point:"満潮で海に浮かぶ姿、修道院の回廊、グランド・リュ",
+    heritage:true, legend:false, era:"中世の巡礼（1530年ごろ）⇄監獄の時代（1840年ごろ）⇄現在", point:"満潮で海に浮かぶ姿、ラ・メルヴェイユの回廊、グランド・リュ、干潮の干潟歩き",
     nen:"大天使ミカエルのお告げで、岩山に小さな聖堂が建つ", jp:"奈良時代の直前・和銅元年。和同開珎が作られた年",
-    seal:{key:"montsaintmichel_seal", label:"巡礼"}, fuda:{key:"montsaintmichel_fuda", total:0}, stamp:"#8fc0d8" },
+    seal:{key:"msm_seal", label:"大天使"}, fuda:{key:"msm_fuda", total:30}, stamp:"#8fc0d8" },
+
+  /* ---------- ここから準備中（URLが決まったら url と img を書く） ---------- */
 
   { id:"heidelberg", name:"ハイデルベルク城", orig:"Heidelberger Schloss", where:"ドイツ・バーデン＝ヴュルテンベルク州",
     url:"", img:"", sil:"keep",
@@ -371,7 +371,7 @@ const PLACES = [
 ];
 
 /* 地図の名所名ラベルの位置（点からどれだけずらすか：画面の1/100単位）。無ければ右に置く */
-const LABEL = { sagrada:[3,1.4,"start"], versailles:[2.2,-1.4,"start"], atlantis:[0,6.2,"middle"] };
+const LABEL = { sagrada:[3,1.4,"start"], versailles:[2.2,-1.4,"start"], atlantis:[0,6.2,"middle"], montsaintmichel:[-2.2,1.6,"end"], windsor:[-2.2,-1.2,"end"], neuschwanstein:[2.2,2.4,"start"] };
 /* 地図に入ったときだけ描く海や地方の古名 */
 const SEAS = [
   ["OCEANUS ATLANTICUS","大西洋",-22,45.5], ["MARE MEDITERRANEUM","地中海",19,34], ["MARE GERMANICUM","北海",3,56.5],
