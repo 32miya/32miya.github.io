@@ -346,28 +346,28 @@ const PLACES = [
   /* ---------- ここから準備中（URLが決まったら url と img を書く） ---------- */
 
   { id:"heidelberg", name:"ハイデルベルク城", orig:"Heidelberger Schloss", where:"ドイツ・バーデン＝ヴュルテンベルク州",
-    url:"", img:"", sil:"keep",
+    url:"https://32miya.github.io/heidelberg-castle-sanpo/", img:"img/heidelberg.webp", sil:"keep",
     lat:49.4106, lon:8.7153, year:1214, yearLabel:"1214年 記録に登場", builder:"プファルツ選帝侯家",
     style:"ゴシック〜ドイツ・ルネサンス（いまは廃墟）", scale:"世界最大級の大酒樽（約22万リットル）", badges:["古城の廃墟","大酒樽"],
-    heritage:false, legend:false, era:"現代（廃墟）⇄選帝侯の時代（予定）", point:"赤い砂岩の廃墟、オットハインリヒ館、ネッカー川の眺め",
+    heritage:false, legend:false, era:"1618年 黄金時代⇄1830年ごろ ロマン主義の廃墟⇄現在", point:"オットハインリヒ館、フリードリヒ館、大酒樽とペルケオ像、爆破された火薬塔、大テラスからの旧市街",
     nen:"ハイデルベルクの城が記録にあらわれる", jp:"鎌倉時代。3代将軍源実朝のころ",
-    seal:{key:"heidelberg_seal", label:"登城"}, fuda:{key:"heidelberg_fuda", total:0}, stamp:"#e08a6a" },
+    seal:{key:"heidelberg_seal", label:"登城"}, fuda:{key:"heidelberg_fuda", total:37}, stamp:"#e08a6a" },
 
   { id:"alcazar", name:"アルカサル城", orig:"Alcázar de Segovia", where:"スペイン・セゴビア",
-    url:"", img:"", sil:"castle",
+    url:"https://32miya.github.io/alcazar-sanpo/", img:"img/alcazar.webp", sil:"castle",
     lat:40.9526, lon:-4.1325, year:1122, yearLabel:"1122年ごろ 記録に登場", builder:"カスティーリャ王家",
     style:"ゴシック・ムデハル（青い円錐屋根の塔）", scale:"二つの川にはさまれた断崖の先、船の舳先のような城", badges:["世界遺産","カスティーリャ王家"],
-    heritage:true, legend:false, era:"現代⇄イサベル女王の時代（予定）", point:"船の舳先の形、王の間の天井、フアン2世の塔",
+    heritage:true, legend:false, era:"1474年 イサベル女王の即位⇄1790年代 王立砲兵学校⇄現在", point:"玉座の間、ガレー船の間、王たちの間（52体の王）、フアン2世の塔の152段",
     nen:"セゴビアの断崖の城が記録にあらわれる", jp:"平安時代後期。白河法皇の院政のころ",
-    seal:{key:"alcazar_seal", label:"登塔"}, fuda:{key:"alcazar_fuda", total:0}, stamp:"#7fa6e8" },
+    seal:{key:"alcazar_seal", label:"登塔"}, fuda:{key:"alcazar_fuda", total:36}, stamp:"#7fa6e8" },
 
   { id:"prague", name:"プラハ城", orig:"Pražský hrad", where:"チェコ・プラハ",
-    url:"", img:"", sil:"spire",
+    url:"https://32miya.github.io/prague-castle/", img:"img/prague.webp", sil:"spire",
     lat:50.0911, lon:14.4016, year:880, yearLabel:"880年ごろ 創建", builder:"ボジヴォイ1世（プシェミスル家）",
     style:"ロマネスク〜ゴシック（聖ヴィート大聖堂）", scale:"世界最大級の古城の敷地", badges:["世界遺産","聖ヴィート大聖堂"],
-    heritage:true, legend:false, era:"現代⇄カレル4世の時代（予定）", point:"聖ヴィート大聖堂、黄金の小路、カレル橋からの眺め",
+    heritage:true, legend:false, era:"1370年ごろ カレル4世⇄1600年ごろ ルドルフ2世⇄現在", point:"聖ヴィート大聖堂と高さ55mの大塔、黄金の小路、旧王宮、カレル橋からの眺め",
     nen:"ボヘミアの公、ヴルタヴァ川を見下ろす丘に城を築く", jp:"平安時代前期。在原業平が亡くなった年",
-    seal:{key:"prague_seal", label:"登城"}, fuda:{key:"prague_fuda", total:0}, stamp:"#c9a35c" },
+    seal:{key:"prague_seal", label:"登城"}, fuda:{key:"prague_fuda", total:52}, stamp:"#c9a35c" },
 ];
 
 /* 地図の名所名ラベルの位置（点からどれだけずらすか：画面の1/100単位）。無ければ右に置く */
@@ -600,7 +600,8 @@ function renderMap(){
     const lead=(Math.abs(dx)>2.6||Math.abs(dy)>2.6)?`<line class="ld" stroke-width="${u*.15}" x1="${x}" y1="${y}" x2="${lx}" y2="${ly-(dy>0?fs*.9:-fs*.2)}"/>`:"";
     const ring=c.legend?`<circle class="ring" stroke-width="${u*.25}" cx="${x}" cy="${y}" r="${u*3.6}"/>`:"";
     const no=roman(PLACES.indexOf(c)+1), open=isOpen(c);
-    const label=open?`${lead}<text class="lb" stroke-width="${u*.9}" font-size="${fs}" x="${lx}" y="${ly}" text-anchor="${anc}">${esc(c.name)}</text>
+    const crowded=PLACES.some(o=>o!==c&&Math.abs(X(o.lon)-x)<u*16&&Math.abs(Y(o.lat)-y)<u*9);   // 近くに別の名所があるときは名札を出さず番号だけ（地図下の索引で名前）
+    const label=(open&&!crowded)?`${lead}<text class="lb" stroke-width="${u*.9}" font-size="${fs}" x="${lx}" y="${ly}" text-anchor="${anc}">${esc(c.name)}</text>
       <text class="lbs" stroke-width="${u*.7}" font-size="${fs*.62}" x="${lx}" y="${ly+fs*.95}" text-anchor="${anc}">${esc(c.orig.split(" · ").pop())}</text>`:"";
     return `<g class="pin ${open?"open":"wip"} ${c.legend?"legend":""} ${sealOf(c)?"visited":""}" data-id="${c.id}" tabindex="0" role="button" aria-label="${no} ${esc(c.name)}">
       <circle cx="${x}" cy="${y}" r="${u*3.2}" fill="transparent"/>${ring}
