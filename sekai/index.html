@@ -192,6 +192,16 @@ details p b{color:var(--brass);font-weight:700}
 .sister b{display:block;font-family:var(--mincho);font-size:17px;letter-spacing:.1em}
 .sister small{font-size:12px;color:var(--mute);line-height:1.6}
 .sister::after{content:"›";margin-left:auto;font-size:24px;color:var(--brass)}
+/* ゲーム（世界さんぽディフェンス）への入口 */
+.game{position:relative;display:flex;align-items:center;gap:10px;margin:16px 0 0;padding:14px 16px;border:1px solid #b58ce8;border-radius:14px;max-width:560px;text-decoration:none;overflow:hidden;
+  background:linear-gradient(100deg,rgba(106,63,184,.55),rgba(30,18,60,.85) 60%,rgba(122,74,138,.5));box-shadow:0 6px 22px rgba(80,40,160,.35)}
+.game::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 20%,rgba(255,240,200,.25),transparent 40%);pointer-events:none}
+.game svg{flex:none;width:42px;height:42px}
+.game .gk{display:block;font-size:10.5px;letter-spacing:.3em;color:#e6d3ff}
+.game b{display:block;font-family:var(--mincho);font-size:clamp(15px,4.4vw,18px);letter-spacing:.04em;color:#fff3cc;white-space:nowrap}
+.game small{display:block;font-size:12px;color:#d9c8ff;line-height:1.55}
+.game::after{content:"遊ぶ ›";margin-left:auto;flex:none;font-size:13px;font-weight:700;color:#1a1030;background:#e2b54a;border-radius:999px;padding:6px 12px}
+.sec .game{margin-top:10px}
 
 footer{margin:46px 0 0;padding:22px 0 calc(env(safe-area-inset-bottom,0px) + 28px);border-top:1px solid var(--line);font-size:11px;color:var(--faint);line-height:1.8}
 footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:underline}
@@ -215,6 +225,7 @@ footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:un
   <div class="motto">Plus Ultra ― さらに彼方へ</div>
   <p class="lead">聖堂の森のような柱を見上げ、王の回廊を抜け、海に沈んだ都の橋を渡る。<br>世界の名所と伝説の都を歩いてめぐり、時代を切り替えれば、かつての姿がよみがえる。<br>行きたい場所の札に触れて、旅立ってください。</p>
   <div class="passport" aria-live="polite"><div class="bk">PASS<br>PORT</div><div><b id="psCount">0</b> <span>/ <span id="psTotal">0</span> か所 &nbsp;査証印 <small style="opacity:.72;font-size:.82em">（塔や最上階に登ると押印）</small></span></div><div class="dots" id="psDots"></div></div>
+  <a class="game" href="/defence-castle/world/"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 44h32V24l-4-3v-6h-4v3l-8-7-8 7v-3h-4v6l-4 3z" fill="#2a1a4a" stroke="#e2b54a" stroke-width="1.5"/><path d="M21 44v-9a3 3 0 0 1 6 0v9z" fill="#e2b54a"/><path d="M38 6c-4 1-7 4-8 8 3-2 6-2 8-1-1-3 0-5 0-7z" fill="#ff7a4a"/><circle cx="24" cy="25" r="2.4" fill="#9fe8ff"/></svg><div><span class="gk">GAME</span><b>世界さんぽディフェンス</b><small>名所に押し寄せる魔物を、塔と技で迎え撃つ。全11ステージ・難易度4段階・無限モード</small></div></a>
 </header>
 
 <main class="wrap">
@@ -261,8 +272,9 @@ footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:un
   </section>
 
   <section class="sec" aria-labelledby="h-sis">
-    <div class="sec-h"><h2 id="h-sis">姉妹編</h2><span class="la">Iaponia</span></div>
+    <div class="sec-h"><h2 id="h-sis">姉妹編</h2><span class="la">Iaponia et Ludus</span></div>
     <a class="sister" href="/oshiro/"><svg class="kamon" viewBox="-50 -50 100 100" aria-hidden="true" id="kamon"></svg><div><b>お城さんぽ</b><small>大阪城・姫路城・江戸城…日本の名城の天守に登る3D散策</small></div></a>
+    <a class="game" href="/defence-castle/world/"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 44h32V24l-4-3v-6h-4v3l-8-7-8 7v-3h-4v6l-4 3z" fill="#2a1a4a" stroke="#e2b54a" stroke-width="1.5"/><path d="M21 44v-9a3 3 0 0 1 6 0v9z" fill="#e2b54a"/><path d="M38 6c-4 1-7 4-8 8 3-2 6-2 8-1-1-3 0-5 0-7z" fill="#ff7a4a"/><circle cx="24" cy="25" r="2.4" fill="#9fe8ff"/></svg><div><span class="gk">GAME</span><b>世界さんぽディフェンス</b><small>名所に押し寄せる魔物を、塔と技で迎え撃つ。全11ステージ・難易度4段階・無限モード</small></div></a>
   </section>
 
   <footer>
