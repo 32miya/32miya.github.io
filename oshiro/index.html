@@ -169,6 +169,18 @@ footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:un
 #leaving div{font-family:var(--mincho);font-weight:800;font-size:22px;letter-spacing:.3em;text-align:center}
 #leaving small{display:block;font-family:var(--goth);font-weight:400;font-size:12px;letter-spacing:.2em;color:var(--mute);margin-top:12px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* 合戦モードへの入口 */
+.kassen{position:relative;display:flex;align-items:flex-end;min-height:150px;margin:8px 0 26px;border-radius:16px;overflow:hidden;border:1px solid rgba(200,164,90,.55);text-decoration:none;color:#fff;box-shadow:0 6px 22px rgba(0,0,0,.45);isolation:isolate}
+.kassen .kbg{position:absolute;inset:0;background-size:cover;background-position:60% 35%;z-index:-2;transition:transform .5s}
+.kassen:hover .kbg,.kassen:focus-visible .kbg{transform:scale(1.04)}
+.kassen .kshade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,8,6,.92) 0%,rgba(10,8,6,.7) 45%,rgba(10,8,6,.15) 100%)}
+.kassen .ktxt{display:flex;flex-direction:column;gap:4px;padding:16px 18px;max-width:72%}
+.kassen .keb{align-self:flex-start;font-size:11px;letter-spacing:.2em;padding:2px 8px;border-radius:4px;background:#a8231c;color:#fff;font-weight:700}
+.kassen .kttl{font-family:var(--mincho);font-size:clamp(20px,5.6vw,28px);letter-spacing:.12em;line-height:1.25;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+.kassen .ksub{font-size:12px;line-height:1.6;color:rgba(255,255,255,.85)}
+.kassen .kgo{position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:var(--kin);color:#1a140c;font-weight:800;font-size:14px;letter-spacing:.08em;box-shadow:0 2px 8px rgba(0,0,0,.45)}
+.kassen .kgo i{font-style:normal;font-size:18px;line-height:1}
+@media (max-width:480px){.kassen{min-height:170px}.kassen .ktxt{max-width:100%;padding-bottom:58px}}
 </style>
 </head>
 <body>
@@ -182,6 +194,13 @@ footer .reset{margin-top:8px;font-size:11px;color:var(--mute);text-decoration:un
 </header>
 
 <main class="wrap">
+  <!-- 合戦モード（戦国・城ディフェンス）への入口 -->
+  <a class="kassen" href="/defence-castle/" aria-label="合戦モード 戦国・城ディフェンスを遊ぶ">
+    <div class="kbg" style="background-image:url('/defence-castle/battle/img/cut_charge.webp')"></div>
+    <div class="kshade"></div>
+    <div class="ktxt"><span class="keb">合戦モード</span><b class="kttl">戦国・城ディフェンス</b><span class="ksub">名城の3Dマップで、攻め寄せる大軍から天守を守り抜け。<br>犬山城から大坂城まで全10城＋隠しの城</span></div>
+    <span class="kgo">出陣する<i>›</i></span>
+  </a>
   <section class="sec" id="sec-cards" aria-labelledby="h-cards">
     <div class="sec-h"><h2 id="h-cards">天守をえらぶ</h2><span class="sub" id="cardSub"></span></div>
     <div class="chips" role="toolbar" aria-label="絞り込み">
